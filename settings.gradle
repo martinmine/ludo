@@ -2,3 +2,5 @@ rootProject.name = 'imt3281-ludo'
 
 include 'back-end'
 
+include 'client'
+
