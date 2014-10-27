@@ -1,0 +1,10 @@
+/.idea/workspace.xml
+/.idea/libraries
+/out
+/.
+/.recommenders
+/.idea/sonarqube
+.gradle
+/local.properties
+.DS_Store
+/build
