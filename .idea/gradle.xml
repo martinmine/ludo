@@ -8,7 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/no.hig.imt3281.ludo" />
+            <option value="$PROJECT_DIR$/back-end" />
           </set>
         </option>
       </GradleProjectSettings>

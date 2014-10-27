@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Test/Test.iml" filepath="$PROJECT_DIR$/Test/Test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/back-end/back-end.iml" filepath="$PROJECT_DIR$/back-end/back-end.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/imt3281-ludo.iml" filepath="$PROJECT_DIR$/imt3281-ludo.iml" />
       <module fileurl="file://$PROJECT_DIR$/no.hig.imt3281.ludo/no.hig.imt3281.ludo.iml" filepath="$PROJECT_DIR$/no.hig.imt3281.ludo/no.hig.imt3281.ludo.iml" />
