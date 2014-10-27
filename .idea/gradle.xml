@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/back-end" />
+            <option value="$PROJECT_DIR$/client" />
           </set>
         </option>
       </GradleProjectSettings>

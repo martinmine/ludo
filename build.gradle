@@ -11,6 +11,7 @@ dependencies {
     compile 'dom4j:dom4j:1.5.1'
     compile 'javax.transaction:jta:1.1'
     compile 'org.javassist:javassist:3.18.2-GA'
+    compile 'mysql:mysql-connector-java:5.1.+'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.6.Final'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
