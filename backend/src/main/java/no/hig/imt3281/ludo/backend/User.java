@@ -9,23 +9,23 @@ import javax.persistence.Entity;
  * Created by Martin on 27.10.2014.
  */
 @Entity
-public class Player {
+public class User {
     @Id
     @GeneratedValue
     private int id;
     private String username;
     private String email;
 
-    public Player() {
+    public User() {
     }
 
-    public Player(int id, String username, String email) {
+    public User(int id, String username, String email) {
         this.id = id;
         this.username = username;
         this.email = email;
     }
 
-    public Player(String username, String email) {
+    public User(String username, String email) {
         this.username = username;
         this.email = email;
     }

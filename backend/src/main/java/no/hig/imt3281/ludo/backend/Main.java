@@ -19,23 +19,24 @@ public class Main {
         }
         System.out.println("Hello");
         factory = new Configuration().configure().buildSessionFactory();
-        addUser(new Player("Martin", "martin_mine@hotmail.com"));
+        addUser(new User("Martin", "martin_mine@hotmail.com"));
     }
 
     private static SessionFactory factory;
 
-    public static Integer addUser(Player player){
+    public static Integer addUser(User player) {
         Session session = factory.openSession();
         Transaction tx = null;
         Integer employeeID = null;
-        try{
+        try {
             tx = session.beginTransaction();
             employeeID = (Integer) session.save(player);
             tx.commit();
-        }catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
+        } catch (HibernateException e) {
+            if (tx!=null)
+                tx.rollback();
             e.printStackTrace();
-        }finally {
+        } finally {
             session.close();
         }
         return employeeID;

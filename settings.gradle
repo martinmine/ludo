@@ -4,3 +4,7 @@ include 'back-end'
 
 include 'client'
 
+include 'messaging'
+
+include 'messaging'
+
