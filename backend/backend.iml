@@ -16,6 +16,8 @@
     <orderEntry type="library" name="Gradle: jta-1.1" level="project" />
     <orderEntry type="library" name="Gradle: javassist-3.18.2-GA" level="project" />
     <orderEntry type="library" name="Gradle: mysql-connector-java-5.1.33" level="project" />
+    <orderEntry type="library" name="Gradle: netty-all-5.0.0.Alpha1" level="project" />
+    <orderEntry type="module" module-name="messaging" />
   </component>
 </module>
 

@@ -3,7 +3,7 @@ package no.hig.imt3281.ludo.messaging;
 /**
  * Created by Martin on 03.11.2014.
  */
-public class RegistrationResult {
+public class RegistrationResult extends Message {
     private final int OK = -1;
     private final int SERVER_ERROR = 0;
     private final int WEAK_PASSWORD = 1;
