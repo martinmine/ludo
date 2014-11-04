@@ -10,6 +10,7 @@ import no.hig.imt3281.ludo.backend.message.handling.MessageHandler;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +50,11 @@ public class ClientConnection extends ChannelHandlerAdapter {
                 method.invoke(handler, message, this);
             }
 
-        } catch (Exception ex) {
+        } catch (InvocationTargetException ex) {
+            Throwable innerException = ex.getCause();
+            LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
+        }
+        catch (Throwable ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             // TODO ???
         } finally {
