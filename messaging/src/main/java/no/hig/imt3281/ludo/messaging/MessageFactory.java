@@ -44,7 +44,7 @@ public class MessageFactory extends Message {
      */
     public void serialize(Message message, OutputStream stream) {
         try (XMLEncoder encoder = new XMLEncoder(stream)) {
-            encoder.writeObject(stream);
+            encoder.writeObject(message);
         }
     }
 }

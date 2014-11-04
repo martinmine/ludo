@@ -2,11 +2,18 @@ package no.hig.imt3281.ludo.backend;
 
 import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
+import no.hig.imt3281.ludo.messaging.LoginRequest;
+import no.hig.imt3281.ludo.messaging.MessageFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +48,23 @@ public class ServerEnvironment {
 
         networkManager = new NetworkManager(9494);
         networkManager.startListening();
+
+        try {
+            Socket echoSocket = new Socket("localhost", 9494);
+
+            LoginRequest request = new LoginRequest();
+            request.setUsername("Martin");
+            request.setPassword("foo123");
+
+            MessageFactory.getInstance().serialize(request, echoSocket.getOutputStream());
+            echoSocket.getOutputStream().flush();
+            System.out.println("Sent message");
+        }
+        catch (Exception ex) {
+            System.out.println("Error");
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public static NetworkManager getNetworkManager() {

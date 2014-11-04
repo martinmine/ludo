@@ -5,10 +5,11 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
+import no.hig.imt3281.ludo.backend.message.handling.MessageHandlerFactory;
+import no.hig.imt3281.ludo.backend.message.handling.MessageHandler;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,8 +23,11 @@ public class ClientConnection extends ChannelHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         try (ByteBufInputStream is = new ByteBufInputStream((ByteBuf) msg)) {
             Message message = MessageFactory.getInstance().deserialize(is);
-            // TODO: Invoke corresponding message handler
-        } catch (IOException ex) {
+
+            LOGGER.info("Requesting message handler for " + message.getClass().getTypeName());
+            MessageHandler handler = MessageHandlerFactory.getInstance().getHandler(message.getClass());
+            handler.handle(message, this);
+        } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             // TODO ???
         } finally {
