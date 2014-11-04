@@ -8,9 +8,16 @@ public class ChatMessageBroadcaster {
     public static final int GLOBAL_CHAT = 1;
 
     private ChatState currentState;
-
-    public ChatMessageBroadcaster() {
+    private ChatMessageBroadcaster() {
         currentState = new GameChatState();
+    }
+
+    private static class SingletonHolder {
+        private static final ChatMessageBroadcaster INSTANCE = new ChatMessageBroadcaster();
+    }
+
+    public static ChatMessageBroadcaster getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 
     public void setCurrentState(final int stateType) {

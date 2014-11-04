@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client;
 
 import no.hig.imt3281.ludo.client.chat.ChatPanel;
+import no.hig.imt3281.ludo.client.game.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.*;
  */
 public class GameClient extends JFrame {
     public GameClient() {
-        super("Ludo client");
+        super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
         setSize(new Dimension(1024, 640));
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
@@ -19,7 +20,6 @@ public class GameClient extends JFrame {
         ChatPanel chatPanel = new ChatPanel();
         add(chatPanel, BorderLayout.EAST);
         add(gamePanel, BorderLayout.WEST);
-
 
         setVisible(true);
     }

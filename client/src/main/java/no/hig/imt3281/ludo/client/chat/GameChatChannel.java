@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.chat;
 
+import no.hig.imt3281.ludo.client.Main;
+
 import javax.swing.*;
 
 /**
@@ -7,6 +9,6 @@ import javax.swing.*;
  */
 public class GameChatChannel extends ChatChannel {
     public GameChatChannel() {
-
+        super(Main.resourceBundle.getString("GAME_CHAT_CHANNEL_WELCOME_MSG"));
     }
 }
