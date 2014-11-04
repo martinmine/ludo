@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Martin on 04.11.2014.
  */
 public class MessageHandlerFactory {
-    private Map<String, MessageHandler> handlerMap;
+    private Map<Class<?>, MessageHandler> handlerMap;
 
     private static MessageHandlerFactory instance;
 
@@ -26,10 +26,10 @@ public class MessageHandlerFactory {
     }
 
     private void registerResponse(Class<?> request, MessageHandler response) {
-        handlerMap.put(request.getTypeName(), response);
+        handlerMap.put(request, response);
     }
 
-    public MessageHandler getHandler(Class<?> type) {
-        return handlerMap.get(type.getTypeName());
+    public MessageHandler getHandler(Class<?> concreteType) {
+        return handlerMap.get(concreteType);
     }
 }

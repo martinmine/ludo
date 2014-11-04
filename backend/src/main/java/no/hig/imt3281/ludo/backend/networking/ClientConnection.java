@@ -10,6 +10,7 @@ import no.hig.imt3281.ludo.backend.message.handling.MessageHandler;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,14 +20,30 @@ import java.util.logging.Logger;
 public class ClientConnection extends ChannelHandlerAdapter {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
 
+    /**
+     * Called each time a parseable message has been received.
+     * Note: This function does also use dark magic (which some call reflection)
+     * @param ctx Channel data containing information about the connection
+     * @param msg Message object containing received message
+     */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         try (ByteBufInputStream is = new ByteBufInputStream((ByteBuf) msg)) {
             Message message = MessageFactory.getInstance().deserialize(is);
 
+            // Find the concrete type for the received request object
+            Class<?> concreteMessageType = Class.forName(message.getClass().getTypeName());
+
             LOGGER.info("Requesting message handler for " + message.getClass().getTypeName());
-            MessageHandler handler = MessageHandlerFactory.getInstance().getHandler(message.getClass());
-            handler.handle(message, this);
+            MessageHandler handler = MessageHandlerFactory.getInstance().getHandler(concreteMessageType);
+
+            // Find the concrete type for the message handler
+            Class<?> concreteHandlerType = Class.forName(handler.getClass().getTypeName());
+
+            // Find the method and invoke it
+            Method method = concreteHandlerType.getMethod("handle", concreteMessageType, this.getClass());
+            method.invoke(handler, message, this);
+
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             // TODO ???
