@@ -37,12 +37,17 @@ public class ClientConnection extends ChannelHandlerAdapter {
             LOGGER.info("Requesting message handler for " + message.getClass().getTypeName());
             MessageHandler handler = MessageHandlerFactory.getInstance().getHandler(concreteMessageType);
 
-            // Find the concrete type for the message handler
-            Class<?> concreteHandlerType = Class.forName(handler.getClass().getTypeName());
+            if (handler == null) {
+                LOGGER.severe("No handler registered for " + message.getClass().getTypeName());
+            }
+            else {
+                // Find the concrete type for the message handler
+                Class<?> concreteHandlerType = Class.forName(handler.getClass().getTypeName());
 
-            // Find the method and invoke it
-            Method method = concreteHandlerType.getMethod("handle", concreteMessageType, this.getClass());
-            method.invoke(handler, message, this);
+                // Find the method and call the method
+                Method method = concreteHandlerType.getMethod("handle", concreteMessageType, this.getClass());
+                method.invoke(handler, message, this);
+            }
 
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
