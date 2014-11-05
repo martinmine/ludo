@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * Created by Joakim on 05.11.2014.
+ *
  */
 public class SidePanel extends JPanel {
 
@@ -19,7 +20,7 @@ public class SidePanel extends JPanel {
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
 
-        setPreferredSize(new Dimension(384, 640));
+        setPreferredSize(new Dimension(380, 640));
 
         sideTopPanel = new SideTopPanel();
         chatPanel = new ChatPanel();

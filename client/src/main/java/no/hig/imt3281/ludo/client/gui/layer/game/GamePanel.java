@@ -16,20 +16,22 @@ public class GamePanel extends JComponent implements MouseListener {
     public static final int BLUE = 1;
     public static final int YELLOW = 2;
     public static final int GREEN = 3;
-    public static final int MAX_PLAYERS = 4;
     public static final int FACTIONS[] = {RED, BLUE, YELLOW, GREEN };
 
     private Dimension boardSize;
     private Image board;
     //private ArrayList<Tiles> tiles;
-    private ArrayList<Integer> playerTiles[];
+    private ArrayList<ArrayList<Integer>> playerTiles;
 
     public GamePanel() {
+        playerTiles = new ArrayList<>();    // PlayerTiles
+        playerTiles.add(new ArrayList<>()); // RED
+        playerTiles.add(new ArrayList<>()); // BLUE
+        playerTiles.add(new ArrayList<>()); // YELLOW
+        playerTiles.add(new ArrayList<>()); // GREEN
 
-        playerTiles = new ArrayList[48];
-
-        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board2.jpg"));
-        boardSize = new Dimension(640, 640);
+        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.jpg"));
+        boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
     }
 
@@ -38,7 +40,7 @@ public class GamePanel extends JComponent implements MouseListener {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.drawImage(board, 0, 0, null, this);
+        g2d.drawImage(board, 0, 0, null, this); // image is 600, 600.
         //tile.forEach(t -> t.draw(g2d));
 
     }
