@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client;
 
+import no.hig.imt3281.ludo.client.gui.layer.Client;
+
 import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -17,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         setUserPreferences();
-        new GameClient();
+        new Client();
     }
 
     public static void setUserPreferences() {

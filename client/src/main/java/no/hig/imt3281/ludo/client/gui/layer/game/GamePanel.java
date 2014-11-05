@@ -1,4 +1,4 @@
-package no.hig.imt3281.ludo.client.game;
+package no.hig.imt3281.ludo.client.gui.layer.game;
 
 import javax.swing.*;
 import java.awt.*;
