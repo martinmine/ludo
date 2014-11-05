@@ -22,7 +22,7 @@ public class Client extends JFrame {
         ChatPanel chatPanel = new ChatPanel();
         add(chatPanel, BorderLayout.EAST);
         add(new JScrollPane(gamePanel), BorderLayout.WEST);
-
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
 }

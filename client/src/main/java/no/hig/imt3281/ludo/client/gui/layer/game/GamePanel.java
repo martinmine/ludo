@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 /**
  * Created by Joakim on 27.10.2014.
@@ -11,13 +12,24 @@ import java.awt.event.MouseListener;
  */
 public class GamePanel extends JComponent implements MouseListener {
 
+    public static final int RED = 0;
+    public static final int BLUE = 1;
+    public static final int YELLOW = 2;
+    public static final int GREEN = 3;
+    public static final int MAX_PLAYERS = 4;
+    public static final int FACTIONS[] = {RED, BLUE, YELLOW, GREEN };
+
     private Dimension boardSize;
     private Image board;
-
+    //private ArrayList<Tiles> tiles;
+    private ArrayList<Integer> playerTiles[];
 
     public GamePanel() {
-        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.png"));
-        boardSize = new Dimension(620, 620);
+
+        playerTiles = new ArrayList[48];
+
+        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board2.jpg"));
+        boardSize = new Dimension(640, 640);
         board = tempBoard.getImage();
     }
 
@@ -26,9 +38,7 @@ public class GamePanel extends JComponent implements MouseListener {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
-
-        g2d.drawImage(board, 0, 0, (int)boardSize.getWidth(), (int)boardSize.getHeight(), null, this);
+        g2d.drawImage(board, 0, 0, null, this);
         //tile.forEach(t -> t.draw(g2d));
 
     }
