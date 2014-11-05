@@ -13,12 +13,6 @@ import java.util.logging.Logger;
  */
 public class GamePanel extends JComponent implements MouseListener {
 
-    public static final int RED = 0;
-    public static final int BLUE = 1;
-    public static final int YELLOW = 2;
-    public static final int GREEN = 3;
-    public static final int FACTIONS[] = {RED, BLUE, YELLOW, GREEN };
-
     //private static final Logger LOGGER = Logger.getLogger(GamePanel.class.getName());
 
     private Dimension boardSize;
@@ -29,7 +23,7 @@ public class GamePanel extends JComponent implements MouseListener {
     public GamePanel() {
 
         tiles = new ArrayList<>();
-
+        tiles.add(new Tile(113, 75, 30));
 
         tile = new ArrayList<>();    // PlayerTiles
         tile.add(new ArrayList<>()); // RED
@@ -48,6 +42,8 @@ public class GamePanel extends JComponent implements MouseListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.drawImage(board, 0, 0, null, this); // image is 600, 600.
+        tiles.forEach(t -> t.draw(g2d));
+
         //tile.forEach(t -> t.draw(g2d));
 
     }
