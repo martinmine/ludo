@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.backend;
 
+import no.hig.imt3281.ludo.backend.message.handling.MessageHandlerFactory;
 import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import no.hig.imt3281.ludo.messaging.LoginRequest;
@@ -64,7 +65,7 @@ public class ServerEnvironment {
             request.setUsername("Martin");
             request.setPassword("foo123");
 
-            String msg = MessageFactory.getInstance().serialize(request);
+            String msg = MessageFactory.serialize(request);
             bw.write(msg);
             bw.flush();
 
@@ -76,19 +77,24 @@ public class ServerEnvironment {
             //LoginResult responseMessage = (LoginResult)MessageFactory.getInstance().deserialize(s.getInputStream());
             //System.out.println("Result was : " + responseMessage.getResultCode());
 
-            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(s.getInputStream()));
+            //XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(s.getInputStream()));
             System.out.println("Reading");
-            LoginResult response = (LoginResult)decoder.readObject();
+            //LoginResult response = (LoginResult)decoder.readObject();
+            LoginResult response = (LoginResult)MessageFactory.deserialize(s.getInputStream());
             //decoder.close();
             System.out.println("Response is " + response.getResultCode());
 
             LoginRequest rep = new LoginRequest();
             rep.setUsername("un");
             rep.setPassword("pw");
-            String bytes = MessageFactory.getInstance().serialize(request);
+            String bytes = MessageFactory.serialize(rep);
             System.out.println("Sent bytes " + bytes.length());
             bw.write(bytes);
             bw.flush();
+
+            response = (LoginResult)MessageFactory.deserialize(s.getInputStream());
+            //decoder.close();
+            System.out.println("Response is " + response.getResultCode());
 
 
 

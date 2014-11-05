@@ -28,18 +28,23 @@ public class ClientConnection extends ChannelHandlerAdapter {
         this.socketChannel = ch;
     }
 
+    /**
+     * Sends a message to the connection
+     * @param msg The message
+     */
     public void sendMessage(Message msg) {
         ByteBufAllocator alloc = PooledByteBufAllocator.DEFAULT;
         ByteBuf buf = alloc.buffer(1024);
 
         try (ByteBufOutputStream outputStream = new ByteBufOutputStream(buf)) {
-            String message = MessageFactory.getInstance().serialize(msg) + "\0";
+            String message = MessageFactory.serialize(msg) + "\0";
             outputStream.write(message.getBytes());
             this.socketChannel.writeAndFlush(buf);
         } catch (IOException ex) {
             LOGGER.log(Level.INFO, ex.getMessage(), ex);
         }
     }
+
     /**
      * Called each time a parseable message has been received.
      * Note: This function does also use dark magic (which some call reflection)
@@ -49,8 +54,9 @@ public class ClientConnection extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         LOGGER.info("Got data");
-        try (ByteBufInputStream is = new ByteBufInputStream((ByteBuf) msg)) {
-            Message message = MessageFactory.getInstance().deserialize(is);
+        ByteBuf buf = (ByteBuf)msg;
+        try (ByteBufInputStream is = new ByteBufInputStream(buf)) {
+            Message message = MessageFactory.deserialize(is);
 
             // Find the concrete type for the received request object
             Class<?> concreteMessageType = Class.forName(message.getClass().getTypeName());
@@ -76,8 +82,9 @@ public class ClientConnection extends ChannelHandlerAdapter {
         }
         catch (Throwable ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            // TODO ???
+            // TODO Close connection and cleanup
         } finally {
+            buf.clear();
             ReferenceCountUtil.release(msg);
         }
     }

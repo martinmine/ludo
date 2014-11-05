@@ -42,17 +42,12 @@ public class NetworkManager {
         b.group(bossGroup, workerGroup)
             .channel(NioServerSocketChannel.class)
             .childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-
-                    LOGGER.info("Accepted connection from " + ch.remoteAddress().toString());
-                    ClientConnection connection = new ClientConnection(ch);
-                    ch.pipeline().addLast(new XmlFrameDecoder(6000), connection);
-
-                    /*LoginResult response = new LoginResult();
-                    response.setResultCode(LoginResult.SERVER_ERROR);
-                    connection.sendMessage(response);*/
-                }
+            @Override
+            public void initChannel(SocketChannel ch) throws Exception {
+                LOGGER.info("Accepted connection from " + ch.remoteAddress().toString());
+                ClientConnection connection = new ClientConnection(ch);
+                ch.pipeline().addLast(new XmlFrameDecoder(6000), connection);
+            }
             })
             .option(ChannelOption.SO_BACKLOG, 128)
             .childOption(ChannelOption.SO_KEEPALIVE, true);
