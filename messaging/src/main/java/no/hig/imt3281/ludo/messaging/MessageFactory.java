@@ -21,17 +21,21 @@ public class MessageFactory {
     }
 
     /**
-     * Serializes an object to a String
-     * @param message Message to write.
+     * Serializes a Message objects to an output stream.
+     * @param message Message to serialize
+     * @param os Stream to write message to
+     * @throws IOException Throws if stream is closed
      */
-    public static String serialize(Message message) {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        XMLEncoder xmlEncoder = new XMLEncoder(output);
-        xmlEncoder.writeObject(message);
-        xmlEncoder.close();
+    public static void serialize(Message message, OutputStream os) throws IOException {
+        try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+            try (XMLEncoder xmlEncoder = new XMLEncoder(output)) {
+                xmlEncoder.writeObject(message);
+            }
 
-        // This must be trimmed because XMLEncoder will add an \n at the end of the object
-        // which messes up the parsing in some XML parsers (in this case, Netty's XML decoder)
-        return output.toString().trim();
+            byte[] data = output.toByteArray();
+
+            // Ignore the \n at the end of the document because we don't like that
+            os.write(data, 0, output.size() - 1);
+        }
     }
 }

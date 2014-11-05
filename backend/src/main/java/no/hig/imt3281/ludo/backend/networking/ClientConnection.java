@@ -37,8 +37,10 @@ public class ClientConnection extends ChannelHandlerAdapter {
         ByteBuf buf = alloc.buffer(1024);
 
         try (ByteBufOutputStream outputStream = new ByteBufOutputStream(buf)) {
-            String message = MessageFactory.serialize(msg) + "\0";
-            outputStream.write(message.getBytes());
+            MessageFactory.serialize(msg, outputStream);
+            // The XMLDecoder wants a \0 at the end of the document, so we add that
+            // to make the document readable for it so it becomes useful.
+            outputStream.writeChar('\0');
             this.socketChannel.writeAndFlush(buf);
         } catch (IOException ex) {
             LOGGER.log(Level.INFO, ex.getMessage(), ex);

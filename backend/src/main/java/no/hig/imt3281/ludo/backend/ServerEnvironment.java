@@ -65,13 +65,13 @@ public class ServerEnvironment {
             request.setUsername("Martin");
             request.setPassword("foo123");
 
-            String msg = MessageFactory.serialize(request);
-            bw.write(msg);
+            MessageFactory.serialize(request, s.getOutputStream());
+            s.getOutputStream().flush();
             bw.flush();
 
             //bw.write("<foo>sample message</foo>\n");
             //bw.flush();
-            System.out.println("Sent message: " + msg.length());
+            System.out.println("Sent message");
 
             System.out.println("Reading object...");
             //LoginResult responseMessage = (LoginResult)MessageFactory.getInstance().deserialize(s.getInputStream());
@@ -87,9 +87,10 @@ public class ServerEnvironment {
             LoginRequest rep = new LoginRequest();
             rep.setUsername("un");
             rep.setPassword("pw");
-            String bytes = MessageFactory.serialize(rep);
-            System.out.println("Sent bytes " + bytes.length());
-            bw.write(bytes);
+
+            MessageFactory.serialize(rep, s.getOutputStream());
+            System.out.println("Sent bytes ");
+            s.getOutputStream().flush();
             bw.flush();
 
             response = (LoginResult)MessageFactory.deserialize(s.getInputStream());
