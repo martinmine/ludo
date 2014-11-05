@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * Created by Joakim on 27.10.2014.
+ *
  */
 public class GameClient extends JFrame {
     public GameClient() {
@@ -19,7 +20,7 @@ public class GameClient extends JFrame {
         GamePanel gamePanel = new GamePanel();
         ChatPanel chatPanel = new ChatPanel();
         add(chatPanel, BorderLayout.EAST);
-        add(gamePanel, BorderLayout.WEST);
+        add(new JScrollPane(gamePanel), BorderLayout.WEST);
 
         setVisible(true);
     }

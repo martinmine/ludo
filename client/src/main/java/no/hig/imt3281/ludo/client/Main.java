@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 27.10.2014.
+ *
  */
 public class Main {
     public static final String LANG_PATH = "i18n.strings";
