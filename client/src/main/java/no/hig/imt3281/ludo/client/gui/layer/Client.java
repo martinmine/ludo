@@ -19,8 +19,8 @@ public class Client extends JFrame {
         setLayout(layout);
 
         GamePanel gamePanel = new GamePanel();
-        ChatPanel chatPanel = new ChatPanel();
-        add(chatPanel, BorderLayout.EAST);
+        SidePanel sidePanel = new SidePanel();
+        add(sidePanel, BorderLayout.EAST);
         add(new JScrollPane(gamePanel), BorderLayout.WEST);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
