@@ -12,7 +12,7 @@ import java.awt.*;
 public class SidePanel extends JPanel {
 
     private ChatPanel chatPanel;
-    private JPanel topPanel;
+    private SideTopPanel sideTopPanel;
 
     public SidePanel() {
 
@@ -21,9 +21,9 @@ public class SidePanel extends JPanel {
 
         setPreferredSize(new Dimension(384, 640));
 
+        sideTopPanel = new SideTopPanel();
         chatPanel = new ChatPanel();
+        add(sideTopPanel, BorderLayout.NORTH);
         add(chatPanel, BorderLayout.SOUTH);
-
-
     }
 }

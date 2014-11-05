@@ -9,7 +9,8 @@ import java.awt.*;
 public class DicePanel extends JPanel {
 
     public DicePanel() {
-        setBackground(Color.BLACK);
         setPreferredSize(new Dimension(160,160));
+        setBackground(Color.YELLOW);
+
     }
 }
