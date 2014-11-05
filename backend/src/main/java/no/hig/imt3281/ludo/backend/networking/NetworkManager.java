@@ -9,6 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.xml.XmlFrameDecoder;
+import no.hig.imt3281.ludo.messaging.LoginResult;
 
 import java.util.logging.Logger;
 
@@ -43,8 +44,14 @@ public class NetworkManager {
             .childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
+
                     LOGGER.info("Accepted connection from " + ch.remoteAddress().toString());
-                    ch.pipeline().addLast(new XmlFrameDecoder(6000), new ClientConnection());
+                    ClientConnection connection = new ClientConnection(ch);
+                    ch.pipeline().addLast(new XmlFrameDecoder(6000), connection);
+
+                    /*LoginResult response = new LoginResult();
+                    response.setResultCode(LoginResult.SERVER_ERROR);
+                    connection.sendMessage(response);*/
                 }
             })
             .option(ChannelOption.SO_BACKLOG, 128)

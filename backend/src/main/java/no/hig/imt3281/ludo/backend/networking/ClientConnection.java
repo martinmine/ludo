@@ -1,15 +1,17 @@
 package no.hig.imt3281.ludo.backend.networking;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.*;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOutboundBuffer;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.util.ReferenceCountUtil;
 import no.hig.imt3281.ludo.backend.message.handling.MessageHandlerFactory;
 import no.hig.imt3281.ludo.backend.message.handling.MessageHandler;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -20,7 +22,24 @@ import java.util.logging.Logger;
  */
 public class ClientConnection extends ChannelHandlerAdapter {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
+    private SocketChannel socketChannel;
 
+    public ClientConnection(SocketChannel ch) {
+        this.socketChannel = ch;
+    }
+
+    public void sendMessage(Message msg) {
+        ByteBufAllocator alloc = PooledByteBufAllocator.DEFAULT;
+        ByteBuf buf = alloc.buffer(1024);
+
+        try (ByteBufOutputStream outputStream = new ByteBufOutputStream(buf)) {
+            String message = MessageFactory.getInstance().serialize(msg) + "\0";
+            outputStream.write(message.getBytes());
+            this.socketChannel.writeAndFlush(buf);
+        } catch (IOException ex) {
+            LOGGER.log(Level.INFO, ex.getMessage(), ex);
+        }
+    }
     /**
      * Called each time a parseable message has been received.
      * Note: This function does also use dark magic (which some call reflection)
@@ -29,6 +48,7 @@ public class ClientConnection extends ChannelHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        LOGGER.info("Got data");
         try (ByteBufInputStream is = new ByteBufInputStream((ByteBuf) msg)) {
             Message message = MessageFactory.getInstance().deserialize(is);
 

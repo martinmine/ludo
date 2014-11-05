@@ -8,3 +8,6 @@
 /local.properties
 .DS_Store
 /build
+/client/build
+/backend/build
+/messaging/build

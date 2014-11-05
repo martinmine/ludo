@@ -3,15 +3,17 @@ package no.hig.imt3281.ludo.backend;
 import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import no.hig.imt3281.ludo.messaging.LoginRequest;
+import no.hig.imt3281.ludo.messaging.LoginResult;
+import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.logging.Level;
@@ -50,19 +52,61 @@ public class ServerEnvironment {
         networkManager.startListening();
 
         try {
-            Socket echoSocket = new Socket("localhost", 9494);
+            Socket s = new Socket("localhost", 9494);
+
+            BufferedReader br = new BufferedReader (new InputStreamReader (s.getInputStream()));
+            OutputStreamWriter os = new OutputStreamWriter(s.getOutputStream());
+            BufferedWriter bw = new BufferedWriter (os);
+
+            //BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
 
             LoginRequest request = new LoginRequest();
             request.setUsername("Martin");
             request.setPassword("foo123");
 
-            MessageFactory.getInstance().serialize(request, echoSocket.getOutputStream());
-            echoSocket.getOutputStream().flush();
-            System.out.println("Sent message");
+            String msg = MessageFactory.getInstance().serialize(request);
+            bw.write(msg);
+            bw.flush();
+
+            //bw.write("<foo>sample message</foo>\n");
+            //bw.flush();
+            System.out.println("Sent message: " + msg.length());
+
+            System.out.println("Reading object...");
+            //LoginResult responseMessage = (LoginResult)MessageFactory.getInstance().deserialize(s.getInputStream());
+            //System.out.println("Result was : " + responseMessage.getResultCode());
+
+            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(s.getInputStream()));
+            System.out.println("Reading");
+            LoginResult response = (LoginResult)decoder.readObject();
+            //decoder.close();
+            System.out.println("Response is " + response.getResultCode());
+
+            LoginRequest rep = new LoginRequest();
+            rep.setUsername("un");
+            rep.setPassword("pw");
+            String bytes = MessageFactory.getInstance().serialize(request);
+            System.out.println("Sent bytes " + bytes.length());
+            bw.write(bytes);
+            bw.flush();
+
+
+
+            //bw.write(MessageFactory.getInstance().serialize(request));
+            //bw.flush();
+
+            /*while (s.isConnected()) {
+                char[] buffer = new char[500];
+                int readBytes = br.read(buffer);
+
+                String receivedText = String.valueOf(buffer);
+                System.out.println("Received " +  readBytes + " bytes: " + receivedText);
+            }*/
         }
         catch (Exception ex) {
             System.out.println("Error");
             System.out.println(ex.getMessage());
+            ex.printStackTrace(System.out);
         }
 
     }

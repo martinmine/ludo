@@ -2,6 +2,8 @@ package no.hig.imt3281.ludo.messaging;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -32,19 +34,20 @@ public class MessageFactory extends Message {
      * @return The Message object that was in the stream.
      */
     public Message deserialize(InputStream stream) {
-        try (XMLDecoder decoder = new XMLDecoder(stream)) {
+        XMLDecoder decoder = new XMLDecoder(stream);
             return (Message)decoder.readObject();
-        }
     }
 
     /**
-     * Writes a message to an output stream.
+     * Serializes an object to a String
      * @param message Message to write.
-     * @param stream Stream to write to.
      */
-    public void serialize(Message message, OutputStream stream) {
-        try (XMLEncoder encoder = new XMLEncoder(stream)) {
-            encoder.writeObject(message);
-        }
+    public String serialize(Message message) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        XMLEncoder xmlEncoder = new XMLEncoder(output);
+        xmlEncoder.writeObject(message);
+        xmlEncoder.close();
+
+        return output.toString();
     }
 }
