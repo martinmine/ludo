@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 27.10.2014.
@@ -18,17 +19,23 @@ public class GamePanel extends JComponent implements MouseListener {
     public static final int GREEN = 3;
     public static final int FACTIONS[] = {RED, BLUE, YELLOW, GREEN };
 
+    //private static final Logger LOGGER = Logger.getLogger(GamePanel.class.getName());
+
     private Dimension boardSize;
     private Image board;
-    //private ArrayList<Tiles> tiles;
-    private ArrayList<ArrayList<Integer>> playerTiles;
+    private ArrayList<Tile> tiles;
+    private ArrayList<ArrayList<Integer>> tile;
 
     public GamePanel() {
-        playerTiles = new ArrayList<>();    // PlayerTiles
-        playerTiles.add(new ArrayList<>()); // RED
-        playerTiles.add(new ArrayList<>()); // BLUE
-        playerTiles.add(new ArrayList<>()); // YELLOW
-        playerTiles.add(new ArrayList<>()); // GREEN
+
+        tiles = new ArrayList<>();
+
+
+        tile = new ArrayList<>();    // PlayerTiles
+        tile.add(new ArrayList<>()); // RED
+        tile.add(new ArrayList<>()); // BLUE
+        tile.add(new ArrayList<>()); // YELLOW
+        tile.add(new ArrayList<>()); // GREEN
 
         ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.jpg"));
         boardSize = new Dimension(600, 590);

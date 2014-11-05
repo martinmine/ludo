@@ -17,7 +17,7 @@ public class Client extends JFrame {
 
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
-        setSize(new Dimension(1024, 640));
+        setSize(new Dimension(1024, 768));
 
         menuBar = new MenuBar();
 
