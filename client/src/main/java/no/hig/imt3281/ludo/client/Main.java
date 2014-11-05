@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client;
 
+import no.hig.imt3281.ludo.client.gui.layer.Client;
+
 import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -8,6 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 27.10.2014.
+ *
  */
 public class Main {
     public static final String LANG_PATH = "i18n.strings";
@@ -17,7 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
         setUserPreferences();
-        new GameClient();
+        new Client();
     }
 
     public static void setUserPreferences() {
@@ -51,7 +54,6 @@ public class Main {
             } catch(Exception e) {
                 LOGGER.log(Level.FINE, e.getMessage(), e);
                 currentLocale = Locale.getDefault();
-
                 resourceBundle = ResourceBundle.getBundle(LANG_PATH, currentLocale);
             }
         }
