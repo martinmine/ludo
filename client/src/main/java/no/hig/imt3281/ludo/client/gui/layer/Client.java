@@ -12,9 +12,15 @@ import java.awt.*;
  *
  */
 public class Client extends JFrame {
+
+    public MenuBar menuBar;
+
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
         setSize(new Dimension(1024, 640));
+
+        menuBar = new MenuBar();
+
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
 
@@ -22,6 +28,8 @@ public class Client extends JFrame {
         SidePanel sidePanel = new SidePanel();
         add(sidePanel, BorderLayout.EAST);
         add(new JScrollPane(gamePanel), BorderLayout.WEST);
+        setJMenuBar(menuBar);
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }

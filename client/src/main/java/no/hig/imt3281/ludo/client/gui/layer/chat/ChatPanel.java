@@ -9,7 +9,7 @@ import java.awt.*;
 public class ChatPanel extends JPanel {
     public ChatPanel() {
         BorderLayout layout = new BorderLayout();
-        setPreferredSize(new Dimension(384,430));
+        setPreferredSize(new Dimension(384,440));
         setBackground(Color.RED);
         setLayout(layout);
 
