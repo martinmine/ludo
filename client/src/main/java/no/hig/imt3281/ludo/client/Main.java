@@ -51,7 +51,6 @@ public class Main {
             } catch(Exception e) {
                 LOGGER.log(Level.FINE, e.getMessage(), e);
                 currentLocale = Locale.getDefault();
-
                 resourceBundle = ResourceBundle.getBundle(LANG_PATH, currentLocale);
             }
         }

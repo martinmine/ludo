@@ -26,4 +26,8 @@ public class TabbedChatContainer extends JTabbedPane {
         };
         addChangeListener(changeListener);
     }
+
+    public void addUserGeneratedChatChannel(String channelName){
+        addTab(channelName, new UserGeneratedChatChannel());
+    }
 }
