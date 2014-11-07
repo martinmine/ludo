@@ -1,22 +1,17 @@
 package no.hig.imt3281.ludo.backend;
 
-import no.hig.imt3281.ludo.backend.message.handling.MessageHandlerFactory;
 import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import no.hig.imt3281.ludo.messaging.LoginRequest;
 import no.hig.imt3281.ludo.messaging.LoginResult;
-import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

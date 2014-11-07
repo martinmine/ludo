@@ -9,7 +9,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.xml.XmlFrameDecoder;
-import no.hig.imt3281.ludo.messaging.LoginResult;
 
 import java.util.logging.Logger;
 
@@ -31,6 +30,7 @@ public class NetworkManager {
         this.bossGroup = new NioEventLoopGroup();
         this.workerGroup = new NioEventLoopGroup();
         this.port = port;
+
     }
 
     /**
