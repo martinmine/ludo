@@ -46,11 +46,11 @@ public class ServerEnvironment {
 
         networkManager = new NetworkManager(9494);
         networkManager.startListening();
-
+        /*
         try {
             Socket s = new Socket("localhost", 9494);
 
-            BufferedReader br = new BufferedReader (new InputStreamReader (s.getInputStream()));
+            //BufferedReader br = new BufferedReader (new InputStreamReader (s.getInputStream()));
             OutputStreamWriter os = new OutputStreamWriter(s.getOutputStream());
             BufferedWriter bw = new BufferedWriter (os);
 
@@ -104,12 +104,13 @@ public class ServerEnvironment {
                 String receivedText = String.valueOf(buffer);
                 System.out.println("Received " +  readBytes + " bytes: " + receivedText);
             }*/
+        /*
         }
         catch (Exception ex) {
             System.out.println("Error");
             System.out.println(ex.getMessage());
             ex.printStackTrace(System.out);
-        }
+        }*/
 
     }
 

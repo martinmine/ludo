@@ -31,7 +31,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements MessageCo
      * Sends a message to the connection
      * @param msg The message
      */
-    public void sendMessage(Message msg) {
+    public void sendMessage(Message msg) throws IOException {
         ByteBufAllocator alloc = PooledByteBufAllocator.DEFAULT;
         ByteBuf buf = alloc.buffer(1024);
 
@@ -43,6 +43,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements MessageCo
             this.socketChannel.writeAndFlush(buf);
         } catch (IOException ex) {
             LOGGER.log(Level.INFO, ex.getMessage(), ex);
+            throw ex;
         }
     }
 

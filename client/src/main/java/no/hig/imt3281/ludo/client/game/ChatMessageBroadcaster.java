@@ -1,4 +1,4 @@
-package no.hig.imt3281.ludo.client.networking.layer;
+package no.hig.imt3281.ludo.client.game;
 
 import no.hig.imt3281.ludo.client.gui.layer.chat.ChatMessage;
 

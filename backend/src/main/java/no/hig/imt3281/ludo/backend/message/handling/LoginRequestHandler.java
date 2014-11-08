@@ -5,6 +5,8 @@ import no.hig.imt3281.ludo.messaging.LoginResult;
 import no.hig.imt3281.ludo.messaging.handling.MessageContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
+import java.io.IOException;
+
 /**
  * Created by Martin on 04.11.2014.
  */
@@ -15,6 +17,10 @@ public class LoginRequestHandler implements MessageHandler {
 
         LoginResult response = new LoginResult();
         response.setResultCode(LoginResult.INVALID_PASSWORD);
-        context.sendMessage(response);
+        try {
+            context.sendMessage(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

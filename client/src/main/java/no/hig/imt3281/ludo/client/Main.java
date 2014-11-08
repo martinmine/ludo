@@ -1,8 +1,11 @@
 package no.hig.imt3281.ludo.client;
 
 import no.hig.imt3281.ludo.client.gui.layer.Client;
+import no.hig.imt3281.ludo.client.networking.ServerConnection;
+import no.hig.imt3281.ludo.messaging.LoginRequest;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -15,12 +18,43 @@ import java.util.logging.Logger;
 public class Main {
     public static final String LANG_PATH = "i18n.strings";
     public static ResourceBundle resourceBundle;
+    private static ServerConnection serverConnection;
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
+        LOGGER.info("Connecting");
+        try {
+            serverConnection = new ServerConnection("localhost", 9494);
+        } catch (IOException e) {
+            LOGGER.severe("Unable to connect to server");
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            System.exit(0);
+        }
+        LOGGER.info("Connected");
+
+        // Sample code
+        LoginRequest request = new LoginRequest();
+        request.setUsername("ChipM");
+        request.setPassword("a");
+
+        try {
+            LOGGER.info("Sending request");
+            serverConnection.sendMessage(request);
+            LOGGER.info("Request sent");
+        } catch (IOException e) {
+            LOGGER.severe("Unable to send login request");
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            System.exit(0);
+        }
+        // Sample code end
+
         setUserPreferences();
         new Client();
+    }
+
+    public static ServerConnection getServerConnection() {
+        return serverConnection;
     }
 
     public static void setUserPreferences() {

@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.client.gui.layer.chat;
 
 import no.hig.imt3281.ludo.client.Main;
-import no.hig.imt3281.ludo.client.networking.layer.ChatMessageBroadcaster;
+import no.hig.imt3281.ludo.client.game.ChatMessageBroadcaster;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

@@ -1,0 +1,72 @@
+package no.hig.imt3281.ludo.client.networking;
+
+import no.hig.imt3281.ludo.client.message.handling.MessageHandlingService;
+import no.hig.imt3281.ludo.messaging.Message;
+import no.hig.imt3281.ludo.messaging.MessageFactory;
+import no.hig.imt3281.ludo.messaging.handling.MessageContext;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Logger;
+
+/**
+ *
+ */
+public class ServerConnection implements Runnable, MessageContext {
+    private static final Logger LOGGER = Logger.getLogger(ServerConnection.class.getSimpleName());
+    private Socket connection;
+    private Thread readerThread;
+    private MessageHandlingService messageHandler;
+
+    public ServerConnection(String hostname, int port) throws IOException {
+        this.connection = new Socket(hostname, port);
+        this.readerThread = new Thread(this);
+        this.messageHandler = new MessageHandlingService();
+        this.readerThread.start();
+
+        LOGGER.info("Connection ready");
+    }
+
+    @Override
+    public void run() {
+        while (connection.isConnected()) {
+            try {
+                LOGGER.info("Waiting for new message");
+                Message message = MessageFactory.deserialize(connection.getInputStream());
+                LOGGER.info("Got message: " + message.getClass().getTypeName());
+                messageHandler.invokeMessage(message, this);
+            } catch (Exception e) {
+                close();
+                break;
+            }
+        }
+    }
+
+    /**
+     * Sends a message to the server.
+     * @param message Message to send.
+     * @throws IOException Exception is thrown during network connection.
+     */
+    public void sendMessage(Message message) throws IOException {
+        try {
+            MessageFactory.serialize(message, connection.getOutputStream());
+            connection.getOutputStream().flush();
+        } catch (IOException e) {
+            close();
+            throw e;
+        }
+    }
+
+    /**
+     * Closes the server connection and notifies the listeners
+     */
+    public void close() {
+        try {
+            this.connection.close();
+        } catch (IOException e) {
+            // TODO: Handle exception
+        }
+
+        // TODO: Notify listeners
+    }
+}
