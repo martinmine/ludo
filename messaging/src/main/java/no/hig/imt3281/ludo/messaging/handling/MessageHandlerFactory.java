@@ -27,7 +27,7 @@ public class MessageHandlerFactory {
     }
 
 
-    public void invokeMessage(Message message, MessageContext context) throws Exception {
+    public void invokeMessage(Message message, CommunicationContext context) throws Exception {
         // Find the concrete type for the received request object
         Class<?> concreteMessageType = Class.forName(message.getClass().getTypeName());
 
@@ -42,7 +42,7 @@ public class MessageHandlerFactory {
             Class<?> concreteHandlerType = Class.forName(handler.getClass().getTypeName());
 
             // Find the method and call the method
-            Method method = concreteHandlerType.getMethod("handle", concreteMessageType, MessageContext.class);
+            Method method = concreteHandlerType.getMethod("handle", concreteMessageType, CommunicationContext.class);
             method.invoke(handler, message, context);
         }
     }

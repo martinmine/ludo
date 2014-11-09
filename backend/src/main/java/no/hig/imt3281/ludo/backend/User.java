@@ -1,6 +1,9 @@
 package no.hig.imt3281.ludo.backend;
 
 
+import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
+import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Entity;
@@ -9,12 +12,13 @@ import javax.persistence.Entity;
  * Created by Martin on 27.10.2014.
  */
 @Entity
-public class User {
+public class User implements ConnectivityNotifier {
     @Id
     @GeneratedValue
     private int id;
     private String username;
     private String email;
+    private CommunicationContext clientConnection;
 
     public User() {
     }
@@ -52,5 +56,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public CommunicationContext getClientConnection() {
+        return clientConnection;
+    }
+
+    @Override
+    public void connectionClosed() {
+        ServerEnvironment.getUserManager().reportLoggedOut(this.id);
     }
 }

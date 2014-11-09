@@ -23,6 +23,7 @@ public class ServerEnvironment {
 
     private static NetworkManager networkManager;
     private static SessionFactory sessionFactory;
+    private static UserManager userManager;
 
     /**
      * Initializes the server environment
@@ -122,23 +123,5 @@ public class ServerEnvironment {
         return sessionFactory;
     }
 
-    /*
-    public static Integer addUser(User player) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        Integer employeeID = null;
-        try {
-            tx = session.beginTransaction();
-            employeeID = (Integer) session.save(player);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx!=null)
-                tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return employeeID;
-    }
-*/
+    public static UserManager getUserManager() { return userManager; }
 }

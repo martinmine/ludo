@@ -3,7 +3,7 @@ package no.hig.imt3281.ludo.client.networking;
 import no.hig.imt3281.ludo.client.message.handling.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
-import no.hig.imt3281.ludo.messaging.handling.MessageContext;
+import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  *
  */
-public class ServerConnection implements Runnable, MessageContext {
+public class ServerConnection implements Runnable, CommunicationContext {
     private static final Logger LOGGER = Logger.getLogger(ServerConnection.class.getSimpleName());
     private Socket connection;
     private Thread readerThread;

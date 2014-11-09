@@ -6,7 +6,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.ReferenceCountUtil;
 import no.hig.imt3281.ludo.backend.message.handling.MessageHandlingService;
-import no.hig.imt3281.ludo.messaging.handling.MessageContext;
+import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
+import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 
@@ -18,10 +19,11 @@ import java.util.logging.Logger;
 /**
  * Manages client data/communication interaction
  */
-public class ClientConnection extends ChannelHandlerAdapter implements MessageContext {
+public class ClientConnection extends ChannelHandlerAdapter implements CommunicationContext {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
     private static final MessageHandlingService messageHandler = new MessageHandlingService();
     private SocketChannel socketChannel;
+    private ConnectivityNotifier statusListener;
 
     public ClientConnection(SocketChannel ch) {
         this.socketChannel = ch;
@@ -47,6 +49,11 @@ public class ClientConnection extends ChannelHandlerAdapter implements MessageCo
         }
     }
 
+    @Override
+    public void setStatusListener(ConnectivityNotifier listener) {
+        this.statusListener = listener;
+    }
+
     /**
      * Called each time a parseable message has been received.
      * Note: This function does also use dark magic (which some call reflection)
@@ -62,11 +69,11 @@ public class ClientConnection extends ChannelHandlerAdapter implements MessageCo
         } catch (InvocationTargetException ex) {
             Throwable innerException = ex.getCause();
             LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
+            close();
         } catch (Throwable ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            // TODO Close connection and cleanup
+            close();
         } finally {
-            buf.clear();
             ReferenceCountUtil.release(msg);
         }
     }
@@ -74,7 +81,13 @@ public class ClientConnection extends ChannelHandlerAdapter implements MessageCo
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         LOGGER.log(Level.WARNING, cause.getMessage(), cause);
-        ctx.close();
-        // TODO close connection and notify listeners
+        close();
+    }
+
+    public void close() {
+        this.socketChannel.close();
+        if (this.statusListener != null) {
+            this.statusListener.connectionClosed();
+        }
     }
 }

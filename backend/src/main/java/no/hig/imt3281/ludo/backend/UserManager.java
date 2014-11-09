@@ -1,5 +1,9 @@
 package no.hig.imt3281.ludo.backend;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +56,7 @@ public class UserManager {
      * @param user User that has successfully signed in
      */
     public void setLoggedIn(User user) {
+        // TODO: Thread safety
         this.activeUsers.put(user.getId(), user);
     }
 
@@ -60,6 +65,7 @@ public class UserManager {
      * @param userId ID of the user that is signing out
      */
     public void reportLoggedOut(int userId) {
+        // TODO: thread safety
         this.activeUsers.remove(userId);
     }
 
@@ -72,25 +78,21 @@ public class UserManager {
         return this.activeUsers.containsKey(user.getId());
     }
 
-
-    /*
-
-    public static Integer addUser(User player) {
-        Session session = factory.openSession();
+    public void registerUser(User user) throws Exception {
+        Session session = ServerEnvironment.getSessionFactory().openSession();
         Transaction tx = null;
-        Integer employeeID = null;
+
         try {
             tx = session.beginTransaction();
-            employeeID = (Integer) session.save(player);
+            int userID = (Integer) session.save(user);
+            user.setId(userID);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx!=null)
+            if (tx != null)
                 tx.rollback();
-            e.printStackTrace();
+            throw e;
         } finally {
             session.close();
         }
-        return employeeID;
     }
-     */
 }
