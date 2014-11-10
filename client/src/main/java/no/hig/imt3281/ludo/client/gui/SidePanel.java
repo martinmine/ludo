@@ -17,11 +17,10 @@ public class SidePanel extends JPanel {
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
+        setMinimumSize(new Dimension(380, 640));
 
-        setPreferredSize(new Dimension(380, 640));
-
-        sideTopPanel = new SideTopPanel();
-        chatPanel = new ChatPanel();
+        sideTopPanel = GuiManager.getSideTopPanel();
+        chatPanel = GuiManager.getChatPanel() ;
         add(sideTopPanel, BorderLayout.NORTH);
         add(chatPanel, BorderLayout.SOUTH);
     }

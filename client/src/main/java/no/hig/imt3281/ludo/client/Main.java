@@ -24,7 +24,6 @@ public class Main {
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
-
         /*
         try {
             serverConnection = new ServerConnection("localhost", 9494);
@@ -53,7 +52,6 @@ public class Main {
         }
         */
         // Sample code end
-
         setUserPreferences();
         new Client();
     }

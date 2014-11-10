@@ -7,13 +7,19 @@ import java.awt.*;
  * Created by Joakim on 03.11.2014.
  */
 public class ChatPanel extends JPanel {
+
+    private TabbedChatContainer tabbedChatContainer;
+
     public ChatPanel() {
         BorderLayout layout = new BorderLayout();
-        setPreferredSize(new Dimension(384,440));
+        setMinimumSize(new Dimension(384,440));
         setBackground(Color.RED);
         setLayout(layout);
 
-        TabbedChatContainer tabbedChatContainer = new TabbedChatContainer();
+        tabbedChatContainer = new TabbedChatContainer();
         add(tabbedChatContainer, BorderLayout.SOUTH);
+    }
+    public void joinNewChatroom(String channelName) {
+        this.tabbedChatContainer.addUserGeneratedChatChannel(channelName);
     }
 }
