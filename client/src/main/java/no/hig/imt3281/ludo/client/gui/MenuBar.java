@@ -16,7 +16,13 @@ public class MenuBar extends JMenuBar {
         JMenuItem newItem = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_CHATROOM"));
         fileMenu.add(newItem);
         newItem.addActionListener(e -> {
-            String dialogResult = JOptionPane.showInputDialog("DA ROOM?");
+            String dialogResult = JOptionPane.showInputDialog
+                    (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_INPUT_MSG"));
+
+            while (dialogResult.isEmpty()) {
+                dialogResult = JOptionPane.showInputDialog
+                        (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_NEW_INPUT_MSG"));
+            }
 
             GuiManager.getChatPanel().joinNewChatroom(dialogResult);
         });
