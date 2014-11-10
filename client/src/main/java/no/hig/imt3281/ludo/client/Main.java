@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client;
 
 import no.hig.imt3281.ludo.client.gui.Client;
+import no.hig.imt3281.ludo.client.gui.LoginDialog;
 import no.hig.imt3281.ludo.client.networking.ServerConnection;
 import no.hig.imt3281.ludo.messaging.LoginRequest;
 
@@ -24,15 +25,15 @@ public class Main {
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
+
         /*
         try {
-            serverConnection = new ServerConnection("localhost", 9494);
+            serverConnection = new ServerConnection("localhost", 9494); // "localhost", 9494
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
-        */
         LOGGER.info("Connected");
 
         // Sample code
@@ -40,7 +41,6 @@ public class Main {
         request.setUsername("ChipM");
         request.setPassword("a");
 
-        /*
         try {
             LOGGER.info("Sending request");
             serverConnection.sendMessage(request);
@@ -51,6 +51,7 @@ public class Main {
             System.exit(0);
         }
         */
+
         // Sample code end
         setUserPreferences();
         new Client();

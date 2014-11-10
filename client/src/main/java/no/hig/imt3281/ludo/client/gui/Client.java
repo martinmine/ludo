@@ -16,6 +16,9 @@ public class Client extends JFrame {
 
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
+
+        LoginDialog lg = new LoginDialog(this);
+        lg.setVisible(true);
         setSize(new Dimension(1024, 768));
 
         menuBar = new no.hig.imt3281.ludo.client.gui.MenuBar();
