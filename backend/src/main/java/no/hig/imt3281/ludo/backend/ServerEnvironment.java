@@ -46,7 +46,8 @@ public class ServerEnvironment {
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
         networkManager = new NetworkManager(9494);
-        networkManager.startListening();
+        userManager = new UserManager();
+        //networkManager.startListening();
         /*
         try {
             Socket s = new Socket("localhost", 9494);

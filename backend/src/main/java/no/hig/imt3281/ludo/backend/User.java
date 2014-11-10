@@ -4,9 +4,7 @@ package no.hig.imt3281.ludo.backend;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * Created by Martin on 27.10.2014.
@@ -16,8 +14,13 @@ public class User implements ConnectivityNotifier {
     @Id
     @GeneratedValue
     private int id;
+
+    @Column(unique = true)
     private String username;
     private String email;
+    private String password;
+
+    @Transient
     private CommunicationContext clientConnection;
 
     public User() {
@@ -56,6 +59,18 @@ public class User implements ConnectivityNotifier {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setClientConnection(CommunicationContext clientConnection) {
+        this.clientConnection = clientConnection;
     }
 
     public CommunicationContext getClientConnection() {
