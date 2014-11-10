@@ -12,6 +12,7 @@ public class QueuedMap<K, V> {
 
     private Queue<KeyValuePair<K, V>> addQueue;
     private Queue<K> removeQueue;
+    private Queue<QueuedAction<K, V>> actionQueue;
 
     private QueuedAction<K, V> addedObjectEvent;
     private QueuedAction<K, V> removedObjectEvent;
@@ -19,6 +20,7 @@ public class QueuedMap<K, V> {
     public QueuedMap(Map<K, V> map) {
         this.addQueue = new ConcurrentLinkedQueue<>();
         this.removeQueue = new ConcurrentLinkedQueue<>();
+        this.actionQueue = new ConcurrentLinkedQueue<>();
         this.map = map;
     }
 
@@ -31,7 +33,7 @@ public class QueuedMap<K, V> {
     }
 
     public void addItem(K key, V value) {
-        this.addQueue.add(new KeyValuePair<K, V>(key, value));
+        this.addQueue.add(new KeyValuePair<>(key, value));
     }
 
     public void removeItem(K key) {
@@ -40,6 +42,10 @@ public class QueuedMap<K, V> {
 
     public V get(K key) {
         return this.map.get(key);
+    }
+
+    public void requestForeach(QueuedAction<K, V> action) {
+        this.actionQueue.add(action);
     }
 
     public void onCycle() {
@@ -58,6 +64,13 @@ public class QueuedMap<K, V> {
 
             if (addedObjectEvent != null) {
                 addedObjectEvent.performAction(addPair.getKey(), addPair.getValue());
+            }
+        }
+
+        QueuedAction<K, V> action;
+        while ((action = actionQueue.remove()) != null) {
+            for (Map.Entry<K, V> entry : map.entrySet()) {
+                action.performAction(entry.getKey(), entry.getValue());
             }
         }
     }

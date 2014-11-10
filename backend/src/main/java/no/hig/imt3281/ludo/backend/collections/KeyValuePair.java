@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.backend.collections;
 
 /**
- * Created by Martin on 10.11.2014.
+ * Created by marti_000 on 10.11.2014.
  */
 public class KeyValuePair<K, V> {
     private K key;

@@ -5,7 +5,6 @@ import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Keep track of logged in users,
@@ -52,7 +51,14 @@ public class UserManager {
         try {
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("username", username));
-            return (User)criteria.uniqueResult();
+            User user = (User)criteria.uniqueResult();
+
+            User loadedUser;
+            if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
+                return loadedUser;
+            }
+
+            return user;
         } finally {
             session.close();
         }
@@ -70,7 +76,14 @@ public class UserManager {
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("username", username));
             criteria.add(Restrictions.eq("password", password));
-            return (User)criteria.uniqueResult();
+            User user = (User)criteria.uniqueResult();
+
+            User loadedUser;
+            if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
+                return loadedUser;
+            }
+
+            return user;
         } finally {
             session.close();
         }
@@ -81,7 +94,6 @@ public class UserManager {
      * @param user User that has successfully signed in
      */
     public void setLoggedIn(User user) {
-        // TODO: Thread safety
         this.activeUsers.addItem(user.getId(), user);
     }
 
@@ -90,12 +102,11 @@ public class UserManager {
      * @param userId ID of the user that is signing out
      */
     public void reportLoggedOut(int userId) {
-        // TODO: thread safety
         this.activeUsers.removeItem(userId);
     }
 
     /**
-     * Identifies wether a user has signed in or not to the server
+     * Identifies whether a user has signed in or not to the server
      * @param user User that is signing in
      * @return True if the user is active/signed in, otherwise false
      */
