@@ -6,6 +6,7 @@ package no.hig.imt3281.ludo.client.chat;
 public class ChatMessageHandler {
     public static final int GAME_CHAT = 0;
     public static final int GLOBAL_CHAT = 1;
+    public static final int USERGENERATED_CHAT = 2;
 
     private ChatState currentState;
     private ChatMessageHandler() {
@@ -28,7 +29,7 @@ public class ChatMessageHandler {
             case GLOBAL_CHAT:
                 this.currentState = new GlobalChatState();
                 break;
-            default:
+            default: this.currentState = new UserGeneratedChatState();
                 break;
         }
     }

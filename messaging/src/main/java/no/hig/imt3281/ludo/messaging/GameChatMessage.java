@@ -5,4 +5,7 @@ package no.hig.imt3281.ludo.messaging;
  */
 public class GameChatMessage extends ChatMessage {
 
+    public GameChatMessage(String message) {
+        super(message);
+    }
 }

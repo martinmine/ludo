@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.gui;
 
+import no.hig.imt3281.ludo.client.gui.SidePanel;
+import no.hig.imt3281.ludo.client.gui.SideTopPanel;
 import no.hig.imt3281.ludo.client.gui.chat.ChatPanel;
 import no.hig.imt3281.ludo.client.gui.game.GamePanel;
 

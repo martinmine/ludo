@@ -7,6 +7,10 @@ public abstract class ChatMessage extends Message {
     private String message;
     private int timestamp;
 
+    public ChatMessage(String message) {
+        this.message = message;
+    }
+
     public int getUserId() {
         return userId;
     }
