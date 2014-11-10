@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.backend;
 
+import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
@@ -13,13 +14,13 @@ import java.util.Map;
  * notified when a user disconnects
  */
 public class UserManager {
-    private Map<Integer, User> activeUsers;
+    private QueuedMap<Integer, User> activeUsers;
 
     /**
      * Prepares the user manager
      */
     public UserManager() {
-        this.activeUsers = new HashMap<>();
+        this.activeUsers = new QueuedMap<>(new HashMap<>());
     }
 
     /**
@@ -81,7 +82,7 @@ public class UserManager {
      */
     public void setLoggedIn(User user) {
         // TODO: Thread safety
-        this.activeUsers.put(user.getId(), user);
+        this.activeUsers.addItem(user.getId(), user);
     }
 
     /**
@@ -90,7 +91,7 @@ public class UserManager {
      */
     public void reportLoggedOut(int userId) {
         // TODO: thread safety
-        this.activeUsers.remove(userId);
+        this.activeUsers.removeItem(userId);
     }
 
     /**
