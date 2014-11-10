@@ -6,6 +6,7 @@ package no.hig.imt3281.ludo.backend;
 public class Main {
     public static void main(String[] args) {
         ServerEnvironment.initialize();
+        ServerEnvironment.getNetworkManager().startListening();
     }
 }
 

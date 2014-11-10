@@ -1,8 +1,7 @@
 package no.hig.imt3281.ludo.backend;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,17 @@ public class UserManager {
      * @return The user data/object
      */
     public User getUser(int userID) {
-        return null;
+        User user = activeUsers.get(userID);
+        if (user != null)
+            return user;
+
+        Session session = ServerEnvironment.getSessionFactory().openSession();
+
+        try {
+            return (User)session.load(User.class, userID);
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -38,7 +47,14 @@ public class UserManager {
      * @return The user data
      */
     public User getUser(String username) {
-        return null;
+        Session session = ServerEnvironment.getSessionFactory().openSession();
+        try {
+            Criteria criteria = session.createCriteria(User.class);
+            criteria.add(Restrictions.eq("username", username));
+            return (User)criteria.uniqueResult();
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -48,7 +64,15 @@ public class UserManager {
      * @return User object
      */
     public User getUser(String username, String password) {
-        return null;
+        Session session = ServerEnvironment.getSessionFactory().openSession();
+        try {
+            Criteria criteria = session.createCriteria(User.class);
+            criteria.add(Restrictions.eq("username", username));
+            criteria.add(Restrictions.eq("password", password));
+            return (User)criteria.uniqueResult();
+        } finally {
+            session.close();
+        }
     }
 
     /**
