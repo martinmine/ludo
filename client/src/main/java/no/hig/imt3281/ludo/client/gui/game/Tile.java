@@ -67,14 +67,23 @@ public class Tile {
         return tile.remove(tile.size()-1);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     /**
      * All tiles checks for token and draw if any.
      * @param g2d Graphics2D from painting the board.
      */
+
     public void draw(Graphics2D g2d) {
 
         Rectangle2D.Double r = new Rectangle2D.Double(x, y, d, d);
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.DARK_GRAY);
         g2d.fill(r);
         /*
         if (!tile.isEmpty()) {
@@ -85,6 +94,12 @@ public class Tile {
             }
         }
         */
+    }
+
+    public boolean clicked(int x, int y) {
+        int xx = this.x + d;
+        int yy = this.y + d;
+        return (x >= this.x  &&  y >= this.y  &&  x <= xx  &&  y <= yy);
     }
 
 }

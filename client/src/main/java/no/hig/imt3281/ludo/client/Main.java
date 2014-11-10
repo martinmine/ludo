@@ -24,6 +24,8 @@ public class Main {
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
+
+        /*
         try {
             serverConnection = new ServerConnection("localhost", 9494);
         } catch (IOException e) {
@@ -31,6 +33,7 @@ public class Main {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
+        */
         LOGGER.info("Connected");
 
         // Sample code
@@ -38,6 +41,7 @@ public class Main {
         request.setUsername("ChipM");
         request.setPassword("a");
 
+        /*
         try {
             LOGGER.info("Sending request");
             serverConnection.sendMessage(request);
@@ -47,6 +51,7 @@ public class Main {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
+        */
         // Sample code end
 
         setUserPreferences();
