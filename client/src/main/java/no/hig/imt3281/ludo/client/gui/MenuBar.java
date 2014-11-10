@@ -13,6 +13,20 @@ public class MenuBar extends JMenuBar {
         JMenu fileMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_FILE"));
         fileMenu.setMnemonic("F".charAt(0));
 
+        JMenuItem newItem = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_CHATROOM"));
+        fileMenu.add(newItem);
+        newItem.addActionListener(e -> {
+            String dialogResult = JOptionPane.showInputDialog
+                    (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_INPUT_MSG"));
+
+            while (dialogResult.isEmpty()) {
+                dialogResult = JOptionPane.showInputDialog
+                        (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_NEW_INPUT_MSG"));
+            }
+
+            GuiManager.getChatPanel().joinNewChatroom(dialogResult);
+        });
+
         add(fileMenu);
     }
 }
