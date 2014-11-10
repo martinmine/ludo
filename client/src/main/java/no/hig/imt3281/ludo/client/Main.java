@@ -1,6 +1,6 @@
 package no.hig.imt3281.ludo.client;
 
-import no.hig.imt3281.ludo.client.gui.layer.Client;
+import no.hig.imt3281.ludo.client.gui.Client;
 import no.hig.imt3281.ludo.client.networking.ServerConnection;
 import no.hig.imt3281.ludo.messaging.LoginRequest;
 

@@ -1,11 +1,10 @@
-package no.hig.imt3281.ludo.client.gui.layer.game;
+package no.hig.imt3281.ludo.client.gui.game;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 27.10.2014.

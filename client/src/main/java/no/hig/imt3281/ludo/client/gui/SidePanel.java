@@ -1,5 +1,5 @@
-package no.hig.imt3281.ludo.client.gui.layer;
-import no.hig.imt3281.ludo.client.gui.layer.chat.ChatPanel;
+package no.hig.imt3281.ludo.client.gui;
+import no.hig.imt3281.ludo.client.gui.chat.ChatPanel;
 
 import javax.swing.*;
 import java.awt.*;

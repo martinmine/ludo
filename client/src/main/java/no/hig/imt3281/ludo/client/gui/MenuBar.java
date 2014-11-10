@@ -1,4 +1,4 @@
-package no.hig.imt3281.ludo.client.gui.layer;
+package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
 

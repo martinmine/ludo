@@ -1,6 +1,6 @@
 package no.hig.imt3281.ludo.client.networking;
 
-import no.hig.imt3281.ludo.client.message.handling.MessageHandlingService;
+import no.hig.imt3281.ludo.client.messaging.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;

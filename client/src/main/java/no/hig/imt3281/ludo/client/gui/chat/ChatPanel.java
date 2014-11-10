@@ -1,4 +1,4 @@
-package no.hig.imt3281.ludo.client.gui.layer.chat;
+package no.hig.imt3281.ludo.client.gui.chat;
 
 import javax.swing.*;
 import java.awt.*;

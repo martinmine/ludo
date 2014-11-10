@@ -1,7 +1,7 @@
-package no.hig.imt3281.ludo.client.gui.layer.chat;
+package no.hig.imt3281.ludo.client.gui.chat;
 
 import no.hig.imt3281.ludo.client.Main;
-import no.hig.imt3281.ludo.client.game.ChatMessageBroadcaster;
+import no.hig.imt3281.ludo.client.chat.ChatMessageHandler;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -25,7 +25,7 @@ public class TabbedChatContainer extends JTabbedPane {
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 int index = getSelectedIndex();
-                ChatMessageBroadcaster.getInstance().setCurrentState(index);
+                ChatMessageHandler.getInstance().setCurrentState(index);
             }
         };
         addChangeListener(changeListener);

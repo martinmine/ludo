@@ -1,4 +1,4 @@
-package no.hig.imt3281.ludo.client.gui.layer.feedback;
+package no.hig.imt3281.ludo.client.gui.feedback;
 
 import javax.swing.*;
 import java.awt.*;

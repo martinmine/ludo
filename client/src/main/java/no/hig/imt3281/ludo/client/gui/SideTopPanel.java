@@ -1,7 +1,7 @@
-package no.hig.imt3281.ludo.client.gui.layer;
+package no.hig.imt3281.ludo.client.gui;
 
-import no.hig.imt3281.ludo.client.gui.layer.dice.DicePanel;
-import no.hig.imt3281.ludo.client.gui.layer.feedback.FeedbackPanel;
+import no.hig.imt3281.ludo.client.gui.dice.DicePanel;
+import no.hig.imt3281.ludo.client.gui.feedback.FeedbackPanel;
 
 import javax.swing.*;
 import java.awt.*;
