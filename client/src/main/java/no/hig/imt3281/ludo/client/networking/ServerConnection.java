@@ -4,6 +4,7 @@ import no.hig.imt3281.ludo.client.messaging.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
+import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -55,6 +56,11 @@ public class ServerConnection implements Runnable, CommunicationContext {
             close();
             throw e;
         }
+    }
+
+    @Override
+    public void setStatusListener(ConnectivityNotifier listener) {
+        
     }
 
     /**
