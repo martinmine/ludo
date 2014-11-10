@@ -22,10 +22,10 @@ public class Client extends JFrame {
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
-
-        GamePanel gamePanel = new GamePanel();
-        SidePanel sidePanel = new SidePanel();
-        add(sidePanel, BorderLayout.EAST);
+        GuiManager.initialize();
+        GamePanel gamePanel = GuiManager.getGamePanel();
+        SidePanel sidePanel = GuiManager.getSidePanel();
+        add(sidePanel, BorderLayout.CENTER);
         add(new JScrollPane(gamePanel), BorderLayout.WEST);
         setJMenuBar(menuBar);
 

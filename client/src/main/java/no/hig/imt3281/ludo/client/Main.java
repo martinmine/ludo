@@ -24,8 +24,8 @@ public class Main {
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
-        try {
-            serverConnection = new ServerConnection("localhost", 9494);
+      /*  try {
+           // serverConnection = new ServerConnection("localhost", 9494);
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
@@ -48,7 +48,7 @@ public class Main {
             System.exit(0);
         }
         // Sample code end
-
+*/
         setUserPreferences();
         new Client();
     }

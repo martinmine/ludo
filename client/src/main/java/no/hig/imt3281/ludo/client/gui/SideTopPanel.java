@@ -18,11 +18,10 @@ public class SideTopPanel extends JPanel {
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
-
         this.dicePanel = new DicePanel();
         this.feedbackPanel = new FeedbackPanel();
 
         add(dicePanel, BorderLayout.WEST);
-        add(feedbackPanel, BorderLayout.EAST);
+        add(feedbackPanel, BorderLayout.CENTER);
     }
 }

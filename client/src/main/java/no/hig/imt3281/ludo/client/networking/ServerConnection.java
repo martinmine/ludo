@@ -60,7 +60,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
 
     @Override
     public void setStatusListener(ConnectivityNotifier listener) {
-        
+
     }
 
     /**
