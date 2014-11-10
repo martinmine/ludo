@@ -24,12 +24,8 @@ public class Main {
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
-<<<<<<< HEAD
-      /*  try {
-=======
         /*
         try {
->>>>>>> 53d2fc8b072cd348c18dadfbd3f98c56ff14e642
             serverConnection = new ServerConnection("localhost", 9494);
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");

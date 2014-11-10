@@ -6,6 +6,6 @@ package no.hig.imt3281.ludo.client.chat;
 public class UserGeneratedChatState implements ChatState {
     @Override
     public void broadcastMessage(ChatMessage message) {
-
+        //TODO: Send usergenerated chatmessage object with the name of the chatroom
     }
 }
