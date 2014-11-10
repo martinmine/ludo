@@ -24,13 +24,19 @@ public class Main {
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
+<<<<<<< HEAD
       /*  try {
+=======
+        /*
+        try {
+>>>>>>> 53d2fc8b072cd348c18dadfbd3f98c56ff14e642
             serverConnection = new ServerConnection("localhost", 9494);
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
+        */
         LOGGER.info("Connected");
 
         // Sample code
@@ -38,6 +44,7 @@ public class Main {
         request.setUsername("ChipM");
         request.setPassword("a");
 
+        /*
         try {
             LOGGER.info("Sending request");
             serverConnection.sendMessage(request);
@@ -47,8 +54,8 @@ public class Main {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
+        */
         // Sample code end
-*/
         setUserPreferences();
         new Client();
     }

@@ -19,6 +19,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
     private Thread readerThread;
     private MessageHandlingService messageHandler;
 
+    /*
     public ServerConnection(String hostname, int port) throws IOException {
         this.connection = new Socket(hostname, port);
         this.readerThread = new Thread(this);
@@ -27,6 +28,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
 
         LOGGER.info("Connection ready");
     }
+    */
 
     @Override
     public void run() {
