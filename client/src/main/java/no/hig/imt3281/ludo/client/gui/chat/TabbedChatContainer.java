@@ -22,7 +22,7 @@ public class TabbedChatContainer extends JTabbedPane {
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 int index = getSelectedIndex();
-                Component selectedTabComponent = getComponentAt(index);
+                ChatChannel selectedTabComponent = (ChatChannel) getComponentAt(index);
 
                 ChatMessageHandler.getInstance().setCurrentState(selectedTabComponent.);
             }
