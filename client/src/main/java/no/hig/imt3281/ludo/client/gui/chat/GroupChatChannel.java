@@ -12,7 +12,6 @@ public class GroupChatChannel extends ChatChannel {
         super(channelName,
                 Main.resourceBundle.getString("USERGENERATED_CHAT_CHANNEL_WELCOME_MSG"),
                 "/img/world20.gif", ChatMessageHandler.GROUP_CHAT);
-
-        GuiManager.getChatPanel().joinNewChatroom(channelName);
+        GuiManager.getChatPanel().joinNewChatroom(this);
     }
 }

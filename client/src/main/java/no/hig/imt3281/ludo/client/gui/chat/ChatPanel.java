@@ -18,7 +18,7 @@ public class ChatPanel extends JPanel {
         tabbedChatContainer = new TabbedChatContainer();
         add(tabbedChatContainer, BorderLayout.SOUTH);
     }
-    public void joinNewChatroom(String channelName) {
-        this.tabbedChatContainer.addGroupChatChannel(channelName);
+    public void joinNewChatroom(ChatChannel channel) {
+        this.tabbedChatContainer.addGroupChatChannel(channel);
     }
 }

@@ -35,7 +35,7 @@ public class LoginTab extends JPanel {
         cs.gridy = 1;
         cs.gridwidth = 2;
         add(usernameField, cs);
-    
+
         passwordLabel = new JLabel("Password: ");
         cs.gridx = 0;
         cs.gridy = 2;
