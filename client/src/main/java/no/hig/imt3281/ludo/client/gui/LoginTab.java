@@ -15,7 +15,7 @@ public class LoginTab extends JPanel {
     private JLabel passwordLabel;
     private JButton loginBtn;
 
-    public LoginTab(Frame parent) {
+    public LoginTab(Frame parent, StartDialog dialog) {
         setLayout(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
@@ -55,7 +55,9 @@ public class LoginTab extends JPanel {
                 passwordField.setText("");
             }
             */
-            parent.dispose();
+            dialog.setFeedback("feedback message about login");
+            //StartDialogFeedback.getInstance().setMessage("Feedback about login");
+            //parent.dispose();
         });
 
         cs.gridx = 0;
@@ -63,4 +65,13 @@ public class LoginTab extends JPanel {
         cs.gridwidth = 3;
         add(loginBtn, cs);
     }
+
+    public String getUsername() {
+        return usernameField.getText().trim();
+    }
+
+    public String getPassword() {
+        return new String(passwordField.getPassword());
+    }
+
 }

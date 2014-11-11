@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -12,13 +13,8 @@ import java.awt.*;
  */
 public class StartDialog extends JDialog {
 
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JLabel usernameLabel;
-    private JLabel passwordLabel;
-    private JButton loginBtn;
-    private JButton cancelBtn;
-    //private boolean succeeded;
+    //private StartDialogFeedback feedback = new StartDialogFeedback();
+    private JLabel feedback;
 
     public StartDialog(JFrame parent) {
         super(parent, "Login", true);
@@ -29,27 +25,29 @@ public class StartDialog extends JDialog {
         panel.add(label);
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        LoginTab loginTab = new LoginTab(parent);
-        RegisterTab registerTab = new RegisterTab(parent);
+        LoginTab loginTab = new LoginTab(parent, this);
+        RegisterTab registerTab = new RegisterTab(parent, this);
 
         tabbedPane.addTab("Login", null, loginTab, "Tab 1");
         tabbedPane.addTab("Register", null, registerTab, "Tab 2");
 
+        JPanel side = new JPanel();
+        feedback = new JLabel();
+        side.setLayout(new BorderLayout());
+        side.add(feedback, BorderLayout.NORTH);
+        side.add(tabbedPane, BorderLayout.SOUTH);
+
         getContentPane().add(panel, BorderLayout.WEST);
-        getContentPane().add(tabbedPane, BorderLayout.EAST);
+        getContentPane().add(side, BorderLayout.EAST);
 
         setResizable(false);
-        setSize(650,300);
+        setSize(700,300);
         //setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setLocationRelativeTo(parent);
     }
 
-    public String getUsername() {
-        return usernameField.getText().trim();
-    }
-
-    public String getPassword() {
-        return new String(passwordField.getPassword());
+    public void setFeedback(String message) {
+        feedback.setText(message);
     }
 
 }
