@@ -58,9 +58,11 @@ public class UserManager {
             criteria.add(Restrictions.eq("username", username));
             User user = (User)criteria.uniqueResult();
 
-            User loadedUser;
-            if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
-                return loadedUser;
+            if (user != null) {
+                User loadedUser;
+                if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
+                    return loadedUser;
+                }
             }
 
             return user;
@@ -174,7 +176,18 @@ public class UserManager {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         String text = password + ServerEnvironment.getPasswordSalt();
         byte[] hash = digest.digest(text.getBytes("UTF-8"));
+        return bytesToHex(hash);
+    }
 
-        return new String(hash);
+    // code from http://stackoverflow.com/a/9855338/1924825
+    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }

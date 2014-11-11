@@ -1,14 +1,22 @@
 package no.hig.imt3281.ludo.client.gui;
 
+import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.client.networking.ServerConnection;
+import no.hig.imt3281.ludo.messaging.RegistrationRequest;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Thomas on 11.11.2014.
  *
  */
 public class RegisterTab extends JPanel {
-
+    private static final Logger LOGGER = Logger.getLogger(RegisterTab.class.getSimpleName());
     private JTextField usernameField;
     private JTextField emailField;
     private JPasswordField passwordField;
@@ -74,16 +82,23 @@ public class RegisterTab extends JPanel {
 
         registerBtn = new JButton("Register");
         registerBtn.addActionListener(e -> {
-            System.out.println("Something");
-            dialog.setFeedback("register feedback");
-            //parent.dispose();
+            RegistrationRequest request = new RegistrationRequest();
+            request.setUsername(getUsername());
+            request.setPassword(getPassword());
+            request.setEmail(getEmail());
+
+            try {
+                Main.getServerConnection().sendMessage(request);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+                //TODO: Show error message
+            }
         });
 
         cs.gridx = 0;
         cs.gridy = 8;
         cs.gridwidth = 3;
         add(registerBtn, cs);
-
     }
 
     public String getUsername() {
@@ -95,7 +110,7 @@ public class RegisterTab extends JPanel {
     }
 
     public String getPassword() {
-        if (passwordField.getPassword() == passwordField2.getPassword()) {
+        if (Arrays.equals(passwordField.getPassword(), passwordField2.getPassword())) {
             return new String(passwordField.getPassword());
         }
         return null;

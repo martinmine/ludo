@@ -8,6 +8,7 @@ import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -37,6 +38,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
                 LOGGER.info("Got message: " + message.getClass().getTypeName());
                 messageHandler.invokeMessage(message, this);
             } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, e.getMessage(), e);
                 close();
                 break;
             }
@@ -67,6 +69,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
      * Closes the server connection and notifies the listeners
      */
     public void close() {
+        LOGGER.info("Closing socket");
         try {
             this.connection.close();
         } catch (IOException e) {

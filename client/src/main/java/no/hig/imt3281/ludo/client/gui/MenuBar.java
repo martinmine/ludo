@@ -31,7 +31,7 @@ public class MenuBar extends JMenuBar {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            GuiManager.getChatPanel().joinNewChatroom(dialogResult);
+            //GuiManager.getChatPanel().joinNewChatroom(dialogResult);
         });
 
         add(fileMenu);

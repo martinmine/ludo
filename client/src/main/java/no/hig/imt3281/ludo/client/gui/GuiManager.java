@@ -37,6 +37,7 @@ public class GuiManager {
 
     public static void initialize(JFrame parent) {
         startDialog = new StartDialog(parent);
+        startDialog.display();
         chatPanel = new ChatPanel();
         gamePanel = new GamePanel();
         sideTopPanel = new SideTopPanel();

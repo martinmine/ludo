@@ -10,6 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -34,6 +35,7 @@ public class LoginRequestHandler implements MessageHandler {
             }
         } catch (Exception e) {
             response.setResultCode(LoginResult.SERVER_ERROR);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
 
         try {

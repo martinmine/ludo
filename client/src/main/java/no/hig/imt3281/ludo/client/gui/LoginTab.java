@@ -6,13 +6,15 @@ import no.hig.imt3281.ludo.messaging.LoginRequest;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Thomas on 11.11.2014.
  *
  */
 public class LoginTab extends JPanel {
-
+    private static final Logger LOGGER = Logger.getLogger(LoginTab.class.getSimpleName());
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JLabel usernameLabel;
@@ -56,7 +58,9 @@ public class LoginTab extends JPanel {
 
             try {
                 Main.getServerConnection().sendMessage(request);
+                LOGGER.info("Sent login message");
             } catch (IOException readException) {
+                LOGGER.log(Level.SEVERE, readException.getMessage(), readException);
                 // TODO: show error message
             }
         });

@@ -12,7 +12,7 @@ public class LoginResultHandler implements MessageHandler {
     public void handle(LoginResult message, CommunicationContext context) {
         switch (message.getResultCode()) {
             case LoginResult.OK: {
-                GuiManager.getStartDialog().setFeedback("OK");
+                GuiManager.getStartDialog().dispose();
                 // TODO: Make login window hide and make
                 break;
             }

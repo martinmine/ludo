@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.RegistrationResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
@@ -11,22 +13,22 @@ public class RegistrationResultHandler implements MessageHandler {
     public void handle(RegistrationResult result, CommunicationContext context) {
         switch (result.getResult()) {
             case RegistrationResult.INVALID_MAIL:
-                // TODO: Show dialog box
+                GuiManager.getStartDialog().setFeedback("INVALID_MAIL");
                 break;
             case RegistrationResult.USERNAME_TAKEN:
-                // TODO: Show dialog box
+                GuiManager.getStartDialog().setFeedback("USERNAME_TAKEN");
                 break;
             case RegistrationResult.WEAK_PASSWORD:
-                // TODO: Show dialog box
+                GuiManager.getStartDialog().setFeedback("WEAK_PASSWORD");
                 break;
             case RegistrationResult.INVALID_USERNAME:
-                // TODO: Show dialog box
+                GuiManager.getStartDialog().setFeedback("INVALID_USERNAME");
                 break;
             case RegistrationResult.SERVER_ERROR:
-                // TODO: Show dialog box
+                GuiManager.getStartDialog().setFeedback("SERVER_ERROR");
                 break;
             case RegistrationResult.OK:
-                // TODO: sign in user
+                GuiManager.getStartDialog().dispose();
                 break;
         }
     }
