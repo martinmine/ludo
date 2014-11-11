@@ -1,9 +1,11 @@
 package no.hig.imt3281.ludo.backend;
 
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
+import no.hig.imt3281.ludo.messaging.Message;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -94,6 +96,10 @@ public class UserManager {
      * @param user User that has successfully signed in
      */
     public void setLoggedIn(User user) {
+        if (this.activeUsers.containsKey(user.getId())) {
+            reportLoggedOut(user.getId());
+        }
+
         this.activeUsers.addItem(user.getId(), user);
     }
 
@@ -103,6 +109,7 @@ public class UserManager {
      */
     public void reportLoggedOut(int userId) {
         this.activeUsers.removeItem(userId);
+        // TODO: Notify active games, chats, etc.
     }
 
     /**
@@ -130,5 +137,25 @@ public class UserManager {
         } finally {
             session.close();
         }
+    }
+
+    /**
+     * Broadcasts a message to all signed in users
+     * @param message Message to be sent
+     */
+    public void broadcastMessage(final Message message) {
+        this.activeUsers.requestForeach((Integer userId, User user) -> {
+            if (user.getClientConnection() != null) {
+                try {
+                    user.getClientConnection().sendMessage(message);
+                } catch (IOException e) {
+                    user.getClientConnection().close();
+                }
+            }
+        });
+    }
+
+    public void onCycle() {
+        this.activeUsers.onCycle();
     }
 }
