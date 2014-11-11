@@ -7,7 +7,6 @@ import java.awt.*;
  * Created by Joakim on 03.11.2014.
  */
 public class ChatPanel extends JPanel {
-
     private TabbedChatContainer tabbedChatContainer;
 
     public ChatPanel() {
@@ -20,6 +19,6 @@ public class ChatPanel extends JPanel {
         add(tabbedChatContainer, BorderLayout.SOUTH);
     }
     public void joinNewChatroom(String channelName) {
-        this.tabbedChatContainer.addUserGeneratedChatChannel(channelName);
+        this.tabbedChatContainer.addGroupChatChannel(channelName);
     }
 }

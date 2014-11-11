@@ -1,8 +1,10 @@
 package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.messaging.CreateChatroomRequest;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  * Created by Joakim on 05.11.2014.
@@ -23,7 +25,12 @@ public class MenuBar extends JMenuBar {
                 dialogResult = JOptionPane.showInputDialog
                         (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_NEW_INPUT_MSG"));
             }
-
+            CreateChatroomRequest request = new CreateChatroomRequest(dialogResult);
+            try {
+                Main.getServerConnection().sendMessage(request);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             GuiManager.getChatPanel().joinNewChatroom(dialogResult);
         });
 
