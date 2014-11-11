@@ -1,12 +1,9 @@
 package no.hig.imt3281.ludo.client;
 
 import no.hig.imt3281.ludo.client.gui.Client;
-import no.hig.imt3281.ludo.client.gui.LoginDialog;
 import no.hig.imt3281.ludo.client.networking.ServerConnection;
-import no.hig.imt3281.ludo.messaging.LoginRequest;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

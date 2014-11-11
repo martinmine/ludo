@@ -17,7 +17,7 @@ public class Client extends JFrame {
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
 
-        LoginDialog lg = new LoginDialog(this);
+        StartDialog lg = new StartDialog(this);
         lg.setVisible(true);
         setSize(new Dimension(1024, 768));
 
