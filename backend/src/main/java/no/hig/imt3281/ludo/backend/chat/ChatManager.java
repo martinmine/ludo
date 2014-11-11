@@ -1,7 +1,6 @@
 package no.hig.imt3281.ludo.backend.chat;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
-import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.messaging.Message;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -16,7 +15,7 @@ public class ChatManager {
     private AtomicInteger groupChatIdCounter;
     private HashMap<String, Integer> groupIdMap;
     private QueuedMap<Integer, GroupChat> groupChats;
-    private QueuedMap<Integer, ChatRoom> gameChats;
+    private QueuedMap<Integer, GameChat> gameChats;
 
     public ChatManager() {
         this.groupChatIdCounter = new AtomicInteger();
@@ -44,6 +43,10 @@ public class ChatManager {
         return groupChats.get(chatRoomId);
     }
 
+    public GroupChat getGroupChat(int groupId) {
+        return groupChats.get(groupId);
+    }
+
     public synchronized GroupChat createGroupChat(String caption) {
         Integer id = groupChatIdCounter.incrementAndGet();
         this.groupIdMap.put(caption, id);
@@ -57,6 +60,10 @@ public class ChatManager {
     public GameChat createGameChat() {
         // TODO
         throw new NotImplementedException();
+    }
+
+    public GameChat getGameChat(int gameChatId) {
+        return this.gameChats.get(gameChatId);
     }
 
     public void broadcastGlobalMessage(Message message) {
