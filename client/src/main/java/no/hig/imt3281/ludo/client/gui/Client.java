@@ -11,12 +11,15 @@ import java.awt.*;
  *
  */
 public class Client extends JFrame {
+
     public no.hig.imt3281.ludo.client.gui.MenuBar menuBar;
+    public StartDialog startDialog;
+
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
 
-        StartDialog lg = new StartDialog(this);
-        lg.setVisible(true);
+        startDialog = new StartDialog(this);
+        startDialog.setVisible(true);
         setSize(new Dimension(1024, 768));
 
         menuBar = new no.hig.imt3281.ludo.client.gui.MenuBar();
@@ -33,5 +36,9 @@ public class Client extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
+    }
+
+    public StartDialog getStartDialog() {
+        return this.startDialog;
     }
 }
