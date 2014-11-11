@@ -34,6 +34,7 @@ public class RegistrationRequestHandler implements MessageHandler {
             try {
                 user.setPassword(ServerEnvironment.getUserManager().hashPassword(request.getPassword()));
                 ServerEnvironment.getUserManager().registerUser(user);
+                context.setReferenceToken(user.getId());
                 response.setResult(RegistrationResult.OK);
             } catch (Exception e) {
                 response.setResult(RegistrationResult.SERVER_ERROR);
