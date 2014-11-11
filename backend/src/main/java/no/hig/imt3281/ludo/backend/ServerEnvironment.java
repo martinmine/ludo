@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.backend;
 
+import no.hig.imt3281.ludo.backend.chat.ChatManager;
 import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,7 @@ public class ServerEnvironment {
     private static NetworkManager networkManager;
     private static SessionFactory sessionFactory;
     private static UserManager userManager;
+    private static ChatManager chatManager;
     private static Thread cycleThread;
     private static boolean isAlive = true;
 
@@ -44,6 +46,7 @@ public class ServerEnvironment {
 
         networkManager = new NetworkManager(9494);
         userManager = new UserManager();
+        chatManager = new ChatManager();
 
         cycleThread = new Thread(() -> {
            while (isAlive) {
@@ -68,4 +71,8 @@ public class ServerEnvironment {
     }
 
     public static UserManager getUserManager() { return userManager; }
+
+    public static ChatManager getChatManager() {
+        return chatManager;
+    }
 }
