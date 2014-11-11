@@ -75,14 +75,14 @@ public class UserManager {
      * @param password Hashed password
      * @return User object
      */
-    public User getUser(String username, String password) /*throws UnsupportedEncodingException, NoSuchAlgorithmException*/ {
+    public User getUser(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Session session = ServerEnvironment.getSessionFactory().openSession();
         try {
             Criteria criteria = session.createCriteria(User.class);
-            /*String hashedPassword = hashPassword(password);
-            System.out.println("Password " + hashedPassword);*/
+            String hashedPassword = hashPassword(password);
+            System.out.println("Password " + hashedPassword);
             criteria.add(Restrictions.eq("username", username));
-            criteria.add(Restrictions.eq("password", password));
+            criteria.add(Restrictions.eq("password", hashedPassword));
 
             Object result = criteria.uniqueResult();
             if (result != null) {

@@ -50,16 +50,6 @@ public class ServerEnvironment {
         userManager = new UserManager();
         chatManager = new ChatManager();
 
-        /*
-        User user = new User("ads", "mail");
-        user.setPassword("p");
-        try {
-            userManager.registerUser(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        userManager.getUser("Chimp", "a");*/
-
         cycleThread = new Thread(() -> {
            while (isAlive) {
                userManager.onCycle();
