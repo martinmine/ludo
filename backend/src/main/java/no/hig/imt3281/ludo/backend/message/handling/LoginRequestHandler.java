@@ -8,6 +8,8 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 /**
@@ -21,13 +23,16 @@ public class LoginRequestHandler implements MessageHandler {
 
         LoginResult response = new LoginResult();
 
-        User user = ServerEnvironment.getUserManager().getUser(request.getUsername(), request.getPassword());
-        if (user == null) {
-            response.setResultCode(LoginResult.INVALID_CREDENTIALS);
-        }
-        else {
-            response.setResultCode(LoginResult.OK);
-            ServerEnvironment.getUserManager().setLoggedIn(user);
+        try {
+            User user = ServerEnvironment.getUserManager().getUser(request.getUsername(), request.getPassword());
+            if (user == null) {
+                response.setResultCode(LoginResult.INVALID_CREDENTIALS);
+            } else {
+                response.setResultCode(LoginResult.OK);
+                ServerEnvironment.getUserManager().setLoggedIn(user);
+            }
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException  e) {
+            response.setResultCode(LoginResult.SERVER_ERROR);
         }
 
         try {

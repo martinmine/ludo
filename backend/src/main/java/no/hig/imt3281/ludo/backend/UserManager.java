@@ -6,6 +6,9 @@ import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 /**
@@ -72,12 +75,12 @@ public class UserManager {
      * @param password Hashed password
      * @return User object
      */
-    public User getUser(String username, String password) {
+    public User getUser(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Session session = ServerEnvironment.getSessionFactory().openSession();
         try {
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("username", username));
-            criteria.add(Restrictions.eq("password", password));
+            criteria.add(Restrictions.eq("password", hashPassword(password)));
             User user = (User)criteria.uniqueResult();
 
             User loadedUser;
@@ -157,5 +160,13 @@ public class UserManager {
 
     public void onCycle() {
         this.activeUsers.onCycle();
+    }
+
+    public String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        String text = password + ServerEnvironment.getPasswordSalt();
+        byte[] hash = digest.digest(text.getBytes("UTF-8"));
+
+        return new String(hash);
     }
 }

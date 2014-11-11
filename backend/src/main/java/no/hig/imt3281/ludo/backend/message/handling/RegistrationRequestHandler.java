@@ -30,8 +30,9 @@ public class RegistrationRequestHandler implements MessageHandler {
         }
         else {
             User user = new User(request.getUsername(), request.getEmail());
-            user.setPassword(user.getPassword()); // TODO: Hash this using magic
+
             try {
+                user.setPassword(ServerEnvironment.getUserManager().hashPassword(request.getPassword()));
                 ServerEnvironment.getUserManager().registerUser(user);
                 response.setResult(RegistrationResult.OK);
             } catch (Exception e) {
