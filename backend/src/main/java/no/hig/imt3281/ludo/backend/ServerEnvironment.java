@@ -79,4 +79,8 @@ public class ServerEnvironment {
     public static int getCurrentTimeStamp() {
         return (int) (System.currentTimeMillis() / 1000L);
     }
+
+    public static String getPasswordSalt() {
+        return "<insert long random string here that should have been in a resource file>";
+    }
 }
