@@ -3,10 +3,10 @@ package no.hig.imt3281.ludo.messaging;
 /**
  * Created by Joakim on 11.11.2014.
  */
-public class CreateChatroomRequest extends Message {
+public class CreateChatRoomRequest extends Message {
     private String chatroomName;
 
-    public CreateChatroomRequest(String chatroomName) {
+    public CreateChatRoomRequest(String chatroomName) {
         this.chatroomName = chatroomName;
     }
 

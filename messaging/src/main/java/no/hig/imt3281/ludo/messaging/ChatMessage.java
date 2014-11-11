@@ -6,6 +6,8 @@ public abstract class ChatMessage extends Message {
     private String username;
     private String message;
     private int timestamp;
+    public static final String USER_JOIN = "USER_JOIN";
+    public static final String USER_LEAVE = "USER_LEAVE";
 
     public ChatMessage(String message) {
         this.message = message;

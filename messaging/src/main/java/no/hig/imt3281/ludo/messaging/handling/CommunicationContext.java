@@ -11,4 +11,6 @@ public interface CommunicationContext {
     void sendMessage(Message msg) throws IOException;
     void setStatusListener(ConnectivityNotifier listener);
     void close();
+    int getReferenceToken();
+    void setReferenceToken(int object);
 }

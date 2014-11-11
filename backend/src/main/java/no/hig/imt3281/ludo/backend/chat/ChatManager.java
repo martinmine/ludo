@@ -1,6 +1,10 @@
 package no.hig.imt3281.ludo.backend.chat;
 
+import no.hig.imt3281.ludo.backend.ServerEnvironment;
+import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
+import no.hig.imt3281.ludo.messaging.Message;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ChatManager {
     private AtomicInteger groupChatIdCounter;
     private HashMap<String, Integer> groupIdMap;
-    private QueuedMap<Integer, ChatRoom> groupChats;
+    private QueuedMap<Integer, GroupChat> groupChats;
     private QueuedMap<Integer, ChatRoom> gameChats;
 
     public ChatManager() {
@@ -31,7 +35,7 @@ public class ChatManager {
         return groupIdMap.containsKey(caption);
     }
 
-    public ChatRoom getGroupChat(String caption) {
+    public GroupChat getGroupChat(String caption) {
         Integer chatRoomId = this.groupIdMap.get(caption);
         if (chatRoomId == null) {
             return null;
@@ -40,13 +44,26 @@ public class ChatManager {
         return groupChats.get(chatRoomId);
     }
 
-    public synchronized ChatRoom createGroupChat(String caption) {
+    public synchronized GroupChat createGroupChat(String caption) {
         Integer id = groupChatIdCounter.incrementAndGet();
         this.groupIdMap.put(caption, id);
 
-        ChatRoom room = new GroupChat(id, caption);
+        GroupChat room = new GroupChat(id, caption);
 
         this.groupChats.addItem(id, room);
         return room;
+    }
+
+    public GameChat createGameChat() {
+        // TODO
+        throw new NotImplementedException();
+    }
+
+    public void broadcastGlobalMessage(Message message) {
+        ServerEnvironment.getUserManager().broadcastMessage(message);
+    }
+
+    public void removeFromChatRooms(final int userId) {
+        this.groupChats.requestForeach((groupChatId, groupChat) -> groupChat.leave(userId));
     }
 }

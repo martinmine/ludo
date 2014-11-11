@@ -75,4 +75,8 @@ public class ServerEnvironment {
     public static ChatManager getChatManager() {
         return chatManager;
     }
+
+    public static int getCurrentTimeStamp() {
+        return (int) (System.currentTimeMillis() / 1000L);
+    }
 }

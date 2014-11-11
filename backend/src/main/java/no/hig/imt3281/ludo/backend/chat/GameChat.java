@@ -1,19 +1,29 @@
 package no.hig.imt3281.ludo.backend.chat;
 
+import com.mysql.fabric.Server;
+import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
+import no.hig.imt3281.ludo.messaging.GameChatMessage;
 
 /**
- * Created by Martin on 11.11.2014.
+ * A chat for either an ongoing game or a new game with pending requests
  */
 public class GameChat extends ChatRoom {
-    /**
-     * Creates a game chat for a game
-     */
-    public GameChat() {
+    @Override
+    public void userSays(User user, String chatMessage) {
+        GameChatMessage message = new GameChatMessage(chatMessage);
+        message.setUsername(user.getUsername());
+        message.setUserId(user.getId());
+        message.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
+
+        super.broadcastMessage(message);
     }
 
     @Override
-    void userSays(User user, String message) {
+    public void broadcastSystemMessage(String systemMessage) {
+        GameChatMessage message = new GameChatMessage(systemMessage);
+        message.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
 
+        super.broadcastMessage(message);
     }
 }

@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.ReferenceCountUtil;
+import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.message.handling.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
@@ -24,6 +25,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
     private static final MessageHandlingService messageHandler = new MessageHandlingService();
     private SocketChannel socketChannel;
     private ConnectivityNotifier statusListener;
+    private int referenceToken;
 
     public ClientConnection(SocketChannel ch) {
         this.socketChannel = ch;
@@ -89,5 +91,15 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
         if (this.statusListener != null) {
             this.statusListener.connectionClosed();
         }
+    }
+
+    @Override
+    public int getReference() {
+        return referenceToken;
+    }
+
+    @Override
+    public void setReference(int token) {
+        this.referenceToken = token;
     }
 }
