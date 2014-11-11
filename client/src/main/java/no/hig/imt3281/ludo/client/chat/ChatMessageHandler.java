@@ -35,7 +35,6 @@ public class ChatMessageHandler {
                 break;
         }
     }
-
     public void broadcastMessage(Message message) {
         this.currentState.broadcastMessage(message);
     }
