@@ -1,8 +1,8 @@
 package no.hig.imt3281.ludo.client.chat;
 
-import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.chat.ChatChannel;
 import no.hig.imt3281.ludo.client.gui.chat.GlobalChatChannel;
+import no.hig.imt3281.ludo.client.gui.chat.GroupChatChannel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +30,11 @@ public class ChatRooms {
         return chatRooms.get(id);
     }
 
-    public void joinGroupChannel() {
-
+    public void joinGroupChannel(int id, String name) {
+        chatRooms.put(id, new GroupChatChannel(name));
     }
 
-    public void joinGameChannel() {
+    public void joinGameChannel(int gameId) {
         // Game channel is always -2
     }
 

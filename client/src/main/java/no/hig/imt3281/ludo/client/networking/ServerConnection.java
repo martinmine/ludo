@@ -77,4 +77,14 @@ public class ServerConnection implements Runnable, CommunicationContext {
 
         // TODO: Notify listeners
     }
+
+    @Override
+    public int getReferenceToken() {
+        return 0;
+    }
+
+    @Override
+    public void setReferenceToken(int object) {
+
+    }
 }
