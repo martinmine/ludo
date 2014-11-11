@@ -1,9 +1,11 @@
 package no.hig.imt3281.ludo.client.gui;
 
+import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.LoginRequest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Created by Thomas on 11.11.2014.
@@ -48,21 +50,15 @@ public class LoginTab extends JPanel {
 
         loginBtn = new JButton("Login");
         loginBtn.addActionListener(e -> {
-            System.out.println("server call to authenticate user...");
-            /* something like:
-            if ( serverSomething(getUsername(), getPassword() ) ) {
-                parent.dispose();
-            } else {
-                usernameField.setText("");
-                passwordField.setText("");
-            }
-            */
-            dialog.setFeedback("feedback message about login");
-            //StartDialogFeedback.getInstance().setMessage("Feedback about login");
-            //parent.dispose();
+            LoginRequest request = new LoginRequest();
+            request.setUsername(getUsername());
+            request.setPassword(getPassword());
 
-            //LoginRequest request = new LoginRequest();
-            //request.setUsername();
+            try {
+                Main.getServerConnection().sendMessage(request);
+            } catch (IOException readException) {
+                // TODO: show error message
+            }
         });
 
         cs.gridx = 0;
