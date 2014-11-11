@@ -18,15 +18,13 @@ public class Client extends JFrame {
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
 
-        startDialog = new StartDialog(this);
-        startDialog.setVisible(true);
-        setSize(new Dimension(1024, 768));
+        GuiManager.initialize(this);
 
         menuBar = new no.hig.imt3281.ludo.client.gui.MenuBar();
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
-        GuiManager.initialize();
+
         GamePanel gamePanel = GuiManager.getGamePanel();
         SidePanel sidePanel = GuiManager.getSidePanel();
         add(sidePanel, BorderLayout.CENTER);

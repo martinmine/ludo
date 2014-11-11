@@ -35,7 +35,7 @@ public class LoginTab extends JPanel {
         cs.gridy = 1;
         cs.gridwidth = 2;
         add(usernameField, cs);
-
+    
         passwordLabel = new JLabel("Password: ");
         cs.gridx = 0;
         cs.gridy = 2;
@@ -53,12 +53,12 @@ public class LoginTab extends JPanel {
             LoginRequest request = new LoginRequest();
             request.setUsername(getUsername());
             request.setPassword(getPassword());
-
+/*
             try {
                 Main.getServerConnection().sendMessage(request);
             } catch (IOException readException) {
                 // TODO: show error message
-            }
+            }*/
         });
 
         cs.gridx = 0;

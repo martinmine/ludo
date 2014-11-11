@@ -44,6 +44,7 @@ public class StartDialog extends JDialog {
         setSize(700,300);
         //setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setLocationRelativeTo(parent);
+        setVisible(true);
     }
 
     public void setFeedback(String message) {
