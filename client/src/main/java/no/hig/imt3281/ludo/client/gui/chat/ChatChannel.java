@@ -8,12 +8,13 @@ import java.awt.*;
  */
 public abstract class ChatChannel extends JPanel{
     private String channelName;
+    private int type;
     private ImageIcon icon;
     private JScrollPane chatScrollPane;
     private JTextArea chatMessageContainer;
     private JTextField messageInputField;
 
-    public ChatChannel(String channelName, String welcomeMsg, String iconURL) {
+    public ChatChannel(String channelName, String welcomeMsg, String iconURL, int type) {
         this.channelName = channelName;
         this.icon = createImageIcon(iconURL);
         BorderLayout layout = new BorderLayout();
@@ -60,5 +61,9 @@ public abstract class ChatChannel extends JPanel{
 
     public String getChannelName() {
         return this.channelName;
+    }
+
+    public int getType() {
+        return this.type;
     }
 }
