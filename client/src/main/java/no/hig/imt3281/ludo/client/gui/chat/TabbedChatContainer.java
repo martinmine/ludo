@@ -34,8 +34,7 @@ public class TabbedChatContainer extends JTabbedPane {
         return super.getTabComponentAt(index);
     }
 
-    public void addGroupChatChannel(String channelName){
-        //addTab(channelName, new GroupChatChannel());
-        //TODO: Send melding til server om å opprette rom
+    public void addGroupChatChannel(ChatChannel channel){
+        addTab(channel.getChannelName(), channel.getIcon(), channel);
     }
 }
