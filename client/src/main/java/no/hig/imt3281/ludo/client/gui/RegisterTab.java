@@ -18,9 +18,8 @@ public class RegisterTab extends JPanel {
     private JLabel passwordLabel;
     private JLabel passwordLabel2;
     private JButton registerBtn;
-    //private JButton cancelBtn;
 
-    public RegisterTab(Frame parent) {
+    public RegisterTab(Frame parent, StartDialog dialog) {
         setLayout(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
@@ -76,7 +75,8 @@ public class RegisterTab extends JPanel {
         registerBtn = new JButton("Register");
         registerBtn.addActionListener(e -> {
             System.out.println("Something");
-            parent.dispose();
+            dialog.setFeedback("register feedback");
+            //parent.dispose();
         });
 
         cs.gridx = 0;
@@ -84,6 +84,21 @@ public class RegisterTab extends JPanel {
         cs.gridwidth = 3;
         add(registerBtn, cs);
 
+    }
+
+    public String getUsername() {
+        return usernameField.getText().trim();
+    }
+
+    public String getEmail() {
+        return emailField.getText().trim();
+    }
+
+    public String getPassword() {
+        if (passwordField.getPassword() == passwordField2.getPassword()) {
+            return new String(passwordField.getPassword());
+        }
+        return null;
     }
 
 }
