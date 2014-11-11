@@ -54,7 +54,15 @@ public class LoginDialog extends JDialog {
 
         loginBtn = new JButton("Login");
         loginBtn.addActionListener(e -> {
-            System.out.println("login logic here?");
+            System.out.println("server call to authenticate user...");
+            /* something like:
+            if ( serverSomething(getUsername(), getPassword() ) ) {
+                parent.dispose();
+            } else {
+                usernameField.setText("");
+                passwordField.setText("");
+            }
+            */
             parent.dispose();
         });
 
@@ -74,6 +82,14 @@ public class LoginDialog extends JDialog {
         pack();
         setResizable(false);
         setLocationRelativeTo(parent);
+    }
+
+    public String getUsername() {
+        return usernameField.getText().trim();
+    }
+
+    public String getPassword() {
+        return new String(passwordField.getPassword());
     }
 
 }
