@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.gui;
 
+import no.hig.imt3281.ludo.messaging.LoginRequest;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -58,6 +60,9 @@ public class LoginTab extends JPanel {
             dialog.setFeedback("feedback message about login");
             //StartDialogFeedback.getInstance().setMessage("Feedback about login");
             //parent.dispose();
+
+            //LoginRequest request = new LoginRequest();
+            //request.setUsername();
         });
 
         cs.gridx = 0;
