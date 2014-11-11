@@ -11,9 +11,7 @@ import java.awt.*;
  *
  */
 public class Client extends JFrame {
-
     public no.hig.imt3281.ludo.client.gui.MenuBar menuBar;
-
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
 

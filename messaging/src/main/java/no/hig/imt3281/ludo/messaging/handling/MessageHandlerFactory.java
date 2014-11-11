@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-/**
- *
- */
+
 public class MessageHandlerFactory {
     private static final Logger LOGGER = Logger.getLogger(MessageHandlerFactory.class.getSimpleName());
     private Map<Class<?>, MessageHandler> handlerMap;

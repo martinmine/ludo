@@ -12,9 +12,7 @@ import java.awt.*;
  * Created by Joakim on 03.11.2014.
  */
 public class TabbedChatContainer extends JTabbedPane {
-
     public TabbedChatContainer() {
-
         setPreferredSize(new Dimension(384, 430));
 
         ImageIcon gameChatIcon = createImageIcon("/img/ludo20.gif");
@@ -31,9 +29,9 @@ public class TabbedChatContainer extends JTabbedPane {
         addChangeListener(changeListener);
     }
 
-    public void addUserGeneratedChatChannel(String channelName){
+    public void addGroupChatChannel(String channelName){
 
-        addTab(channelName, new UserGeneratedChatChannel());
+        addTab(channelName, new GroupChatChannel());
         //TODO: Send melding til server om opprettet rom
     }
 

@@ -10,4 +10,5 @@ import java.io.IOException;
 public interface CommunicationContext {
     void sendMessage(Message msg) throws IOException;
     void setStatusListener(ConnectivityNotifier listener);
+    void close();
 }
