@@ -32,7 +32,7 @@ public class LoginRequestHandler implements MessageHandler {
                 response.setResultCode(LoginResult.OK);
                 ServerEnvironment.getUserManager().setLoggedIn(user);
             }
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException  e) {
+        } catch (Exception e) {
             response.setResultCode(LoginResult.SERVER_ERROR);
         }
 

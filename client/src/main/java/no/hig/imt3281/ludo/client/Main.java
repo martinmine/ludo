@@ -3,8 +3,10 @@ package no.hig.imt3281.ludo.client;
 import no.hig.imt3281.ludo.client.gui.Client;
 import no.hig.imt3281.ludo.client.gui.StartDialog;
 import no.hig.imt3281.ludo.client.networking.ServerConnection;
+import no.hig.imt3281.ludo.messaging.LoginRequest;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,7 +26,7 @@ public class Main {
     public static void main(String[] args) {
         LOGGER.info("Connecting");
 
-        /*
+
         try {
             serverConnection = new ServerConnection("localhost", 9494); // "localhost", 9494
         } catch (IOException e) {
@@ -33,7 +35,7 @@ public class Main {
             System.exit(0);
         }
         LOGGER.info("Connected");
-
+/*
         // Sample code
         LoginRequest request = new LoginRequest();
         request.setUsername("ChipM");
@@ -48,7 +50,7 @@ public class Main {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             System.exit(0);
         }
-        */
+*/
 
         // Sample code end
         setUserPreferences();

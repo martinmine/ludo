@@ -94,12 +94,12 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
     }
 
     @Override
-    public int getReference() {
+    public int getReferenceToken() {
         return referenceToken;
     }
 
     @Override
-    public void setReference(int token) {
+    public void setReferenceToken(int token) {
         this.referenceToken = token;
     }
 }

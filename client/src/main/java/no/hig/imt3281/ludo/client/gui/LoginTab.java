@@ -53,12 +53,12 @@ public class LoginTab extends JPanel {
             LoginRequest request = new LoginRequest();
             request.setUsername(getUsername());
             request.setPassword(getPassword());
-/*
+
             try {
                 Main.getServerConnection().sendMessage(request);
             } catch (IOException readException) {
                 // TODO: show error message
-            }*/
+            }
         });
 
         cs.gridx = 0;

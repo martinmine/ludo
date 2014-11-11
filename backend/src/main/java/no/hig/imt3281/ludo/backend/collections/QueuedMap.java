@@ -49,8 +49,8 @@ public class QueuedMap<K, V> {
     }
 
     public void onCycle() {
-        K removedKey;
-        while ((removedKey = removeQueue.remove()) != null) {
+        while (removeQueue.size() > 0) {
+            K removedKey = removeQueue.remove();
             V removedValue = map.remove(removedKey);
 
             if (removedObjectEvent != null && removedValue != null) {
@@ -58,8 +58,8 @@ public class QueuedMap<K, V> {
             }
         }
 
-        KeyValuePair<K, V> addPair;
-        while ((addPair = addQueue.remove()) != null) {
+        while (addQueue.size() > 0) {
+            KeyValuePair<K, V> addPair = addQueue.remove();
             map.put(addPair.getKey(), addPair.getValue());
 
             if (addedObjectEvent != null) {
@@ -67,8 +67,8 @@ public class QueuedMap<K, V> {
             }
         }
 
-        QueuedAction<K, V> action;
-        while ((action = actionQueue.remove()) != null) {
+        while (actionQueue.size() > 0) {
+            QueuedAction<K, V> action = actionQueue.remove();
             for (Map.Entry<K, V> entry : map.entrySet()) {
                 action.performAction(entry.getKey(), entry.getValue());
             }

@@ -8,6 +8,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +49,16 @@ public class ServerEnvironment {
         networkManager = new NetworkManager(9494);
         userManager = new UserManager();
         chatManager = new ChatManager();
+
+        /*
+        User user = new User("ads", "mail");
+        user.setPassword("p");
+        try {
+            userManager.registerUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        userManager.getUser("Chimp", "a");*/
 
         cycleThread = new Thread(() -> {
            while (isAlive) {
