@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.client.gui.chat;
 
-import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.chat.ChatMessageHandler;
+import no.hig.imt3281.ludo.client.chat.ChatRooms;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -15,35 +15,29 @@ public class TabbedChatContainer extends JTabbedPane {
     public TabbedChatContainer() {
         setPreferredSize(new Dimension(384, 430));
 
-        ImageIcon gameChatIcon = createImageIcon("/img/ludo20.gif");
-        ImageIcon globalChatIcon = createImageIcon("/img/world20.gif");
-        addTab(Main.resourceBundle.getString("GAME_CHAT_CHANNEL"), gameChatIcon, new GameChatChannel());
-        addTab(Main.resourceBundle.getString("GLOBAL_CHAT_CHANNEL"),globalChatIcon, new GlobalChatChannel());
+        //addTab(Main.resourceBundle.getString("GAME_CHAT_CHANNEL"), gameChatIcon, new GameChatChannel());
 
+        ChatChannel globalChat = ChatRooms.getInstance().getChannel(-1);
+        addTab(globalChat.getChannelName(), globalChat.getIcon(), globalChat);
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 int index = getSelectedIndex();
-                ChatMessageHandler.getInstance().setCurrentState(index);
+                Component selectedTabComponent = getComponentAt(index);
+
+                ChatMessageHandler.getInstance().setCurrentState(selectedTabComponent.);
             }
         };
         addChangeListener(changeListener);
     }
 
-    public void addGroupChatChannel(String channelName){
-
-        addTab(channelName, new GroupChatChannel());
-        //TODO: Send melding til server om opprettet rom
+    @Override
+    public Component getTabComponentAt(int index) {
+        return super.getTabComponentAt(index);
     }
 
+    public void addGroupChatChannel(String channelName){
 
-    /** Returns an ImageIcon, or null if the path was invalid. */
-    public  ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = TabbedChatContainer.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+        //addTab(channelName, new GroupChatChannel());
+        //TODO: Send melding til server om opprettet rom
     }
 }

@@ -4,9 +4,9 @@ package no.hig.imt3281.ludo.client.chat;
  * Created by Joakim on 03.11.2014.
  */
 public class ChatMessageHandler {
-    public static final int GAME_CHAT = 0;
-    public static final int GLOBAL_CHAT = 1;
-    public static final int GROUP_CHAT = 2;
+    public static final int GAME_CHAT = -2;
+    public static final int GLOBAL_CHAT = -1;
+    public static final int GROUP_CHAT = 0;
 
     private ChatState currentState;
     private ChatMessageHandler() {
