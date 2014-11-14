@@ -11,9 +11,12 @@ import java.io.IOException;
  */
 public class GameChatState implements ChatState {
     @Override
-    public void broadcastMessage(Message message) {
+    public void broadcastMessage(int channelId, String message) {
         try {
-            Main.getServerConnection().sendMessage(message);
+            GameChatMessage gameChatMessage = new GameChatMessage();
+            gameChatMessage.setMessage(message);
+            gameChatMessage.setGameId(channelId);
+            Main.getServerConnection().sendMessage(gameChatMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }

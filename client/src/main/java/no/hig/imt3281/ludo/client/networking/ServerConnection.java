@@ -5,8 +5,11 @@ import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
+import no.hig.imt3281.ludo.messaging.handling.InvalidMessageHandlerException;
+import no.hig.imt3281.ludo.messaging.handling.MissingMessageHandlerException;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,8 +40,13 @@ public class ServerConnection implements Runnable, CommunicationContext {
                 Message message = MessageFactory.deserialize(connection.getInputStream());
                 LOGGER.info("Got message: " + message.getClass().getTypeName());
                 messageHandler.invokeMessage(message, this);
-            } catch (Exception e) {
+            } catch (IOException | InvalidMessageHandlerException | MissingMessageHandlerException e) {
                 LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                close();
+                break;
+            } catch (InvocationTargetException e) {
+                Throwable innerException = e.getCause();
+                LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
                 close();
                 break;
             }
@@ -51,6 +59,8 @@ public class ServerConnection implements Runnable, CommunicationContext {
      * @throws IOException Exception is thrown during network connection.
      */
     public void sendMessage(Message message) throws IOException {
+        LOGGER.info("Sending message " + message.getClass().getTypeName());
+
         try {
             MessageFactory.serialize(message, connection.getOutputStream());
             connection.getOutputStream().flush();

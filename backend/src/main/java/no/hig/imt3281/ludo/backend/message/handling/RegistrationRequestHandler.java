@@ -8,45 +8,45 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Martin on 11.11.2014.
  */
 public class RegistrationRequestHandler implements MessageHandler {
+    private static final Logger LOGGER = Logger.getLogger(MessageHandler.class.getSimpleName());
+
     public void handle(RegistrationRequest request, CommunicationContext context) {
         RegistrationResult response = new RegistrationResult();
 
         if (request.getUsername() == null || request.getUsername().length() == 0) {
             response.setResult(RegistrationResult.INVALID_USERNAME);
-        }
-        else if (ServerEnvironment.getUserManager().getUser(request.getUsername()) != null) {
+        } else if (ServerEnvironment.getUserManager().getUser(request.getUsername()) != null) {
             response.setResult(RegistrationResult.USERNAME_TAKEN);
-        }
-        else if (request.getEmail() == null || !request.getEmail().contains("@") || request.getEmail().length() < 5) {
+        } else if (request.getEmail() == null || !request.getEmail().contains("@") || request.getEmail().length() < 5) {
             response.setResult(RegistrationResult.INVALID_MAIL);
-        }
-        else if (request.getPassword() == null || request.getPassword().length() < 5) {
-            System.out.println("Password " + request.getPassword() + " too weak");
+        } else if (request.getPassword() == null || request.getPassword().length() < 5) {
             response.setResult(RegistrationResult.WEAK_PASSWORD);
-        }
-        else {
+        } else {
             User user = new User(request.getUsername(), request.getEmail());
 
             try {
                 String password = ServerEnvironment.getUserManager().hashPassword(request.getPassword());
-                System.out.println("Hash is " + password);
                 user.setPassword(password);
                 ServerEnvironment.getUserManager().registerUser(user);
                 context.setReferenceToken(user.getId());
                 response.setResult(RegistrationResult.OK);
             } catch (Exception e) {
                 response.setResult(RegistrationResult.SERVER_ERROR);
+                LOGGER.log(Level.INFO, e.getMessage(), e);
             }
         }
 
         try {
             context.sendMessage(response);
         } catch (IOException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.close();
         }
     }

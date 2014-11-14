@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.gui.chat;
 
+import no.hig.imt3281.ludo.client.chat.ChatRooms;
+
 import javax.swing.*;
 import java.awt.*;
 

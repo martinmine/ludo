@@ -1,7 +1,5 @@
 package no.hig.imt3281.ludo.client.chat;
 
-import no.hig.imt3281.ludo.messaging.Message;
-
 /**
  * Created by Joakim on 03.11.2014.
  */
@@ -12,7 +10,7 @@ public class ChatMessageHandler {
 
     private ChatState currentState;
     private ChatMessageHandler() {
-        currentState = new GameChatState();
+        currentState = new GlobalChatState();
     }
 
     private static class SingletonHolder {
@@ -35,7 +33,7 @@ public class ChatMessageHandler {
                 break;
         }
     }
-    public void broadcastMessage(Message message) {
-        this.currentState.broadcastMessage(message);
+    public void broadcastMessage(int channelId, String message) {
+        this.currentState.broadcastMessage(channelId, message);
     }
 }

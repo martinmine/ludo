@@ -1,6 +1,5 @@
 package no.hig.imt3281.ludo.messaging;
 
-// TODO: Make this private or something so outsiders can't implement this
 public abstract class ChatMessage extends Message {
     private int userId;
     private String username;
@@ -8,10 +7,6 @@ public abstract class ChatMessage extends Message {
     private int timestamp;
     public static final String USER_JOIN = "USER_JOIN";
     public static final String USER_LEAVE = "USER_LEAVE";
-
-    public ChatMessage(String message) {
-        this.message = message;
-    }
 
     public int getUserId() {
         return userId;

@@ -25,13 +25,15 @@ public class MenuBar extends JMenuBar {
                 dialogResult = JOptionPane.showInputDialog
                         (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_NEW_INPUT_MSG"));
             }
-            CreateChatRoomRequest request = new CreateChatRoomRequest(dialogResult);
+
+            CreateChatRoomRequest request = new CreateChatRoomRequest();
+            request.setChatroomName(dialogResult);
+
             try {
                 Main.getServerConnection().sendMessage(request);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            //GuiManager.getChatPanel().joinNewChatroom(dialogResult);
         });
 
         add(fileMenu);

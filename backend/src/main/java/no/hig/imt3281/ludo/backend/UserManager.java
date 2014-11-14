@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Keep track of logged in users,
@@ -18,6 +20,7 @@ import java.util.HashMap;
  * notified when a user disconnects
  */
 public class UserManager {
+    private static final Logger LOGGER = Logger.getLogger(UserManager.class.getSimpleName());
     private QueuedMap<Integer, User> activeUsers;
 
     /**
@@ -34,8 +37,9 @@ public class UserManager {
      */
     public User getUser(int userID) {
         User user = activeUsers.get(userID);
-        if (user != null)
+        if (user != null) {
             return user;
+        }
 
         Session session = ServerEnvironment.getSessionFactory().openSession();
 
@@ -82,7 +86,6 @@ public class UserManager {
         try {
             Criteria criteria = session.createCriteria(User.class);
             String hashedPassword = hashPassword(password);
-            System.out.println("Password " + hashedPassword);
             criteria.add(Restrictions.eq("username", username));
             criteria.add(Restrictions.eq("password", hashedPassword));
 
@@ -92,8 +95,7 @@ public class UserManager {
                 User loadedUser;
                 if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
                     return loadedUser;
-                }
-                else {
+                } else {
                     return user;
                 }
             }
@@ -121,7 +123,9 @@ public class UserManager {
      * @param userId ID of the user that is signing out
      */
     public void reportLoggedOut(int userId) {
+        LOGGER.info("User " + userId + " logging out");
         this.activeUsers.removeItem(userId);
+        ServerEnvironment.getChatManager().removeFromChatRooms(userId);
         // TODO: Notify active games, chats, etc.
     }
 
@@ -134,7 +138,7 @@ public class UserManager {
         return this.activeUsers.containsKey(user.getId());
     }
 
-    public void registerUser(User user) throws Exception {
+    public void registerUser(User user) throws HibernateException {
         Session session = ServerEnvironment.getSessionFactory().openSession();
         Transaction tx = null;
 
@@ -144,8 +148,9 @@ public class UserManager {
             user.setId(userID);
             tx.commit();
         } catch (HibernateException e) {
-            if (tx != null)
+            if (tx != null) {
                 tx.rollback();
+            }
             throw e;
         } finally {
             session.close();
@@ -159,11 +164,16 @@ public class UserManager {
     public void broadcastMessage(final Message message) {
         this.activeUsers.requestForeach((Integer userId, User user) -> {
             if (user.getClientConnection() != null) {
+                LOGGER.info("Attempting to send a message");
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
+                    LOGGER.log(Level.INFO, e.getMessage(), e);
                     user.getClientConnection().close();
                 }
+            }
+            else {
+                LOGGER.info("Connection is null");
             }
         });
     }
@@ -180,13 +190,13 @@ public class UserManager {
     }
 
     // code from http://stackoverflow.com/a/9855338/1924825
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private final static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
     }

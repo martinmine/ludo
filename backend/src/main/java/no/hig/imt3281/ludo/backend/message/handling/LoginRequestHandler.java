@@ -30,7 +30,9 @@ public class LoginRequestHandler implements MessageHandler {
                 response.setResultCode(LoginResult.INVALID_CREDENTIALS);
             } else {
                 context.setReferenceToken(user.getId());
+                context.setStatusListener(user);
                 response.setResultCode(LoginResult.OK);
+                user.setClientConnection(context);
                 ServerEnvironment.getUserManager().setLoggedIn(user);
             }
         } catch (Exception e) {
@@ -41,6 +43,7 @@ public class LoginRequestHandler implements MessageHandler {
         try {
             context.sendMessage(response);
         } catch (IOException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.close();
         }
     }
