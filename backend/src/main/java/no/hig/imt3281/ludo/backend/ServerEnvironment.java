@@ -5,9 +5,11 @@ import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +31,9 @@ public class ServerEnvironment {
      * Initializes the server environment
      */
     public static void initialize() {
+
+        Map<String, String> environmentVariables = System.getenv();
+
         try {
             // This call makes sure we have the jdbc MySQL driver loaded
             Class.forName("com.mysql.jdbc.Driver");
@@ -40,6 +45,19 @@ public class ServerEnvironment {
         // Setup Hibernate
         Configuration configuration = new Configuration();
         configuration.configure();
+        String configString = configuration.getProperty("hibernate.connection.url");
+
+        configuration.getProperty("hibernate.connection.url");
+
+        configString = configString.replace("${env.LUDO_DB_HOST}", environmentVariables.get("LUDO_DB_HOST"));
+        configString = configString.replace("${env.LUDO_DB_PORT}", environmentVariables.get("LUDO_DB_PORT"));
+        configString = configString.replace("${env.LUDO_DB_NAME}", environmentVariables.get("LUDO_DB_NAME"));
+
+        configuration.setProperty("hibernate.connection.url", configString);
+
+        configuration.setProperty("hibernate.connection.username", environmentVariables.get("LUDO_DB_USERNAME"));
+        configuration.setProperty("hibernate.connection.password", environmentVariables.get("LUDO_DB_PASSWORD"));
+
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
                 configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
