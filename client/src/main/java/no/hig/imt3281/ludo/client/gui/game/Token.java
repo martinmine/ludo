@@ -9,15 +9,20 @@ import java.awt.geom.Ellipse2D;
  */
 public class Token {
 
+    private static final int SQR_SIZE = 30; // width and height;
+
     private Ellipse2D.Double token;
     private Faction faction;
+    private int position;
 
-    Token(Faction faction, int x, int y, int d) {
-        this.token = new Ellipse2D.Double(x, y, d, d);
+    Token(Faction faction, int position) {
+        this.token = new Ellipse2D.Double(0, 0, SQR_SIZE, SQR_SIZE);
         this.faction = faction;
+        this.position = position;
     }
 
-    public void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d, int x, int y) {
+        this.token.setFrame(x + 2, y + 2, SQR_SIZE, SQR_SIZE);
         g2d.setColor(faction.getColor());
         g2d.fill(token);
     }
@@ -26,4 +31,15 @@ public class Token {
         return t.faction == faction;
     }
 
+    public Faction getFaction() {
+        return faction;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getPosition() {
+        return this.position;
+    }
 }

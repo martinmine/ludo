@@ -3,6 +3,9 @@ package no.hig.imt3281.ludo.backend.chat;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.messaging.Message;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -115,5 +118,24 @@ public class ChatManager {
      */
     public void removeFromChatRooms(final int userId) {
         this.groupChats.requestForeach((groupChatId, groupChat) -> groupChat.leave(userId));
+    }
+
+    public void storeChatLogEntry(ChatLogEntry entry) {
+        Session session = ServerEnvironment.getSessionFactory().openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            int chatId = (Integer) session.save(entry);
+            entry.setId(chatId);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 }

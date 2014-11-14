@@ -30,9 +30,8 @@ public abstract class ChatRoom {
     }
 
     public void leave(int user) {
-        if (this.users.containsKey(user)) {
-            this.users.removeItem(user);
-        }
+        LOGGER.info("User " + user + " leaving chat");
+        this.users.removeItem(user);
     }
 
     public void broadcastMessage(final Message message) {

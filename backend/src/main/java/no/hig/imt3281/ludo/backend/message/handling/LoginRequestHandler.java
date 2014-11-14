@@ -30,6 +30,7 @@ public class LoginRequestHandler implements MessageHandler {
                 response.setResultCode(LoginResult.INVALID_CREDENTIALS);
             } else {
                 context.setReferenceToken(user.getId());
+                context.setStatusListener(user);
                 response.setResultCode(LoginResult.OK);
                 user.setClientConnection(context);
                 ServerEnvironment.getUserManager().setLoggedIn(user);

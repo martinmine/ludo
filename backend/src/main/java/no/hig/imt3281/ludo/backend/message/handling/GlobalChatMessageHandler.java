@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.backend.message.handling;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
+import no.hig.imt3281.ludo.backend.chat.ChatLogEntry;
 import no.hig.imt3281.ludo.messaging.GlobalChatMessage;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
@@ -20,6 +21,12 @@ public class GlobalChatMessageHandler implements MessageHandler {
         message.setUserId(user.getId());
         message.setMessage(request.getMessage());
 
+        ChatLogEntry entry = new ChatLogEntry(ChatLogEntry.PUBLIC_MESSAGE);
+        entry.setUserId(user.getId());
+        entry.setMessage(request.getMessage());
+        entry.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
+
+        ServerEnvironment.getChatManager().storeChatLogEntry(entry);
         ServerEnvironment.getChatManager().broadcastGlobalMessage(message);
     }
 }

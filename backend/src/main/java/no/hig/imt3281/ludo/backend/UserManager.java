@@ -123,7 +123,9 @@ public class UserManager {
      * @param userId ID of the user that is signing out
      */
     public void reportLoggedOut(int userId) {
+        LOGGER.info("User " + userId + " logging out");
         this.activeUsers.removeItem(userId);
+        ServerEnvironment.getChatManager().removeFromChatRooms(userId);
         // TODO: Notify active games, chats, etc.
     }
 
