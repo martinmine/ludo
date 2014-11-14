@@ -32,7 +32,7 @@ public class RegisterTab extends JPanel {
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
 
-        usernameLabel = new JLabel("Username: ");
+        usernameLabel = new JLabel(Main.resourceBundle.getString("REGISTRATION_USERNAME_LABEL"));
         cs.gridx = 0;
         cs.gridy = 0;
         cs.gridwidth = 1;
@@ -44,7 +44,7 @@ public class RegisterTab extends JPanel {
         cs.gridwidth = 2;
         add(usernameField, cs);
 
-        emailLabel = new JLabel("Email: ");
+        emailLabel = new JLabel(Main.resourceBundle.getString("REGISTRATION_EMAIL_LABEL"));
         cs.gridx = 0;
         cs.gridy = 2;
         cs.gridwidth = 2;
@@ -56,7 +56,7 @@ public class RegisterTab extends JPanel {
         cs.gridwidth = 3;
         add(emailField, cs);
 
-        passwordLabel = new JLabel("Password: ");
+        passwordLabel = new JLabel(Main.resourceBundle.getString("REGISTRATION_PASSWORD_LABEL"));
         cs.gridx = 0;
         cs.gridy = 4;
         cs.gridwidth = 2;
@@ -68,7 +68,7 @@ public class RegisterTab extends JPanel {
         cs.gridwidth = 2;
         add(passwordField, cs);
 
-        passwordLabel2 = new JLabel("Confirm password: ");
+        passwordLabel2 = new JLabel(Main.resourceBundle.getString("REGISTRATION_CONFIRM_PASSWORD_LABEL"));
         cs.gridx = 0;
         cs.gridy = 6;
         cs.gridwidth = 2;
