@@ -5,7 +5,6 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.ReferenceCountUtil;
-import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.message.handling.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
@@ -24,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class ClientConnection extends ChannelHandlerAdapter implements CommunicationContext {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
-    private static final MessageHandlingService messageHandler = new MessageHandlingService();
+    private static final MessageHandlingService MESSAGE_HANDLER = new MessageHandlingService();
     private SocketChannel socketChannel;
     private ConnectivityNotifier statusListener;
     private int referenceToken;
@@ -69,9 +68,10 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
         ByteBuf buf = (ByteBuf)msg;
         try (ByteBufInputStream is = new ByteBufInputStream(buf)) {
             Message message = MessageFactory.deserialize(is);
-            messageHandler.invokeMessage(message, this);
+            MESSAGE_HANDLER.invokeMessage(message, this);
         } catch (InvocationTargetException ex) {
             Throwable innerException = ex.getCause();
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
             close();
         } catch (MissingMessageHandlerException | InvalidMessageHandlerException | IOException ex) {

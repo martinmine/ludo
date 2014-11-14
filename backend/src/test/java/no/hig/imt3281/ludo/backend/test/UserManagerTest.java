@@ -7,11 +7,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 public class UserManagerTest {
+    private static final Logger LOGGER = Logger.getLogger(UserManagerTest.class.getSimpleName());
     private static UserManager userManager;
+
 
     private UserManager getUserManager() {
         if (userManager == null) {
@@ -37,22 +41,6 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testGetUserByPassword() {
-        //User user = getUserManager().getUser("test", "password");
-        //assertNotNull(user);
-    }
-
-    @Test
-    public void testReportLoggedOut() {
-
-    }
-
-    @Test
-    public void testUserIsActive() {
-
-    }
-
-    @Test
     public void testRegisterUser() {
         User user = new User("test" + new Random().nextInt(), "test@example.com");
         user.setPassword("password");
@@ -74,11 +62,11 @@ public class UserManagerTest {
             getUserManager().registerUser(gen1);
             getUserManager().registerUser(gen2);
         } catch (Exception e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             ex = e;
         }
 
         assertNotNull(ex);
         assertTrue(gen2.getId() == 0);
-
     }
 }

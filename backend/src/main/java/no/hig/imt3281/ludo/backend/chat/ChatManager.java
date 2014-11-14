@@ -3,9 +3,9 @@ package no.hig.imt3281.ludo.backend.chat;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.messaging.Message;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ChatManager {
     private AtomicInteger groupChatIdCounter;
-    private HashMap<String, Integer> groupIdMap;
+    private Map<String, Integer> groupIdMap;
     private QueuedMap<Integer, GroupChat> groupChats;
     private QueuedMap<Integer, GameChat> gameChats;
 
@@ -89,7 +89,7 @@ public class ChatManager {
      */
     public GameChat createGameChat() {
         // TODO
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
