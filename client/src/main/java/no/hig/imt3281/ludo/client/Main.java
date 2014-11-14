@@ -28,7 +28,7 @@ public class Main {
 
 
         try {
-            serverConnection = new ServerConnection("localhost", 9494); // "localhost", 9494
+            serverConnection = new ServerConnection("128.39.141.16", 9494); // "localhost", 9494
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);

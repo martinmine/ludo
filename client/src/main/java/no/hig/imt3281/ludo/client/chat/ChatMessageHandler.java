@@ -1,7 +1,5 @@
 package no.hig.imt3281.ludo.client.chat;
 
-import no.hig.imt3281.ludo.messaging.Message;
-
 /**
  * Created by Joakim on 03.11.2014.
  */

@@ -14,11 +14,7 @@ import java.awt.*;
 public class TabbedChatContainer extends JTabbedPane {
     public TabbedChatContainer() {
         setPreferredSize(new Dimension(384, 430));
-
-        //addTab(Main.resourceBundle.getString("GAME_CHAT_CHANNEL"), gameChatIcon, new GameChatChannel());
-
-        ChatChannel globalChat = ChatRooms.getInstance().getChannel(-1);
-        addTab(globalChat.getChannelName(), globalChat.getIcon(), globalChat);
+        ChatRooms.getInstance();
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 int index = getSelectedIndex();
