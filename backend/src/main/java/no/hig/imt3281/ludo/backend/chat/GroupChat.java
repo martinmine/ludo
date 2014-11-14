@@ -41,6 +41,14 @@ public class GroupChat extends ChatRoom {
 
     @Override
     public void userSays(User user, String chatMessage) {
+        ChatLogEntry entry = new ChatLogEntry(ChatLogEntry.GROUP_MESSAGE);
+        entry.setMessage(chatMessage);
+        entry.setGroupChatId(this.id);
+        entry.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
+        entry.setUserId(user.getId());
+
+        ServerEnvironment.getChatManager().storeChatLogEntry(entry);
+
         GroupChatMessage message = new GroupChatMessage();
         message.setMessage(chatMessage);
         message.setChannelId(this.id);
