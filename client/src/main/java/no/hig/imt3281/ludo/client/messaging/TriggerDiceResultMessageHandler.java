@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.TriggerDiceResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
@@ -10,6 +11,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 public class TriggerDiceResultMessageHandler implements MessageHandler {
     public void handle(TriggerDiceResult result, CommunicationContext context) {
         int value = result.getDiceValue();
-        // TODO: Do stuff with value and notify GUI
+
+        GuiManager.getSideTopPanel().getDicePanel().setValue(value);
     }
 }

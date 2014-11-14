@@ -1,9 +1,13 @@
 package no.hig.imt3281.ludo.client.gui.dice;
 
+import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.messaging.TriggerDiceRequest;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -46,11 +50,19 @@ public class DicePanel extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("this should be backend logic");
-        Random rand = new Random();
-        face = rand.nextInt(MAX) + MIN;
+        //System.out.println("this should be backend logic");
+        //Random rand = new Random();
+        //face = rand.nextInt(MAX) + MIN;
         //System.out.println("face is " + face);
-        repaint();
+        //repaint();
+
+        TriggerDiceRequest request = new TriggerDiceRequest();
+        try {
+            Main.getServerConnection().sendMessage(request);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // TODO: make gui close and notify the user the the connection was closed
+        }
     }
 
     @Override
@@ -73,4 +85,8 @@ public class DicePanel extends JComponent implements MouseListener {
 
     }
 
+    public void setValue(final int value) {
+        this.face = value;
+        repaint();
+    }
 }
