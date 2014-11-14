@@ -14,7 +14,6 @@ public class ChatRooms {
     private Map<Integer, ChatChannel> chatRooms;
     private ChatRooms() {
         this.chatRooms = new HashMap<>();
-
         this.chatRooms.put(-1, new GlobalChatChannel());
     }
 
@@ -31,7 +30,7 @@ public class ChatRooms {
     }
 
     public void joinGroupChannel(int id, String name) {
-        chatRooms.put(id, new GroupChatChannel(name));
+        chatRooms.put(id, new GroupChatChannel(id,name));
     }
 
     public void joinGameChannel(int gameId) {

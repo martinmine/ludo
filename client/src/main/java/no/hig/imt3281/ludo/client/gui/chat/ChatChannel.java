@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.gui.chat;
 
+import no.hig.imt3281.ludo.client.chat.ChatMessageHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,6 +9,7 @@ import java.awt.*;
  * Created by Joakim on 03.11.2014.
  */
 public abstract class ChatChannel extends JPanel{
+    private int id;
     private String channelName;
     private int type;
     private ImageIcon icon;
@@ -14,7 +17,9 @@ public abstract class ChatChannel extends JPanel{
     private JTextArea chatMessageContainer;
     private JTextField messageInputField;
 
-    public ChatChannel(String channelName, String welcomeMsg, String iconURL, int type) {
+    public ChatChannel(int id, String channelName, String welcomeMsg, String iconURL, int type) {
+        this.id = id;
+        this.type = type;
         this.channelName = channelName;
         this.icon = createImageIcon(iconURL);
         BorderLayout layout = new BorderLayout();
@@ -36,8 +41,8 @@ public abstract class ChatChannel extends JPanel{
 
         messageInputField.addActionListener(e -> {
             String text = messageInputField.getText();
-            if (text != "") {
-                this.chatMessageContainer.append(text + "\n");
+            if (!text.isEmpty()) {
+                ChatMessageHandler.getInstance().broadcastMessage(id, text);
             }
             messageInputField.selectAll();
             messageInputField.setText("");
