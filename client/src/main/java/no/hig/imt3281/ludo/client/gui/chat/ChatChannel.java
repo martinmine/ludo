@@ -37,8 +37,6 @@ public abstract class ChatChannel extends JPanel{
         add(this.chatScrollPane);
         add(this.messageInputField, BorderLayout.SOUTH);
 
-        chatMessageContainer.append("\n\n");
-
         messageInputField.addActionListener(e -> {
             String text = messageInputField.getText();
             if (!text.isEmpty()) {
@@ -47,6 +45,10 @@ public abstract class ChatChannel extends JPanel{
             messageInputField.selectAll();
             messageInputField.setText("");
         });
+    }
+
+    public void appendIncomingMessage(String message) {
+        chatMessageContainer.append("\n" + message);
     }
 
     /** Returns an ImageIcon, or null if the path was invalid. */
