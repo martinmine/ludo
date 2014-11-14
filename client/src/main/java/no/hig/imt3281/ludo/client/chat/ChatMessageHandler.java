@@ -10,7 +10,7 @@ public class ChatMessageHandler {
 
     private ChatState currentState;
     private ChatMessageHandler() {
-        currentState = new GameChatState();
+        currentState = new GlobalChatState();
     }
 
     private static class SingletonHolder {
