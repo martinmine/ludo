@@ -46,10 +46,10 @@ public class MessageHandlerFactory {
                 method.invoke(handler, message, context);
             }
         } catch (ClassNotFoundException ex) {
-            throw new MissingMessageHandlerException("Missing handler for message " + message.getClass().getTypeName());
+            throw new MissingMessageHandlerException("Missing handler for message " + message.getClass().getTypeName(), ex);
 
         } catch (NoSuchMethodException | IllegalAccessException ex) {
-            throw new InvalidMessageHandlerException("Invalid signature for handler for " + message.getClass().getTypeName());
+            throw new InvalidMessageHandlerException("Invalid signature for handler for " + message.getClass().getTypeName(), ex);
         }
 
     }

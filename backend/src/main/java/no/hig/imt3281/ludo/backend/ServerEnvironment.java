@@ -19,6 +19,7 @@ public class ServerEnvironment {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
     private static final int SERVER_PULSE = 100;
     private static final int SERVER_PORT = 9494;
+    private static final long SECOND = 1000L;
     public static final String HIBERNATE_CONNECTION_URL = "hibernate.connection.url";
 
     private static NetworkManager networkManager;
@@ -99,7 +100,7 @@ public class ServerEnvironment {
     }
 
     public static int getCurrentTimeStamp() {
-        return (int) (System.currentTimeMillis() / 1000L);
+        return (int) (System.currentTimeMillis() / SECOND);
     }
 
     public static String getPasswordSalt() {

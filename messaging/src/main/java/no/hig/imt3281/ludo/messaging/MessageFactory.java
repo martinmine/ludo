@@ -10,7 +10,8 @@ import java.io.*;
  */
 public class MessageFactory {
 
-    private MessageFactory() { }
+    private MessageFactory() {
+    }
 
     /**
      * Reads a Message object from a stream.
