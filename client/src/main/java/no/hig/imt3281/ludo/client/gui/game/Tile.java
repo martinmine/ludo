@@ -29,15 +29,13 @@ public class Tile {
      * @param t Token to be added.
      */
     public Token addToken(Token t) {
-
-        if (tile.isEmpty()) {  // Free tile:
+        if (tile.isEmpty()) {               // Free tile:
             tile.add(t);
         } else {
             if (tile.get(0).equals(t)) {    // Building blockade;
                 tile.add(t);
             } else {                        // Kicking an opponent:
                 Token temp = tile.remove(0);
-                tile.remove(0);
                 tile.add(t);
                 return temp;
             }
@@ -50,13 +48,8 @@ public class Tile {
      * TODO: can merge with pass ?
      * @return int number of tokens in this tile.
      */
-    public int getBlockadeSize() {
-        return tile.size();
-    }
-
-    // TODO: can you block yourself?
-    public boolean pass(Token t) {
-        return (!tile.isEmpty()  &&  (tile.get(0).equals(t)  ||  tile.size() == 1));
+    public boolean isBlocked(Faction faction) {
+        return (!tile.isEmpty()  &&  tile.get(0).getFaction() != faction  &&  tile.size() > 1);
     }
 
     /**
@@ -65,6 +58,13 @@ public class Tile {
      */
     public Token remove() {
         return tile.remove(tile.size()-1);
+    }
+
+    public int getPosition() {
+        if (tile.isEmpty()) {
+            return -1;
+        }
+        return tile.get(0).getPosition();
     }
 
     public int getX() {
@@ -82,18 +82,19 @@ public class Tile {
 
     public void draw(Graphics2D g2d) {
 
+        /*
         Rectangle2D.Double r = new Rectangle2D.Double(x, y, d, d);
         g2d.setColor(Color.DARK_GRAY);
         g2d.fill(r);
-        /*
+        */
+
         if (!tile.isEmpty()) {
-            tile.get(0).draw(g2d);
+            tile.get(0).draw(g2d, this.x, this.y);
             if (tile.size() > 1) {
                 g2d.setColor(Color.WHITE);
                 g2d.drawString(String.valueOf(tile.size()), this.x + 20, this.y + 20);
             }
         }
-        */
     }
 
     public boolean clicked(int x, int y) {
@@ -101,5 +102,16 @@ public class Tile {
         int yy = this.y + d;
         return (x >= this.x  &&  y >= this.y  &&  x <= xx  &&  y <= yy);
     }
+
+    public boolean isEmpty() {
+        return tile.isEmpty();
+    }
+
+    public Faction getFaction() {
+        if (tile.isEmpty()) return null;
+        return tile.get(0).getFaction();
+    }
+
+
 
 }

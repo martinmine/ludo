@@ -8,6 +8,7 @@ import java.awt.*;
 
 /**
  * Created by Joakim on 05.11.2014.
+ *
  */
 public class SideTopPanel extends JPanel {
 
@@ -23,5 +24,9 @@ public class SideTopPanel extends JPanel {
 
         add(dicePanel, BorderLayout.WEST);
         add(feedbackPanel, BorderLayout.CENTER);
+    }
+
+    public DicePanel getDicePanel() {
+        return this.dicePanel;
     }
 }
