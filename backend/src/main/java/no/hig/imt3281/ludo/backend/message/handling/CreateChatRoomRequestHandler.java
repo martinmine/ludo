@@ -26,9 +26,13 @@ public class CreateChatRoomRequestHandler implements MessageHandler {
 
             // If someone made a room, but server is not done with making it
             if (room == null) {
+                LOGGER.info("Chat room " + request.getChatroomName() + " is being made");
                 response.setStatus(CreateChatRoomResult.ERROR);
+            } else {
+                LOGGER.info("Directing user to existing chat room " + request.getChatroomName());
             }
         } else {
+            LOGGER.info("Successfully opened existing chat room " + request.getChatroomName());
             room = ServerEnvironment.getChatManager().createGroupChat(request.getChatroomName());
         }
 

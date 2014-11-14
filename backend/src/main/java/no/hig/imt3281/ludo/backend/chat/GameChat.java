@@ -1,6 +1,5 @@
 package no.hig.imt3281.ludo.backend.chat;
 
-import com.mysql.fabric.Server;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.messaging.GameChatMessage;
