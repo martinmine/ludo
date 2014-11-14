@@ -6,10 +6,6 @@ package no.hig.imt3281.ludo.messaging;
 public class GroupChatMessage extends ChatMessage {
     private int channelId;
 
-    public GroupChatMessage(String message) {
-        super(message);
-    }
-
     public int getChannelId() {
         return channelId;
     }

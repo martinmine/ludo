@@ -89,6 +89,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
     }
 
     public void close() {
+        LOGGER.info("Connection closing");
         this.socketChannel.close();
         if (this.statusListener != null) {
             this.statusListener.connectionClosed();

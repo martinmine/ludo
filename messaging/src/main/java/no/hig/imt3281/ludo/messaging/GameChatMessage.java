@@ -6,10 +6,6 @@ package no.hig.imt3281.ludo.messaging;
 public class GameChatMessage extends ChatMessage {
     private int gameId;
 
-    public GameChatMessage(String message) {
-        super(message);
-    }
-
     public int getGameId() {
         return gameId;
     }

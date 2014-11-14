@@ -13,7 +13,8 @@ public class GameChatState implements ChatState {
     @Override
     public void broadcastMessage(int channelId, String message) {
         try {
-            GameChatMessage gameChatMessage = new GameChatMessage(message);
+            GameChatMessage gameChatMessage = new GameChatMessage();
+            gameChatMessage.setMessage(message);
             gameChatMessage.setGameId(channelId);
             Main.getServerConnection().sendMessage(gameChatMessage);
         } catch (IOException e) {

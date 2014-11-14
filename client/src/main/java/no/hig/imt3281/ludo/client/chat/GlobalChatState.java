@@ -13,7 +13,8 @@ public class GlobalChatState implements ChatState {
     @Override
     public void broadcastMessage(int channelId, String message) {
         try {
-            GlobalChatMessage globalChatMessage = new GlobalChatMessage(message);
+            GlobalChatMessage globalChatMessage = new GlobalChatMessage();
+            globalChatMessage.setMessage(message);
             Main.getServerConnection().sendMessage(globalChatMessage);
         } catch (IOException e) {
             e.printStackTrace();

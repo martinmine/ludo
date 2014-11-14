@@ -31,6 +31,7 @@ public class LoginRequestHandler implements MessageHandler {
             } else {
                 context.setReferenceToken(user.getId());
                 response.setResultCode(LoginResult.OK);
+                user.setClientConnection(context);
                 ServerEnvironment.getUserManager().setLoggedIn(user);
             }
         } catch (Exception e) {

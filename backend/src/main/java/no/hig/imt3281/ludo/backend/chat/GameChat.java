@@ -11,7 +11,8 @@ import no.hig.imt3281.ludo.messaging.GameChatMessage;
 public class GameChat extends ChatRoom {
     @Override
     public void userSays(User user, String chatMessage) {
-        GameChatMessage message = new GameChatMessage(chatMessage);
+        GameChatMessage message = new GameChatMessage();
+        message.setMessage(chatMessage);
         message.setUsername(user.getUsername());
         message.setUserId(user.getId());
         message.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
@@ -21,7 +22,8 @@ public class GameChat extends ChatRoom {
 
     @Override
     public void broadcastSystemMessage(String systemMessage) {
-        GameChatMessage message = new GameChatMessage(systemMessage);
+        GameChatMessage message = new GameChatMessage();
+        message.setMessage(systemMessage);
         message.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
 
         super.broadcastMessage(message);

@@ -31,7 +31,8 @@ public class GroupChat extends ChatRoom {
 
     @Override
     public void broadcastSystemMessage(String systemMessage) {
-        GroupChatMessage message = new GroupChatMessage(systemMessage);
+        GroupChatMessage message = new GroupChatMessage();
+        message.setMessage(systemMessage);
         message.setChannelId(this.id);
         message.setTimestamp(ServerEnvironment.getCurrentTimeStamp());
 
@@ -40,7 +41,8 @@ public class GroupChat extends ChatRoom {
 
     @Override
     public void userSays(User user, String chatMessage) {
-        GroupChatMessage message = new GroupChatMessage(chatMessage);
+        GroupChatMessage message = new GroupChatMessage();
+        message.setMessage(chatMessage);
         message.setChannelId(this.id);
         message.setUsername(user.getUsername());
         message.setUserId(user.getId());

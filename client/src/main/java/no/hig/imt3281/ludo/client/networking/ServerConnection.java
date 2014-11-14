@@ -59,6 +59,8 @@ public class ServerConnection implements Runnable, CommunicationContext {
      * @throws IOException Exception is thrown during network connection.
      */
     public void sendMessage(Message message) throws IOException {
+        LOGGER.info("Sending message " + message.getClass().getTypeName());
+
         try {
             MessageFactory.serialize(message, connection.getOutputStream());
             connection.getOutputStream().flush();

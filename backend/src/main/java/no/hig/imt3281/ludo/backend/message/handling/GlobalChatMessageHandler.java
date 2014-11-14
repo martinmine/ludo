@@ -11,7 +11,8 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
  */
 public class GlobalChatMessageHandler implements MessageHandler {
     public void handle(GlobalChatMessage request, CommunicationContext context) {
-        GlobalChatMessage message = new GlobalChatMessage(request.getMessage());
+        GlobalChatMessage message = new GlobalChatMessage();
+        message.setMessage(request.getMessage());
         User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
 
         message.setTimestamp(ServerEnvironment.getCurrentTimeStamp());

@@ -13,7 +13,8 @@ public class GroupChatState implements ChatState {
     @Override
     public void broadcastMessage(int channelId, String message) {
         try {
-            GroupChatMessage groupChatMessage = new GroupChatMessage(message);
+            GroupChatMessage groupChatMessage = new GroupChatMessage();
+            groupChatMessage.setMessage(message);
             groupChatMessage.setChannelId(channelId);
             Main.getServerConnection().sendMessage(groupChatMessage);
         } catch (IOException e) {
