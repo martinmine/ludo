@@ -36,8 +36,11 @@ public class UserManagerTest {
 
     @Test
     public void testGetUserByUsername() {
-        User user = getUserManager().getUser("test");
-        //assertNotNull(user);
+        User user = new User("test", "test@example.com");
+        getUserManager().registerUser(user);
+
+        user = getUserManager().getUser("test");
+        assertNotNull(user);
     }
 
     @Test

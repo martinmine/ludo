@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  */
 public class RegistrationRequestHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(MessageHandler.class.getSimpleName());
+    private static final int MIN_PASSWORD_LENGTH = 5;
+    private static final int MIN_EMAIL_LENGTH = 5;
 
     public void handle(RegistrationRequest request, CommunicationContext context) {
         RegistrationResult response = new RegistrationResult();
@@ -24,9 +26,9 @@ public class RegistrationRequestHandler implements MessageHandler {
             response.setResult(RegistrationResult.INVALID_USERNAME);
         } else if (ServerEnvironment.getUserManager().getUser(request.getUsername()) != null) {
             response.setResult(RegistrationResult.USERNAME_TAKEN);
-        } else if (request.getEmail() == null || !request.getEmail().contains("@") || request.getEmail().length() < 5) {
+        } else if (request.getEmail() == null || !request.getEmail().contains("@") || request.getEmail().length() < MIN_EMAIL_LENGTH) {
             response.setResult(RegistrationResult.INVALID_MAIL);
-        } else if (request.getPassword() == null || request.getPassword().length() < 5) {
+        } else if (request.getPassword() == null || request.getPassword().length() < MIN_PASSWORD_LENGTH) {
             response.setResult(RegistrationResult.WEAK_PASSWORD);
         } else {
             User user = new User(request.getUsername(), request.getEmail());

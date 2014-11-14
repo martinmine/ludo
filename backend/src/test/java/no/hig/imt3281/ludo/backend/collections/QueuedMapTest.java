@@ -7,6 +7,8 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 public class QueuedMapTest {
+    private static final int KEY = 12;
+    private static final int VALUE = 22;
     private boolean executed = false;
 
     @Test
@@ -15,9 +17,9 @@ public class QueuedMapTest {
         QueuedMap<Integer, Integer> c = new QueuedMap<>(new HashMap<>());
         c.setRemovedObjectEvent((key, value) -> executed = true);
 
-        c.addItem(12, 12);
+        c.addItem(KEY, VALUE);
         c.onCycle();
-        c.removeItem(12);
+        c.removeItem(KEY);
         c.onCycle();
 
         assertTrue(executed);

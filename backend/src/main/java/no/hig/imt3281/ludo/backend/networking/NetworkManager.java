@@ -17,6 +17,8 @@ import java.util.logging.Logger;
  */
 public class NetworkManager {
     private static final Logger LOGGER = Logger.getLogger(NetworkManager.class.getName());
+    private static final int BACKLOG = 100;
+    private static final int MAX_XML_SIZE = 5000;
 
     private final int port;
     private EventLoopGroup bossGroup;
@@ -46,10 +48,10 @@ public class NetworkManager {
             public void initChannel(SocketChannel ch) throws Exception {
                 LOGGER.info("Accepted connection from " + ch.remoteAddress().toString());
                 ClientConnection connection = new ClientConnection(ch);
-                ch.pipeline().addLast(new XmlFrameDecoder(6000), connection);
+                ch.pipeline().addLast(new XmlFrameDecoder(MAX_XML_SIZE), connection);
             }
             })
-            .option(ChannelOption.SO_BACKLOG, 128)
+            .option(ChannelOption.SO_BACKLOG, BACKLOG)
             .childOption(ChannelOption.SO_KEEPALIVE, true);
 
         this.channel = b.bind(port);

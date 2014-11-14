@@ -5,7 +5,6 @@ import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
@@ -18,6 +17,9 @@ import java.util.logging.Logger;
  */
 public class ServerEnvironment {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
+    private static final int SERVER_PULSE = 100;
+    private static final int SERVER_PORT = 9494;
+    public static final String HIBERNATE_CONNECTION_URL = "hibernate.connection.url";
 
     private static NetworkManager networkManager;
     private static SessionFactory sessionFactory;
@@ -46,15 +48,13 @@ public class ServerEnvironment {
         // Setup Hibernate
         Configuration configuration = new Configuration();
         configuration.configure();
-        String configString = configuration.getProperty("hibernate.connection.url");
-
-        configuration.getProperty("hibernate.connection.url");
+        String configString = configuration.getProperty(HIBERNATE_CONNECTION_URL);
 
         configString = configString.replace("${env.LUDO_DB_HOST}", environmentVariables.get("LUDO_DB_HOST"));
         configString = configString.replace("${env.LUDO_DB_PORT}", environmentVariables.get("LUDO_DB_PORT"));
         configString = configString.replace("${env.LUDO_DB_NAME}", environmentVariables.get("LUDO_DB_NAME"));
 
-        configuration.setProperty("hibernate.connection.url", configString);
+        configuration.setProperty(HIBERNATE_CONNECTION_URL, configString);
 
         configuration.setProperty("hibernate.connection.username", environmentVariables.get("LUDO_DB_USERNAME"));
         configuration.setProperty("hibernate.connection.password", environmentVariables.get("LUDO_DB_PASSWORD"));
@@ -63,7 +63,7 @@ public class ServerEnvironment {
                 configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
-        networkManager = new NetworkManager(9494);
+        networkManager = new NetworkManager(SERVER_PORT);
         userManager = new UserManager();
         chatManager = new ChatManager();
 
@@ -72,7 +72,7 @@ public class ServerEnvironment {
                userManager.onCycle();
                chatManager.onCycle();
                try {
-                   Thread.sleep(100);
+                   Thread.sleep(SERVER_PULSE);
                } catch (InterruptedException e) {
                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
                }

@@ -21,6 +21,10 @@ import java.util.logging.Logger;
  */
 public class UserManager {
     private static final Logger LOGGER = Logger.getLogger(UserManager.class.getSimpleName());
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    private static final int BYTE_MULTIPLIER = 2;
+    private static final int BIT_SHIFT_LENGTH = 4;
+
     private QueuedMap<Integer, User> activeUsers;
 
     /**
@@ -60,9 +64,11 @@ public class UserManager {
         try {
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("username", username));
-            User user = (User)criteria.uniqueResult();
+            Object result = criteria.uniqueResult();
+            User user = null;
 
-            if (user != null) {
+            if (result != null && result instanceof User) {
+                user = (User)result;
                 User loadedUser;
                 if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
                     return loadedUser;
@@ -90,7 +96,7 @@ public class UserManager {
             criteria.add(Restrictions.eq("password", hashedPassword));
 
             Object result = criteria.uniqueResult();
-            if (result != null) {
+            if (result != null && result instanceof User) {
                 User user = (User)result;
                 User loadedUser;
                 if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
@@ -171,8 +177,7 @@ public class UserManager {
                     LOGGER.log(Level.INFO, e.getMessage(), e);
                     user.getClientConnection().close();
                 }
-            }
-            else {
+            } else {
                 LOGGER.info("Connection is null");
             }
         });
@@ -190,14 +195,14 @@ public class UserManager {
     }
 
     // code from http://stackoverflow.com/a/9855338/1924825
-    private final static char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     private static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
+        char[] hexChars = new char[bytes.length * BYTE_MULTIPLIER];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+            hexChars[j * BYTE_MULTIPLIER] = HEX_ARRAY[v >>> BIT_SHIFT_LENGTH];
+            hexChars[j * BYTE_MULTIPLIER + 1] = HEX_ARRAY[v & 0x0F];
         }
+
         return new String(hexChars);
     }
 }

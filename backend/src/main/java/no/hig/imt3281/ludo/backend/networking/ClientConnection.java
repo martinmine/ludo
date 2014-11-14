@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 public class ClientConnection extends ChannelHandlerAdapter implements CommunicationContext {
     private static final Logger LOGGER = Logger.getLogger(ClientConnection.class.getName());
     private static final MessageHandlingService MESSAGE_HANDLER = new MessageHandlingService();
+    private static final int BUFFER_SIZE = 1024;
+
     private SocketChannel socketChannel;
     private ConnectivityNotifier statusListener;
     private int referenceToken;
@@ -38,7 +40,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
      */
     public void sendMessage(Message msg) throws IOException {
         ByteBufAllocator alloc = PooledByteBufAllocator.DEFAULT;
-        ByteBuf buf = alloc.buffer(1024);
+        ByteBuf buf = alloc.buffer(BUFFER_SIZE);
 
         try (ByteBufOutputStream outputStream = new ByteBufOutputStream(buf)) {
             MessageFactory.serialize(msg, outputStream);
