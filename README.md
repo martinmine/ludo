@@ -31,8 +31,13 @@ This README would normally document whatever steps are necessary to get your app
 
 
 Required environment variables for running the server:
+
 LUDO_DB_HOST=hostname of the database
+
 LUDO_DB_PORT=database port (3306)
+
 LUDO_DB_NAME=Ludo
+
 LUDO_DB_USERNAME=MySQL username
+
 LUDO_DB_PASSWORD=MySQL password
