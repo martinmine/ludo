@@ -47,11 +47,11 @@ public class UserManagerTest {
         try {
             getUserManager().registerUser(user);
         } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
             user = null;
         }
 
         assertTrue(user != null && user.getId() > 0);
-
 
         User gen1 = new User("u", "p");
         User gen2 = new User("u", "p");

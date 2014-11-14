@@ -8,11 +8,15 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Martin on 11.11.2014.
  */
 public class CreateChatRoomRequestHandler implements MessageHandler {
+    private static final Logger LOGGER = Logger.getLogger(CreateChatRoomRequestHandler.class.getSimpleName());
+
     public void handle(CreateChatRoomRequest request, CommunicationContext context) {
         CreateChatRoomResult response = new CreateChatRoomResult();
         GroupChat room;
@@ -37,6 +41,7 @@ public class CreateChatRoomRequestHandler implements MessageHandler {
         try {
             context.sendMessage(response);
         } catch (IOException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.close();
         }
     }

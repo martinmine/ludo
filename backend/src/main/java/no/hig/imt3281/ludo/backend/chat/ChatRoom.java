@@ -7,12 +7,15 @@ import no.hig.imt3281.ludo.messaging.Message;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  */
 public abstract class ChatRoom {
     private QueuedMap<Integer, User> users;
+    private static final Logger LOGGER = Logger.getLogger(ChatRoom.class.getSimpleName());
 
     public ChatRoom() {
         this.users = new QueuedMap<>(new HashMap<>());
@@ -38,6 +41,7 @@ public abstract class ChatRoom {
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
+                    LOGGER.log(Level.INFO, e.getMessage(), e);
                     user.getClientConnection().close();
                 }
             }

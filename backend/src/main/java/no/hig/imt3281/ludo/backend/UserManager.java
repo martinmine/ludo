@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
  * notified when a user disconnects
  */
 public class UserManager {
+    private static final Logger LOGGER = Logger.getLogger(UserManager.class.getSimpleName());
     private QueuedMap<Integer, User> activeUsers;
 
     /**
@@ -163,6 +165,7 @@ public class UserManager {
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
+                    LOGGER.log(Level.INFO, e.getMessage(), e);
                     user.getClientConnection().close();
                 }
             }

@@ -26,7 +26,8 @@ public class ServerEnvironment {
     private static Thread cycleThread;
     private static boolean isAlive = true;
 
-    private ServerEnvironment() { }
+    private ServerEnvironment() {
+    }
     /**
      * Initializes the server environment
      */
