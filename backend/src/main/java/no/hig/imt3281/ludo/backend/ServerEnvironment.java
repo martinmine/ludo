@@ -8,8 +8,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +24,7 @@ public class ServerEnvironment {
     private static Thread cycleThread;
     private static boolean isAlive = true;
 
+    private ServerEnvironment() { }
     /**
      * Initializes the server environment
      */
@@ -33,8 +32,7 @@ public class ServerEnvironment {
         try {
             // This call makes sure we have the jdbc MySQL driver loaded
             Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             LOGGER.severe("Unable to start the main environment, no SQL driver found");
         }
@@ -72,7 +70,9 @@ public class ServerEnvironment {
         return sessionFactory;
     }
 
-    public static UserManager getUserManager() { return userManager; }
+    public static UserManager getUserManager() {
+        return userManager;
+    }
 
     public static ChatManager getChatManager() {
         return chatManager;

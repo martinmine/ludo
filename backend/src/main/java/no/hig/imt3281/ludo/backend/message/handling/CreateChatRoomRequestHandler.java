@@ -24,8 +24,7 @@ public class CreateChatRoomRequestHandler implements MessageHandler {
             if (room == null) {
                 response.setStatus(CreateChatRoomResult.ERROR);
             }
-        }
-        else {
+        } else {
             room = ServerEnvironment.getChatManager().createGroupChat(request.getChatroomName());
         }
 

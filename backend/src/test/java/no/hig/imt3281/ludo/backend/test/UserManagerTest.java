@@ -7,11 +7,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 public class UserManagerTest {
+    private static final Logger LOGGER = Logger.getLogger(UserManagerTest.class.getSimpleName());
     private static UserManager userManager;
+
 
     private UserManager getUserManager() {
         if (userManager == null) {
@@ -25,40 +29,28 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testGetUserByUserId() throws Exception {
+    public void testGetUserByUserId() {
         User user = getUserManager().getUser(1);
         assertNotNull(user);
     }
 
     @Test
-    public void testGetUserByUsername() throws Exception {
+    public void testGetUserByUsername() {
         User user = getUserManager().getUser("test");
         assertNotNull(user);
     }
 
     @Test
-    public void testGetUserByPassword() throws Exception {
-        //User user = getUserManager().getUser("test", "password");
-        //assertNotNull(user);
-    }
-
-    @Test
-    public void testReportLoggedOut() throws Exception {
-
-    }
-
-    @Test
-    public void testUserIsActive() throws Exception {
-
-    }
-
-    @Test
-    public void testRegisterUser() throws Exception {
+    public void testRegisterUser() {
         User user = new User("test" + new Random().nextInt(), "test@example.com");
         user.setPassword("password");
-        getUserManager().registerUser(user);
+        try {
+            getUserManager().registerUser(user);
+        } catch (Exception e) {
+            user = null;
+        }
 
-        assertTrue(user.getId() > 0);
+        assertTrue(user != null && user.getId() > 0);
 
 
         User gen1 = new User("u", "p");
@@ -69,13 +61,12 @@ public class UserManagerTest {
         try {
             getUserManager().registerUser(gen1);
             getUserManager().registerUser(gen2);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             ex = e;
         }
 
         assertNotNull(ex);
         assertTrue(gen2.getId() == 0);
-
     }
 }
