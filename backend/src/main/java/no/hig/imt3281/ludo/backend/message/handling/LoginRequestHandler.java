@@ -41,6 +41,7 @@ public class LoginRequestHandler implements MessageHandler {
         try {
             context.sendMessage(response);
         } catch (IOException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
             context.close();
         }
     }
