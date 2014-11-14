@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.client.gui;
 
+import no.hig.imt3281.ludo.client.Main;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.*;
  *
  * Forcing the user to login to play.
  * Handel register as well.
- * Based on / copied: http://www.zentut.com/java-swing/simple-login-dialog/
+ * Based on: http://www.zentut.com/java-swing/simple-login-dialog/
  */
 public class StartDialog extends JDialog {
 
@@ -17,7 +19,7 @@ public class StartDialog extends JDialog {
     private JLabel feedback;
 
     public StartDialog(JFrame parent) {
-        super(parent, "Login", true);
+        super(parent, Main.resourceBundle.getString("START_DIALOG_TITLE"), true);
 
         ImageIcon logo = new ImageIcon(getClass().getResource("/img/ludo_logo.jpg"));
         JLabel label = new JLabel("", logo, JLabel.CENTER);
@@ -28,8 +30,8 @@ public class StartDialog extends JDialog {
         LoginTab loginTab = new LoginTab(parent, this);
         RegisterTab registerTab = new RegisterTab(parent, this);
 
-        tabbedPane.addTab("Login", null, loginTab, "Tab 1");
-        tabbedPane.addTab("Register", null, registerTab, "Tab 2");
+        tabbedPane.addTab(Main.resourceBundle.getString("LOGIN_TAB"), null, loginTab);
+        tabbedPane.addTab(Main.resourceBundle.getString("REGISTRATION_TAB"), null, registerTab);
 
         JPanel side = new JPanel();
         feedback = new JLabel();
@@ -42,9 +44,8 @@ public class StartDialog extends JDialog {
 
         setResizable(false);
         setSize(700,300);
-        //setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(parent);
-
     }
 
     public void setFeedback(String message) {
