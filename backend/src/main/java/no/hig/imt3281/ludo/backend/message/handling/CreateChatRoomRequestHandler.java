@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.backend.message.handling;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
+import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.chat.GroupChat;
 import no.hig.imt3281.ludo.messaging.CreateChatRoomRequest;
 import no.hig.imt3281.ludo.messaging.CreateChatRoomResult;
@@ -19,6 +20,7 @@ public class CreateChatRoomRequestHandler implements MessageHandler {
 
     public void handle(CreateChatRoomRequest request, CommunicationContext context) {
         CreateChatRoomResult response = new CreateChatRoomResult();
+        User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
         GroupChat room;
 
         if (ServerEnvironment.getChatManager().chatRoomExists(request.getChatroomName())) {
@@ -37,6 +39,7 @@ public class CreateChatRoomRequestHandler implements MessageHandler {
         }
 
         if (room != null) {
+            room.join(user);
             response.setStatus(CreateChatRoomResult.OK);
             response.setChannelId(room.getId());
             response.setChannelName(room.getCaption());

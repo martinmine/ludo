@@ -7,15 +7,20 @@ import no.hig.imt3281.ludo.messaging.GroupChatMessage;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
+import java.util.logging.Logger;
+
 /**
  * Created by Martin on 11.11.2014.
  */
 public class GroupChatMessageHandler implements MessageHandler {
+    private static final Logger LOGGER = Logger.getLogger(GroupChatMessageHandler.class.getSimpleName());
+
     public void handle(GroupChatMessage request, CommunicationContext context) {
-        User user = ServerEnvironment.getUserManager().getUser(request.getUserId());
+        User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
         GroupChat chat = ServerEnvironment.getChatManager().getGroupChat(request.getChannelId());
 
         if (user != null && chat != null) {
+            LOGGER.info("User " + user.getUsername() + " says " + request.getMessage());
             chat.userSays(user, request.getMessage());
         }
     }

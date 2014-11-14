@@ -16,8 +16,11 @@ public class User implements ConnectivityNotifier {
     private int id;
 
     @Column(unique = true)
+    @Basic(fetch = FetchType.EAGER)
     private String username;
+    @Basic(fetch = FetchType.EAGER)
     private String email;
+    @Basic(fetch = FetchType.EAGER)
     private String password;
 
     @Transient
@@ -46,6 +49,7 @@ public class User implements ConnectivityNotifier {
     }
 
     public String getUsername() {
+
         return username;
     }
 

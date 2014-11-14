@@ -70,6 +70,7 @@ public class ServerEnvironment {
         cycleThread = new Thread(() -> {
            while (isAlive) {
                userManager.onCycle();
+               chatManager.onCycle();
                try {
                    Thread.sleep(100);
                } catch (InterruptedException e) {
