@@ -92,8 +92,7 @@ public class UserManager {
                 User loadedUser;
                 if ((loadedUser = this.activeUsers.get(user.getId())) != null) {
                     return loadedUser;
-                }
-                else {
+                } else {
                     return user;
                 }
             }

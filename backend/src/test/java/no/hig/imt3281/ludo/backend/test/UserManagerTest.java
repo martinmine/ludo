@@ -25,40 +25,44 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testGetUserByUserId() throws Exception {
+    public void testGetUserByUserId() {
         User user = getUserManager().getUser(1);
         assertNotNull(user);
     }
 
     @Test
-    public void testGetUserByUsername() throws Exception {
+    public void testGetUserByUsername() {
         User user = getUserManager().getUser("test");
         assertNotNull(user);
     }
 
     @Test
-    public void testGetUserByPassword() throws Exception {
+    public void testGetUserByPassword() {
         //User user = getUserManager().getUser("test", "password");
         //assertNotNull(user);
     }
 
     @Test
-    public void testReportLoggedOut() throws Exception {
+    public void testReportLoggedOut() {
 
     }
 
     @Test
-    public void testUserIsActive() throws Exception {
+    public void testUserIsActive() {
 
     }
 
     @Test
-    public void testRegisterUser() throws Exception {
+    public void testRegisterUser() {
         User user = new User("test" + new Random().nextInt(), "test@example.com");
         user.setPassword("password");
-        getUserManager().registerUser(user);
+        try {
+            getUserManager().registerUser(user);
+        } catch (Exception e) {
+            user = null;
+        }
 
-        assertTrue(user.getId() > 0);
+        assertTrue(user != null && user.getId() > 0);
 
 
         User gen1 = new User("u", "p");
@@ -69,8 +73,7 @@ public class UserManagerTest {
         try {
             getUserManager().registerUser(gen1);
             getUserManager().registerUser(gen2);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ex = e;
         }
 

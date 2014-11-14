@@ -11,6 +11,8 @@ import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
+import no.hig.imt3281.ludo.messaging.handling.InvalidMessageHandlerException;
+import no.hig.imt3281.ludo.messaging.handling.MissingMessageHandlerException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -72,7 +74,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
             Throwable innerException = ex.getCause();
             LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
             close();
-        } catch (Throwable ex) {
+        } catch (MissingMessageHandlerException | InvalidMessageHandlerException | IOException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             close();
         } finally {

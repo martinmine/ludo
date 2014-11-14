@@ -33,8 +33,7 @@ public class ServerEnvironment {
         try {
             // This call makes sure we have the jdbc MySQL driver loaded
             Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             LOGGER.severe("Unable to start the main environment, no SQL driver found");
         }

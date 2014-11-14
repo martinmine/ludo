@@ -1,6 +1,5 @@
 package no.hig.imt3281.ludo.messaging;
 
-// TODO: Make this private or something so outsiders can't implement this
 public abstract class ChatMessage extends Message {
     private int userId;
     private String username;

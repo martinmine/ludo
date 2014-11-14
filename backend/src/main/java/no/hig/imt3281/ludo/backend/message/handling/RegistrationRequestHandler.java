@@ -18,18 +18,14 @@ public class RegistrationRequestHandler implements MessageHandler {
 
         if (request.getUsername() == null || request.getUsername().length() == 0) {
             response.setResult(RegistrationResult.INVALID_USERNAME);
-        }
-        else if (ServerEnvironment.getUserManager().getUser(request.getUsername()) != null) {
+        } else if (ServerEnvironment.getUserManager().getUser(request.getUsername()) != null) {
             response.setResult(RegistrationResult.USERNAME_TAKEN);
-        }
-        else if (request.getEmail() == null || !request.getEmail().contains("@") || request.getEmail().length() < 5) {
+        } else if (request.getEmail() == null || !request.getEmail().contains("@") || request.getEmail().length() < 5) {
             response.setResult(RegistrationResult.INVALID_MAIL);
-        }
-        else if (request.getPassword() == null || request.getPassword().length() < 5) {
+        } else if (request.getPassword() == null || request.getPassword().length() < 5) {
             System.out.println("Password " + request.getPassword() + " too weak");
             response.setResult(RegistrationResult.WEAK_PASSWORD);
-        }
-        else {
+        } else {
             User user = new User(request.getUsername(), request.getEmail());
 
             try {
