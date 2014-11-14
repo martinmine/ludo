@@ -18,7 +18,6 @@ public class ChatRooms {
     private ChatRooms() {
         this.chatRooms = new HashMap<>();
         this.chatRooms.put(GLOBAL_CHAT_KEY, new GlobalChatChannel());
-
     }
 
     private static class SingletonHolder {

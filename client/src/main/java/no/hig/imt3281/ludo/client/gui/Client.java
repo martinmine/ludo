@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.client.chat.ChatRooms;
 import no.hig.imt3281.ludo.client.gui.game.GamePanel;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class Client extends JFrame {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
 
         GuiManager.initialize(this);
+        ChatRooms.getInstance();
 
         menuBar = new no.hig.imt3281.ludo.client.gui.MenuBar();
 

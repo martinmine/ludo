@@ -14,7 +14,6 @@ import java.awt.*;
 public class TabbedChatContainer extends JTabbedPane {
     public TabbedChatContainer() {
         setPreferredSize(new Dimension(384, 430));
-        ChatRooms.getInstance();
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 int index = getSelectedIndex();
