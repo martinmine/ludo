@@ -24,6 +24,7 @@ public class TabbedChatContainer extends JTabbedPane {
                 int index = getSelectedIndex();
                 ChatChannel selectedTabComponent = (ChatChannel) getComponentAt(index);
                 ChatMessageHandler.getInstance().setCurrentState(selectedTabComponent.getType());
+
             }
         };
         addChangeListener(changeListener);

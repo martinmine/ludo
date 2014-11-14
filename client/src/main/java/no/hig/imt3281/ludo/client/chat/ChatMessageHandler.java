@@ -35,7 +35,7 @@ public class ChatMessageHandler {
                 break;
         }
     }
-    public void broadcastMessage(Message message) {
-        this.currentState.broadcastMessage(message);
+    public void broadcastMessage(int channelId, String message) {
+        this.currentState.broadcastMessage(channelId, message);
     }
 }

@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.chat;
 
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.messaging.GlobalChatMessage;
 import no.hig.imt3281.ludo.messaging.Message;
 
 import java.io.IOException;
@@ -10,9 +11,10 @@ import java.io.IOException;
  */
 public class GlobalChatState implements ChatState {
     @Override
-    public void broadcastMessage(Message message) {
+    public void broadcastMessage(int channelId, String message) {
         try {
-            Main.getServerConnection().sendMessage(message);
+            GlobalChatMessage globalChatMessage = new GlobalChatMessage(message);
+            Main.getServerConnection().sendMessage(globalChatMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }

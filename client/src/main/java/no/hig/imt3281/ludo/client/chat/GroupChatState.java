@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.chat;
 
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.messaging.GroupChatMessage;
 import no.hig.imt3281.ludo.messaging.Message;
 
 import java.io.IOException;
@@ -10,9 +11,11 @@ import java.io.IOException;
  */
 public class GroupChatState implements ChatState {
     @Override
-    public void broadcastMessage(Message message) {
+    public void broadcastMessage(int channelId, String message) {
         try {
-            Main.getServerConnection().sendMessage(message);
+            GroupChatMessage groupChatMessage = new GroupChatMessage(message);
+            groupChatMessage.setChannelId(channelId);
+            Main.getServerConnection().sendMessage(groupChatMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }
