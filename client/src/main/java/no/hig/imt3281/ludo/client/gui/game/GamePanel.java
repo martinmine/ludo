@@ -187,29 +187,38 @@ public class GamePanel extends JComponent implements MouseListener {
         boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
 
-        /*
-        for (int i=0; i<tile.get(3).size(); i++) {
-            System.out.println(i + " " + tile.get(3).get(i));
+        for (int i=0; i<tile.get(0).size(); i++) {
+            System.out.println(i + " " + tile.get(0).get(i));
         }
-        */
 
         demo();
     }
 
+    /**
+     * Tile setup: (Its the same for all PLAYERS!! (factions)
+     * 0-3   = base tiles
+     * 4-52  = shared tiles
+     * 53-57 = finish tiles
+     *
+     *
+     * DELETE THIS FUNCTION ;)
+     */
     private void demo() {
 
-        Token token = new Token(Faction.RED, 0);   //  Create a RED token.
+        Token token = new Token(Faction.RED, 0);
         Token redToken = new Token(Faction.RED, 4);
         Token blueToken = new Token(Faction.BLUE, 0);
         Token green1Token = new Token(Faction.GREEN, 20);
         Token green2Token = new Token(Faction.GREEN, 30);
-        int redId = Faction.RED.getIndex();     //  REDs enum int value.
-        int tileId = tile.get(redId).get(0);    //  TileId for reds first tile.
-                                            //  Tile setup: (Its the same for all PLAYERS!! (factions)
-                                            //       0-3   = base tiles
-                                            //       4-52  = shared tiles
-                                            //       53-57 = finish tiles
-        tiles.get(tileId).addToken(token);  //  Add a token to a tile!!
+
+        //  REDs enum int value.
+        int redId = Faction.RED.getIndex();
+
+        //  TileId for reds first tile.
+        int tileId = tile.get(redId).get(0);
+
+        // Add a token to a tile!!
+        tiles.get(tileId).addToken(token);
         tiles.get(tile.get(Faction.BLUE.getIndex()).get(0)).addToken(blueToken);
         tiles.get(tile.get(Faction.RED.getIndex()).get(4)).addToken(redToken);
         tiles.get(tile.get(Faction.GREEN.getIndex()).get(20)).addToken(green1Token);
@@ -246,64 +255,126 @@ public class GamePanel extends JComponent implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
 
-        Faction player = Faction.RED; //Get current player id from backend (0-3) 0 = red... (red begins..)
+        //Get current player id from backend (0-3) 0 = red...
+        Faction player = Faction.RED;
 
         Tile tt = tiles.stream().filter(tile -> tile.clicked(e.getX(), e.getY())).findFirst().orElse(null);
         if (tt != null  &&  tt.getPosition() != -1) {
-            //System.out.println("tokenPosition " + tt.getPosition() + " for red");
+
             Faction check = tt.getFaction();
             if (check != null  &&  check == player) {
                 System.out.println("Your RED token at " + tt.getPosition());
 
-                int target = tt.getPosition();  // target is at current position.
+                // Target is at current position.
+                int target = tt.getPosition();
+
                 if (tt.getPosition() < 4) {
-                    if (dice == 6) target = 4;  // Token can leave base. (or stay at home: see line above)
+
+                    // Token can leave base. (or stay at home: see line above)
+                    if (dice == 6) target = 4;
                 } else {
-                    target = tt.getPosition() + dice; // target is dice tiles from current position.
+
+                    // target is dice tiles from current position.
+                    target += dice;
                 }
 
-                System.out.println("target = " + target);
+                System.out.println("dice:   " + dice);
+                System.out.println("target: " + target);
 
-                int temp = tt.getPosition() + 1;
+                // current position;
+                int temp = tt.getPosition();
 
-                boolean isBlocked = false;
-                while (!isBlocked  &&  temp < target) {
-                    isBlocked = tiles.get(tile.get(player.getIndex()).get(temp++)).isBlocked(player);
+                int blockade = isBlocked(player, temp, target);
+
+                // If there is a blockade:
+                if (blockade > 0) {
+                    // move just behind blockade.
+                    target = blockade - 1;
                 }
 
-                if (isBlocked) {
-                    target = temp - 2;  // the tile behind the blockade.
+                System.out.println("new target: " + target);
+
+                int last = tile.get(player.getIndex()).size() - 1;
+                System.out.println("last for red " + last);
+                System.out.println("last         " + tile.get(player.getIndex()).get(last));
+                if (target > last) {
+                    int diff = target - last;
+                    System.out.println("diff: " + diff);
+                    target = last - diff;
                 }
 
-                Token move = tt.remove();   // remove from current tile.
-                move.setPosition(target);   // reset a tokens position !
-                Token backToBase = tiles.get(tile.get(player.getIndex()).get(target)).addToken(move);  // place token to new tile.
+                System.out.println("newest target: " + target);
 
+                // Remove token from current tile.
+                Token move = tt.remove();
+
+                // Reset a tokens position. (!)
+                move.setPosition(target);
+
+                // Get index to actual tile.
+                int targetTileIndex = tile.get(player.getIndex()).get(target);
+
+                // If target Tile is occupied by an enemy Token (no blockade)
+                // enemy token gets kicked back to base, else returns null.
+                Token backToBase = tiles.get(targetTileIndex).addToken(move);
+
+                // Kicking an enemy Token back to base:
                 if (backToBase != null) {
+                    // Finding the next free home Tile
                     int home = getBaseTilePosition(backToBase);
                     tiles.get(home).addToken(backToBase);
                 }
 
                 repaint();
             }
-
         }
     }
 
     private int getBaseTilePosition(Token token) {
         for (int i=0; i<4; i++) {
 
-            System.out.println("faction " + token.getFaction());
-            System.out.println("tileId " + tile.get(token.getFaction().getIndex()).get(i) + "?");
-
             int basePosition = tile.get(token.getFaction().getIndex()).get(i);
 
-            System.out.println("base " + i);
             if (tiles.get(basePosition).isEmpty()) {
                 return basePosition;
             }
         }
         return -1;
+    }
+
+    /**
+     * Checks if there is any blockade between two tiles.
+     *
+     * @param player Faction for checking opposite tokens. You are allowed to jump over your own blockades.
+     * @param currentPosition int tokens current position.
+     * @param target int current position + dice value
+     * @return int the position where its a blockade. You can move just behind the blockade.
+     */
+    private int isBlocked(Faction player, int currentPosition, int target) {
+        int last = tile.get(player.getIndex()).get(tile.get(player.getIndex()).size() - 6);
+        int num = (target - currentPosition) + 1;
+
+        // No point looking for blockades on finish tiles.
+        if (currentPosition >= last) {
+            return 0;
+        }
+
+        boolean blocked = false;
+        int i = 0;
+
+        // i becomes number of tiles from current position to nearest blockade.
+        // if no blockade is found, i becomes the target position.
+        while (!blocked  &&  ++i < num) {
+            int index = tile.get(player.getIndex()).get(currentPosition + i);
+            blocked = tiles.get(index).isBlocked(player);
+        }
+
+        // No blockades found.
+        if (i == num) {
+            return 0;
+        }
+
+        return currentPosition + i;
     }
 
     @Override

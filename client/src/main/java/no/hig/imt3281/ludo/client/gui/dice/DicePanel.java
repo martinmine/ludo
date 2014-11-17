@@ -49,7 +49,6 @@ public class DicePanel extends JComponent implements MouseListener {
         System.out.println("this should be backend logic");
         Random rand = new Random();
         face = rand.nextInt(MAX) + MIN;
-        //System.out.println("face is " + face);
         repaint();
     }
 

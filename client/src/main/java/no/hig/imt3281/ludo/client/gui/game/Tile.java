@@ -23,18 +23,26 @@ public class Tile {
     }
 
     /**
-     * Adding a token to a tile, there is 3 checks.
+     * Adding a token to a tile, there is outcomes.
      * When its empty, building blockade, or kicking an opponent back to base.
      *
      * @param t Token to be added.
+     * @return Token kicking out enemy Token back to base.
      */
     public Token addToken(Token t) {
-        if (tile.isEmpty()) {               // Free tile:
+
+        System.out.println("token added: " + t.getPosition());
+
+        // Empty Tile:
+        if (tile.isEmpty()) {
             tile.add(t);
         } else {
-            if (tile.get(0).equals(t)) {    // Building blockade;
+
+            // Already same Token - build blockade:
+            // else kick opponents token.
+            if (tile.get(0).equals(t)) {
                 tile.add(t);
-            } else {                        // Kicking an opponent:
+            } else {
                 Token temp = tile.remove(0);
                 tile.add(t);
                 return temp;
@@ -44,9 +52,8 @@ public class Tile {
     }
 
     /**
-     * For passing this tile, check on blockades.
-     * TODO: can merge with pass ?
-     * @return int number of tokens in this tile.
+     * For passing a tile checking for blockades.
+     * @return boolean if there is a blockade or not.
      */
     public boolean isBlocked(Faction faction) {
         return (!tile.isEmpty()  &&  tile.get(0).getFaction() != faction  &&  tile.size() > 1);
@@ -79,7 +86,6 @@ public class Tile {
      * All tiles checks for token and draw if any.
      * @param g2d Graphics2D from painting the board.
      */
-
     public void draw(Graphics2D g2d) {
 
         /*
@@ -97,16 +103,31 @@ public class Tile {
         }
     }
 
+    /**
+     * For check if a Tile was clicked.
+     * @param x int X-coordinate
+     * @param y int Y-coordinate
+     * @return boolean if it was clicked.
+     */
     public boolean clicked(int x, int y) {
         int xx = this.x + d;
         int yy = this.y + d;
         return (x >= this.x  &&  y >= this.y  &&  x <= xx  &&  y <= yy);
     }
 
+    /**
+     * Check if the Tile is empty before accessing it.
+     * @return boolean isEmpty.
+     */
     public boolean isEmpty() {
         return tile.isEmpty();
     }
 
+    /**
+     * Getting the owner (faction) of the tile.
+     * For checking on rival blockades.
+     * @return Faction owner of the Tile.
+     */
     public Faction getFaction() {
         if (tile.isEmpty()) return null;
         return tile.get(0).getFaction();

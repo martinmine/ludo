@@ -9,10 +9,13 @@ import java.awt.geom.Ellipse2D;
  */
 public class Token {
 
-    private static final int SQR_SIZE = 30; // width and height;
+    // For drawing a Token (same height & width)
+    private static final int SQR_SIZE = 30;
 
     private Ellipse2D.Double token;
     private Faction faction;
+
+    // Knowing its own position from the owners point og view:
     private int position;
 
     Token(Faction faction, int position) {
@@ -21,6 +24,12 @@ public class Token {
         this.position = position;
     }
 
+    /**
+     * Drawing a Token on top of board.
+     * @param g2d Graphics2D past from paintComponent
+     * @param x int X-coordinate
+     * @param y int Y-coordinate
+     */
     public void draw(Graphics2D g2d, int x, int y) {
         this.token.setFrame(x + 2, y + 2, SQR_SIZE, SQR_SIZE);
         g2d.setColor(faction.getColor());
