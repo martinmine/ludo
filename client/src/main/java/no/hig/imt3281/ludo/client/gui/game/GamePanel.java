@@ -150,46 +150,114 @@ public class GamePanel extends JComponent implements MouseListener {
         tiles.add(new Tile(151, 113, TILE_SIZE));
         tiles.add(new Tile(113, 151, TILE_SIZE));
 
-        tile = new ArrayList<>();    // PlayerTiles
-        tile.add(new ArrayList<>()); // RED
-        tile.add(new ArrayList<>()); // BLUE
-        tile.add(new ArrayList<>()); // YELLOW
-        tile.add(new ArrayList<>()); // GREEN
+        // Player tiles - referencing with int (index).
+        tile = new ArrayList<>();
 
-        // RED POINT OF VIEW:
-        for (int i=76; i<80; i++) tile.get(Faction.RED.getIndex()).add(i); // BASE
-        for (int j=0; j<52; j++)  tile.get(Faction.RED.getIndex()).add(j); // SHARED
-        tile.get(Faction.RED.getIndex()).add(0);                           // SHARED (back to start)
-        for (int k=52; k<58; k++) tile.get(Faction.RED.getIndex()).add(k); // FINISH
+        // Red is first index = 0;
+        tile.add(new ArrayList<>());
 
-        // BLUE POINT OF VIEW:
-        for (int i=80; i<84; i++) tile.get(Faction.BLUE.getIndex()).add(i);   // BASE
-        for (int j=0; j<39; j++)  tile.get(Faction.BLUE.getIndex()).add(j+13); // SHARED
-        for (int j=0; j<13; j++)  tile.get(Faction.BLUE.getIndex()).add(j);    // SHARED
-        tile.get(Faction.BLUE.getIndex()).add(13);                            // SHARED (back to start)
-        for (int k=58; k<64; k++) tile.get(Faction.BLUE.getIndex()).add(k);   // FINISH
+        // Blue is second index = 1;
+        tile.add(new ArrayList<>());
 
-        // YELLOW POINT OF VIEW:
-        for (int i=84; i<88; i++) tile.get(Faction.YELLOW.getIndex()).add(i);   // BASE
-        for (int j=0; j<26; j++)  tile.get(Faction.YELLOW.getIndex()).add(j+26); // SHARED
-        for (int j=0; j<26; j++)  tile.get(Faction.YELLOW.getIndex()).add(j); // SHARED
-        tile.get(Faction.YELLOW.getIndex()).add(26);                            // SHARED (back to start)
-        for (int k=64; k<70; k++) tile.get(Faction.YELLOW.getIndex()).add(k);   // FINISH
+        // Yellow is third index = 2;
+        tile.add(new ArrayList<>());
 
-        // GREEN POINT OF VIEW:
-        for (int i=88; i<92; i++) tile.get(Faction.GREEN.getIndex()).add(i);   // BASE
-        for (int j=0; j<13; j++)  tile.get(Faction.GREEN.getIndex()).add(j+39); // SHARED
-        for (int j=0; j<39; j++)  tile.get(Faction.GREEN.getIndex()).add(j); // SHARED
-        tile.get(Faction.GREEN.getIndex()).add(39);                            // SHARED (back to start)
-        for (int k=70; k<76; k++) tile.get(Faction.GREEN.getIndex()).add(k);   // FINISH
+        // Green is 4th index = 3;
+        tile.add(new ArrayList<>());
+
+        // Red point of view BASE:
+        for (int i=76; i<80; i++) {
+            tile.get(Faction.RED.getIndex()).add(i);
+        }
+
+        // Red point of view SHARED:
+        for (int j=0; j<52; j++)  {
+            tile.get(Faction.RED.getIndex()).add(j);
+        }
+
+        // Red point of view SHARED (back to start)
+        tile.get(Faction.RED.getIndex()).add(0);
+
+        // Red point of view FINISH:
+        for (int k=52; k<58; k++) tile.get(Faction.RED.getIndex()).add(k);
+
+
+        // Blue poi BASE:
+        for (int i=80; i<84; i++) {
+            tile.get(Faction.BLUE.getIndex()).add(i);
+        }
+
+        // Blue poi SHARED #1:
+        for (int j=0; j<39; j++)  {
+            tile.get(Faction.BLUE.getIndex()).add(j+13);
+        }
+
+        // Blue poi SHARED #2:
+        for (int j=0; j<13; j++)  tile.get(Faction.BLUE.getIndex()).add(j);
+
+        // Blue poi SHARED (back to start):
+        tile.get(Faction.BLUE.getIndex()).add(13);
+
+        // Blue poi FINISH:
+        for (int k=58; k<64; k++) {
+            tile.get(Faction.BLUE.getIndex()).add(k);
+        }
+
+        // Yellow poi BASE:
+        for (int i=84; i<88; i++) {
+            tile.get(Faction.YELLOW.getIndex()).add(i);
+        }
+
+        // Yellow poi SHARED #1:
+        for (int j=0; j<26; j++)  {
+            tile.get(Faction.YELLOW.getIndex()).add(j+26);
+        }
+
+        // Yellow poi SHARED #2:
+        for (int j=0; j<26; j++)  {
+            tile.get(Faction.YELLOW.getIndex()).add(j);
+        }
+
+        // Yellow poi SHARED (back to start)
+        tile.get(Faction.YELLOW.getIndex()).add(26);
+
+        // Yellow poi FINISH:
+        for (int k=64; k<70; k++) {
+            tile.get(Faction.YELLOW.getIndex()).add(k);
+        }
+
+        // Green poi BASE:
+        for (int i=88; i<92; i++) {
+            tile.get(Faction.GREEN.getIndex()).add(i);
+        }
+
+        // Green poi SHARED #1:
+        for (int j=0; j<13; j++)  {
+            tile.get(Faction.GREEN.getIndex()).add(j+39);
+        }
+
+        // Green poi SHARED #2:
+        for (int j=0; j<39; j++)  {
+            tile.get(Faction.GREEN.getIndex()).add(j);
+        }
+
+        // Green poi SHARED (back to start)
+        tile.get(Faction.GREEN.getIndex()).add(39);
+
+        // Green poi FINISH:
+        for (int k=70; k<76; k++) {
+            tile.get(Faction.GREEN.getIndex()).add(k);
+        }
 
         ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.jpg"));
         boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
 
+        /* Debugging
         for (int i=0; i<tile.get(0).size(); i++) {
             System.out.println(i + " " + tile.get(0).get(i));
         }
+        */
 
         demo();
     }
@@ -263,7 +331,6 @@ public class GamePanel extends JComponent implements MouseListener {
 
             Faction check = tt.getFaction();
             if (check != null  &&  check == player) {
-                System.out.println("Your RED token at " + tt.getPosition());
 
                 // Calculate target out of the top Token on tile (blockade)
                 int target = tt.getPosition();
@@ -272,7 +339,6 @@ public class GamePanel extends JComponent implements MouseListener {
 
                     // Token can leave base. (or stay at home: see line above)
                     if (dice == 6) target = 4;
-                    System.out.println("TARGET: 4 (Should not change)");
                 } else {
 
                     // target is dice tiles from current position.
@@ -296,15 +362,11 @@ public class GamePanel extends JComponent implements MouseListener {
                     target = last - diff;
                 }
 
-                System.out.println("TARGET: " + target);
-                tiles.get(tile.get(player.getIndex()).get(target)).debug();
-
                 // Remove token from current tile.
                 Token move = tt.remove();
 
                 // Reset a tokens position. (!)
                 move.setPosition(target);
-                tiles.get(tile.get(player.getIndex()).get(target)).debug();
 
                 // Get index to actual tile.
                 int targetTileIndex = tile.get(player.getIndex()).get(target);

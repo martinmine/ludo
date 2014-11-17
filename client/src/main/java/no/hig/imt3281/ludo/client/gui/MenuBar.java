@@ -5,11 +5,16 @@ import no.hig.imt3281.ludo.messaging.CreateChatRoomRequest;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 05.11.2014.
+ *
  */
 public class MenuBar extends JMenuBar {
+    private static final Logger LOGGER = Logger.getLogger(MenuBar.class.getName());
+
     public MenuBar() {
 
         JMenu fileMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_FILE"));
@@ -32,7 +37,8 @@ public class MenuBar extends JMenuBar {
             try {
                 Main.getServerConnection().sendMessage(request);
             } catch (IOException e1) {
-                e1.printStackTrace();
+                LOGGER.severe("SendMessage failed at MenuBar");
+                LOGGER.log(Level.SEVERE, e1.getMessage(), e1);
             }
         });
 

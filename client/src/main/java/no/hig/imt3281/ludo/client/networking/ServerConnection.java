@@ -24,7 +24,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
     private MessageHandlingService messageHandler;
 
     public ServerConnection(String hostname, int port) throws IOException {
-        //this.connection = new Socket(hostname, port);
+        this.connection = new Socket(hostname, port);
         this.readerThread = new Thread(this);
         this.messageHandler = new MessageHandlingService();
         this.readerThread.start();

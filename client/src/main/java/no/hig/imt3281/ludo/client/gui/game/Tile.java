@@ -38,7 +38,7 @@ public class Tile {
 
             // Already same Token - build blockade:
             // else kick opponents token.
-            if (tile.get(0).equals(t)) {
+            if (tile.get(0).isEqual(t)) {
                 tile.add(t);
             } else {
                 Token temp = tile.remove(0);
@@ -131,19 +131,7 @@ public class Tile {
      * @return Faction owner of the Tile.
      */
     public Faction getFaction() {
-        if (tile.isEmpty()) return null;
-        return tile.get(0).getFaction();
-    }
-
-    public void debug() {
-        if (!tile.isEmpty()) {
-            /*
-            for (Token t : tile) {
-                System.out.println("position " + t.getPosition());
-            }
-            */
-
-        }
+        return (tile.isEmpty())? null: tile.get(0).getFaction();
     }
 
 }
