@@ -15,12 +15,13 @@ import java.util.logging.Logger;
  */
 public class TriggerDiceRequestMessageHandler implements MessageHandler {
     private static final Random RANDOM = new Random();
+    private static final int DICE_MAX = 6;
     private static final Logger LOGGER = Logger.getLogger(TriggerDiceRequestMessageHandler.class.getSimpleName());
 
     public void handle(TriggerDiceRequest request, CommunicationContext context) {
         TriggerDiceResult response = new TriggerDiceResult();
 
-        response.setDiceValue(RANDOM.nextInt(6));
+        response.setDiceValue(RANDOM.nextInt(DICE_MAX));
 
         try {
             context.sendMessage(response);
