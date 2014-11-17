@@ -29,4 +29,8 @@ public class Game {
     public void cycle() {
 
     }
+
+    public void start() {
+        // TODO
+    }
 }
