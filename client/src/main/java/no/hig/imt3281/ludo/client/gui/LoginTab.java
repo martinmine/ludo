@@ -61,7 +61,9 @@ public class LoginTab extends JPanel {
                 LOGGER.info("Sent login message");
             } catch (IOException readException) {
                 LOGGER.log(Level.SEVERE, readException.getMessage(), readException);
-                // TODO: show error message
+                JOptionPane.showMessageDialog(
+                        GuiManager.getStartDialog(), Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER")
+                );
             }
         });
 

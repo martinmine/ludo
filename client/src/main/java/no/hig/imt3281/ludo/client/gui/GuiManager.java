@@ -35,12 +35,16 @@ public class GuiManager {
         return sideTopPanel;
     }
 
-    public static void initialize(JFrame parent) {
+    public static void initializeLogin(JFrame parent) {
         startDialog = new StartDialog(parent);
         startDialog.display();
+    }
+
+    public static void initializeClient() {
         chatPanel = new ChatPanel();
         gamePanel = new GamePanel();
         sideTopPanel = new SideTopPanel();
         sidePanel = new SidePanel();
+
     }
 }

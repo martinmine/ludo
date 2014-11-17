@@ -14,9 +14,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- */
+
 public class ServerConnection implements Runnable, CommunicationContext {
     private static final Logger LOGGER = Logger.getLogger(ServerConnection.class.getSimpleName());
     private Socket connection;
@@ -24,7 +22,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
     private MessageHandlingService messageHandler;
 
     public ServerConnection(String hostname, int port) throws IOException {
-        //this.connection = new Socket(hostname, port);
+        this.connection = new Socket(hostname, port);
         this.readerThread = new Thread(this);
         this.messageHandler = new MessageHandlingService();
         this.readerThread.start();
