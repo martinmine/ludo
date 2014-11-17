@@ -12,14 +12,14 @@ public class Token {
     // For drawing a Token (same height & width)
     private static final int SQR_SIZE = 30;
 
-    private Ellipse2D.Double token;
+    private Ellipse2D.Double rawToken;
     private Faction faction;
 
     // Knowing its own position from the owners point og view:
     private int position;
 
     Token(Faction faction, int position) {
-        this.token = new Ellipse2D.Double(0, 0, SQR_SIZE, SQR_SIZE);
+        this.rawToken = new Ellipse2D.Double(0, 0, SQR_SIZE, SQR_SIZE);
         this.faction = faction;
         this.position = position;
     }
@@ -31,12 +31,12 @@ public class Token {
      * @param y int Y-coordinate
      */
     public void draw(Graphics2D g2d, int x, int y) {
-        this.token.setFrame(x + 2, y + 2, SQR_SIZE, SQR_SIZE);
+        this.rawToken.setFrame(x + 2, y + 2, SQR_SIZE, SQR_SIZE);
         g2d.setColor(faction.getColor());
-        g2d.fill(token);
+        g2d.fill(rawToken);
     }
 
-    public boolean equals(Token t) {
+    public boolean isEqual(Token t) {
         return t.faction == faction;
     }
 
@@ -45,7 +45,6 @@ public class Token {
     }
 
     public void setPosition(int position) {
-        System.out.println("Setting positon to " + position);
         this.position = position;
     }
 

@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 05.11.2014.
@@ -16,6 +18,8 @@ import java.util.Random;
  */
 public class DicePanel extends JComponent implements MouseListener {
 
+
+    private static final Logger LOGGER = Logger.getLogger(DicePanel.class.getName());
     private static final int MAX = 6;
     private static final int MIN = 0;
 
@@ -24,9 +28,9 @@ public class DicePanel extends JComponent implements MouseListener {
 
     public DicePanel() {
         addMouseListener(this);
-        dice = new Image[6];
+        dice = new Image[MAX];
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < MAX; i++) {
             ImageIcon temp = new ImageIcon(getClass().getResource("/img/dice" + (i+1) + ".gif"));
             dice[i] = temp.getImage();
         }
@@ -50,19 +54,15 @@ public class DicePanel extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Random rand = new Random();
-        face = rand.nextInt(MAX) + MIN;
-        repaint();
-
-        /*
+        
         TriggerDiceRequest request = new TriggerDiceRequest();
         try {
             Main.getServerConnection().sendMessage(request);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            LOGGER.severe("Trigger Dice Request failed");
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             // TODO: make gui close and notify the user the the connection was closed
         }
-        */
     }
 
     @Override
