@@ -265,21 +265,19 @@ public class GamePanel extends JComponent implements MouseListener {
             if (check != null  &&  check == player) {
                 System.out.println("Your RED token at " + tt.getPosition());
 
-                // Target is at current position.
+                // Calculate target out of the top Token on tile (blockade)
                 int target = tt.getPosition();
 
                 if (tt.getPosition() < 4) {
 
                     // Token can leave base. (or stay at home: see line above)
                     if (dice == 6) target = 4;
+                    System.out.println("TARGET: 4 (Should not change)");
                 } else {
 
                     // target is dice tiles from current position.
                     target += dice;
                 }
-
-                System.out.println("dice:   " + dice);
-                System.out.println("target: " + target);
 
                 // current position;
                 int temp = tt.getPosition();
@@ -292,24 +290,21 @@ public class GamePanel extends JComponent implements MouseListener {
                     target = blockade - 1;
                 }
 
-                System.out.println("new target: " + target);
-
                 int last = tile.get(player.getIndex()).size() - 1;
-                System.out.println("last for red " + last);
-                System.out.println("last         " + tile.get(player.getIndex()).get(last));
                 if (target > last) {
                     int diff = target - last;
-                    System.out.println("diff: " + diff);
                     target = last - diff;
                 }
 
-                System.out.println("newest target: " + target);
+                System.out.println("TARGET: " + target);
+                tiles.get(tile.get(player.getIndex()).get(target)).debug();
 
                 // Remove token from current tile.
                 Token move = tt.remove();
 
                 // Reset a tokens position. (!)
                 move.setPosition(target);
+                tiles.get(tile.get(player.getIndex()).get(target)).debug();
 
                 // Get index to actual tile.
                 int targetTileIndex = tile.get(player.getIndex()).get(target);

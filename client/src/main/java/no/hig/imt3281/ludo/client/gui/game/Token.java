@@ -45,6 +45,7 @@ public class Token {
     }
 
     public void setPosition(int position) {
+        System.out.println("Setting positon to " + position);
         this.position = position;
     }
 

@@ -50,10 +50,11 @@ public class DicePanel extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //Random rand = new Random();
-        //face = rand.nextInt(MAX) + MIN;
-        //repaint();
+        Random rand = new Random();
+        face = rand.nextInt(MAX) + MIN;
+        repaint();
 
+        /*
         TriggerDiceRequest request = new TriggerDiceRequest();
         try {
             Main.getServerConnection().sendMessage(request);
@@ -61,6 +62,7 @@ public class DicePanel extends JComponent implements MouseListener {
             ex.printStackTrace();
             // TODO: make gui close and notify the user the the connection was closed
         }
+        */
     }
 
     @Override

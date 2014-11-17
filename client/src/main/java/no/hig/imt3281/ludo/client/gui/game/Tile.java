@@ -31,8 +31,6 @@ public class Tile {
      */
     public Token addToken(Token t) {
 
-        System.out.println("token added: " + t.getPosition());
-
         // Empty Tile:
         if (tile.isEmpty()) {
             tile.add(t);
@@ -67,11 +65,15 @@ public class Tile {
         return tile.remove(tile.size()-1);
     }
 
+    /**
+     * Get position of top Token on block if any.
+     * @return int top Token position
+     */
     public int getPosition() {
         if (tile.isEmpty()) {
             return -1;
         }
-        return tile.get(0).getPosition();
+        return tile.get(tile.size()-1).getPosition();
     }
 
     public int getX() {
@@ -133,6 +135,15 @@ public class Tile {
         return tile.get(0).getFaction();
     }
 
+    public void debug() {
+        if (!tile.isEmpty()) {
+            /*
+            for (Token t : tile) {
+                System.out.println("position " + t.getPosition());
+            }
+            */
 
+        }
+    }
 
 }
