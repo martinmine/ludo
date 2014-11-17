@@ -1,6 +1,8 @@
 package no.hig.imt3281.ludo.backend;
 
 import no.hig.imt3281.ludo.backend.chat.ChatManager;
+import no.hig.imt3281.ludo.backend.game.GameManager;
+import no.hig.imt3281.ludo.backend.game.queue.GameQueueManager;
 import no.hig.imt3281.ludo.backend.networking.ClientConnection;
 import no.hig.imt3281.ludo.backend.networking.NetworkManager;
 import org.hibernate.SessionFactory;
@@ -26,6 +28,8 @@ public class ServerEnvironment {
     private static SessionFactory sessionFactory;
     private static UserManager userManager;
     private static ChatManager chatManager;
+    private static GameManager gameManager;
+    private static GameQueueManager gameQueueManager;
     private static Thread cycleThread;
     private static boolean isAlive = true;
 
@@ -67,6 +71,8 @@ public class ServerEnvironment {
         networkManager = new NetworkManager(SERVER_PORT);
         userManager = new UserManager();
         chatManager = new ChatManager();
+        gameManager = new GameManager();
+        gameQueueManager = new GameQueueManager();
 
         cycleThread = new Thread(() -> {
            while (isAlive) {
@@ -97,6 +103,14 @@ public class ServerEnvironment {
 
     public static ChatManager getChatManager() {
         return chatManager;
+    }
+
+    public static GameManager getGameManager() {
+        return gameManager;
+    }
+
+    public static GameQueueManager getGameQueueManager() {
+        return gameQueueManager;
     }
 
     public static int getCurrentTimeStamp() {

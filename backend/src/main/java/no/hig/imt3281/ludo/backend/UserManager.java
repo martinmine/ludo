@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.backend;
 
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
+import no.hig.imt3281.ludo.messaging.ChallengeableUser;
 import no.hig.imt3281.ludo.messaging.Message;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -204,5 +205,22 @@ public class UserManager {
         }
 
         return new String(hexChars);
+    }
+
+    public void requestUserList(final User requestingUser) {
+        final ChallengeableUser response = new ChallengeableUser();
+        this.activeUsers.requestForeach((userId, user) -> {
+            response.setUserId(userId);
+            response.setUsername(user.getUsername());
+
+            if (requestingUser.getClientConnection() != null) {
+                try {
+                    requestingUser.getClientConnection().sendMessage(response);
+                } catch (IOException e) {
+                    LOGGER.log(Level.INFO, e.getMessage(), e);
+                    requestingUser.getClientConnection().close();
+                }
+            }
+        });
     }
 }
