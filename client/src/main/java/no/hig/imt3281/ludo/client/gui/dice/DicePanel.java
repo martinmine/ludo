@@ -31,7 +31,7 @@ public class DicePanel extends JComponent implements MouseListener {
         dice = new Image[MAX];
 
         for (int i = 0; i < MAX; i++) {
-            ImageIcon temp = new ImageIcon(getClass().getResource("/img/dice" + (i+1) + ".gif"));
+            ImageIcon temp = new ImageIcon(getClass().getResource("/img/dice" + (i+1) + ".png"));
             dice[i] = temp.getImage();
         }
     }
@@ -54,7 +54,7 @@ public class DicePanel extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
         TriggerDiceRequest request = new TriggerDiceRequest();
         try {
             Main.getServerConnection().sendMessage(request);
