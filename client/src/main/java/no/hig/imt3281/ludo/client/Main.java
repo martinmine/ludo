@@ -1,9 +1,7 @@
 package no.hig.imt3281.ludo.client;
 
-import no.hig.imt3281.ludo.client.gui.Client;
-import no.hig.imt3281.ludo.client.gui.StartDialog;
+import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.client.networking.ServerConnection;
-import no.hig.imt3281.ludo.messaging.LoginRequest;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -35,26 +33,8 @@ public class Main {
             System.exit(0);
         }
         LOGGER.info("Connected");
-/*
-        // Sample code
-        LoginRequest request = new LoginRequest();
-        request.setUsername("ChipM");
-        request.setPassword("a");
-
-        try {
-            LOGGER.info("Sending request");
-            serverConnection.sendMessage(request);
-            LOGGER.info("Request sent");
-        } catch (IOException e) {
-            LOGGER.severe("Unable to send login request");
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            System.exit(0);
-        }
-*/
-
-        // Sample code end
         setUserPreferences();
-        new Client();
+        GuiManager.initializeLogin(null);
     }
 
     public static ServerConnection getServerConnection() {

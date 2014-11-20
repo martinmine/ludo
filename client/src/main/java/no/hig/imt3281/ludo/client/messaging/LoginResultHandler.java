@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.messaging;
 
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.client.gui.Client;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.LoginResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
@@ -17,6 +18,7 @@ public class LoginResultHandler implements MessageHandler {
         switch (message.getResultCode()) {
             case LoginResult.OK: {
                 GuiManager.getStartDialog().dispose();
+                new Client();
                 break;
             }
             case LoginResult.INVALID_CREDENTIALS: {
