@@ -3,7 +3,10 @@ package no.hig.imt3281.ludo.backend.game.queue;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.game.Game;
+import no.hig.imt3281.ludo.messaging.GameChallengeMessage;
+import no.hig.imt3281.ludo.messaging.GameChallengeResponse;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,8 +40,15 @@ public class GameChallenge {
     public void challengeUser(User user) {
         this.challengedUsers.add(user);
         this.userStates[this.challengedUsers.size() - 1] = GameChallengeState.WAITING;
+    }
 
-        // TODO: Notify user's client
+    /**
+     * Sets the initiator of the game challenge
+     * @param owner
+     */
+    public void setOwner(User owner) {
+        this.challengedUsers.add(owner);
+        this.userStates[this.challengedUsers.size() - 1] = GameChallengeState.ACCEPTED;
     }
 
     /**
@@ -100,7 +110,23 @@ public class GameChallenge {
         }
     }
 
+    /**
+     * Tells the users that the challenge was rejected for whatever reason
+     */
     private void destroy() {
-        // TODO: notify the users the challenge was rejected
+        GameChallengeResponse response = new GameChallengeResponse();
+        response.setChallengeId(this.id);
+        response.setState(GameChallengeResponse.REJECTED);
+
+        for (User user : this.challengedUsers) {
+            int state = this.userStates[this.challengedUsers.indexOf(user)];
+            if (state == GameChallengeState.ACCEPTED || state == GameChallengeState.WAITING) {
+                try {
+                    user.getClientConnection().sendMessage(response);
+                } catch (IOException e) {
+                    user.getClientConnection().close();
+                }
+            }
+        }
     }
 }

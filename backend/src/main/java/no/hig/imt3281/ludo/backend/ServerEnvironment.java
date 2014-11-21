@@ -77,6 +77,8 @@ public class ServerEnvironment {
            while (isAlive) {
                userManager.onCycle();
                chatManager.onCycle();
+               gameQueueManager.onCycle();
+
                try {
                    Thread.sleep(SERVER_PULSE);
                } catch (InterruptedException e) {
