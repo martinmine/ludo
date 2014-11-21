@@ -22,7 +22,7 @@ public class LoginResultHandler implements MessageHandler {
                 break;
             }
             case LoginResult.INVALID_CREDENTIALS: {
-                GuiManager.getStartDialog().setFeedback("INVALID_UPW");
+                GuiManager.getStartDialog().setFeedback(Main.resourceBundle.getString("LOGIN_FEEDBACK_INVALID"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
                         Main.resourceBundle.getString("LOGIN_FAILED_TO_AUTHENTICATE")
@@ -30,7 +30,7 @@ public class LoginResultHandler implements MessageHandler {
                 break;
             }
             case LoginResult.SERVER_ERROR: {
-                GuiManager.getStartDialog().setFeedback("ERROR");
+                GuiManager.getStartDialog().setFeedback(Main.resourceBundle.getString("LOGIN_FEEDBACK_ERROR"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
                         Main.resourceBundle.getString("LOGIN_SERVER_FAILURE"
