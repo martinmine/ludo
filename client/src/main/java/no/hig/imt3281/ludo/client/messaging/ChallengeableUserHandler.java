@@ -10,7 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 /**
  * Created by Joakim on 17.11.2014.
  */
-public class ListChallengeableUsersHandler implements MessageHandler {
+public class ChallengeableUserHandler implements MessageHandler {
     private ChallengeUserFrame listFrame;
 
     void handle(ChallengeableUser message, CommunicationContext context) {
