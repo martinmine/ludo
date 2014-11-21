@@ -3,7 +3,7 @@ package no.hig.imt3281.ludo.messaging;
 /**
  * Message sent to client when the user is being challenged
  */
-public class GameChallengeMessage {
+public class GameChallengeMessage extends Message {
     private int challengeId;
     private int challengerUserId;
     private String challengerUsername;

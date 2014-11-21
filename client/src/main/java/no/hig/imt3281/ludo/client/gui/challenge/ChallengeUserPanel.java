@@ -2,12 +2,8 @@ package no.hig.imt3281.ludo.client.gui.challenge;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.ChallengeUserRequest;
-import no.hig.imt3281.ludo.messaging.ListChallengeableUsersRequest;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 /**
@@ -25,7 +21,7 @@ public class ChallengeUserPanel extends JPanel {
         this.challengeableUsersList = new ChallengeList();
         this.challengeableUsersList.getSelectedIndices();
         this.scrollPane = new JScrollPane(challengeableUsersList);
-        this.challengeButton = new JButton("1v1usFeggit");
+        this.challengeButton = new JButton(Main.resourceBundle.getString("GAME_CHALLENGE_SELECTED_PLAYERS_BUTTON"));
 
 
         challengeButton.addActionListener( e -> {
@@ -33,21 +29,21 @@ public class ChallengeUserPanel extends JPanel {
            for(int index : challengeableUsersList.getSelectedIndices()) {
                ChallengeableUserComponent c = (ChallengeableUserComponent) challengeableUsersList.getElement(index);
                request.addUserId(c.getId());
-
            }
-            try {
-                Main.getServerConnection().sendMessage(request);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+           try {
+               Main.getServerConnection().sendMessage(request);
+               JFrame mainFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+               mainFrame.dispose();
+           } catch (IOException e1) {
+               e1.printStackTrace();
+           }
         });
 
         add(challengeButton, BorderLayout.EAST);
         add(scrollPane, BorderLayout.WEST);
-
     }
 
-    public void addToList(Component component) {
-        this.challengeableUsersList.add(component);
+    public void addToList(ChallengeableUserComponent component) {
+        this.challengeableUsersList.addToList(component);
     }
 }

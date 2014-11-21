@@ -18,5 +18,7 @@ public class MessageHandlingService extends MessageHandlerFactory {
         registerResponse(RegistrationRequest.class, new RegistrationRequestHandler());
         registerResponse(TriggerDiceRequest.class, new TriggerDiceRequestMessageHandler());
         registerResponse(ListChallengeableUsersRequest.class, new ListChallengeableUserRequestHandler());
+        registerResponse(ChallengeUserRequest.class, new ChallengeUserRequestHandler());
+        registerResponse(GameChallengeResponse.class, new GameChallengeResponseHandler());
     }
 }

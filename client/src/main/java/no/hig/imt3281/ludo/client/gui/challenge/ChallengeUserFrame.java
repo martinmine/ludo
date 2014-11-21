@@ -2,6 +2,8 @@ package no.hig.imt3281.ludo.client.gui.challenge;
 
 
 
+import no.hig.imt3281.ludo.client.Main;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,7 +15,7 @@ public class ChallengeUserFrame extends JFrame {
     private ChallengeUserPanel listPanel;
 
     public ChallengeUserFrame() {
-        super("Challengeable players");
+        super(Main.resourceBundle.getString("CHALLENGE_PLAYERS_TITLE"));
         setPreferredSize(new Dimension(300, 500));
 
         this.listPanel = new ChallengeUserPanel();
@@ -24,7 +26,7 @@ public class ChallengeUserFrame extends JFrame {
         setVisible(true);
     }
 
-    public void addListItem(Component component) {
+    public void addListItem(ChallengeableUserComponent component) {
         listPanel.addToList(component);
     }
 }

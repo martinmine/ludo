@@ -4,7 +4,9 @@ import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.backend.game.Game;
+import no.hig.imt3281.ludo.messaging.GameChallengeMessage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,11 +14,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 /**
  * Class handling the game queues
  */
 public class GameQueueManager {
+    private static final Logger LOGGER = Logger.getLogger(GameQueueManager.class.getSimpleName());
     private Queue<User> gameQueue;
     private AtomicInteger challengeCounter;
     private QueuedMap<Integer, GameChallenge> challenges;
@@ -63,7 +68,7 @@ public class GameQueueManager {
     /**
      * Cycles the game queue and takes care of timeouts, etc.
      */
-    public void cycle() {
+    public void onCycle() {
         try {
             this.syncRoot.lock();
 
@@ -77,21 +82,38 @@ public class GameQueueManager {
         finally {
             this.syncRoot.unlock();
         }
+
         challenges.requestForeach((challengeId, challenge) -> challenge.cycle());
+        challenges.onCycle();
     }
 
     /**
      * Challenges a list of users
      * @param users Users to challenge
      */
-    public void challengeUsers(List<User> users) {
-        assert(users.size() <= 4);
-        int challengeId = this.challengeCounter.incrementAndGet();
+    public void challengeUsers(List<User> users, User owner) {
+        assert(users.size() <= 4 && users.size() >= 1);
+        final int challengeId = this.challengeCounter.incrementAndGet();
 
         GameChallenge challenge = new GameChallenge(challengeId, ServerEnvironment.getCurrentTimeStamp());
+        challenge.setOwner(owner);
         users.forEach(challenge::challengeUser);
 
+        GameChallengeMessage message = new GameChallengeMessage();
+        message.setChallengeId(challengeId);
+        message.setChallengerUserId(owner.getId());
+        message.setChallengerUsername(owner.getUsername());
+
+        users.forEach(user -> {
+            try {
+                user.getClientConnection().sendMessage(message);
+            } catch (IOException e) {
+                user.getClientConnection().close();
+            }
+        });
+
         this.challenges.addItem(challengeId, challenge);
+        LOGGER.info("Added new challenge with id " + challengeId);
     }
 
     /**
@@ -101,5 +123,9 @@ public class GameQueueManager {
      */
     public GameChallenge getChallenge(final int id) {
         return this.challenges.get(id);
+    }
+
+    public void disposeChallenge(int id) {
+        this.challenges.removeItem(id);
     }
 }
