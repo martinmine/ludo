@@ -11,15 +11,9 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
  * Created by Joakim on 17.11.2014.
  */
 public class ChallengeableUserHandler implements MessageHandler {
-    private ChallengeUserFrame listFrame;
 
     public void handle(ChallengeableUser message, CommunicationContext context) {
-        System.out.println("User is challengable: " + message.getUsername());
-       if (this.listFrame != null)
-           listFrame.addListItem(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
-       else {
-           this.listFrame = new ChallengeUserFrame();
-           this.listFrame.addListItem(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
-       }
+        ChallengeUserFrame listFrame = ChallengeUserFrame.getInstance();
+        listFrame.addListItem(message.getUsername(), message.getUserId());
     }
 }
