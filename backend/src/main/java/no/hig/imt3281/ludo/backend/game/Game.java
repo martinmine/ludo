@@ -1,6 +1,9 @@
 package no.hig.imt3281.ludo.backend.game;
 
 import no.hig.imt3281.ludo.backend.User;
+import no.hig.imt3281.ludo.messaging.UserEnteredGameMessage;
+
+import java.io.IOException;
 
 /**
  * Created by Martin on 17.11.2014.
@@ -22,8 +25,6 @@ public class Game {
         user.setGamePlayerId(this.userCount);
 
         users[userCount++] = user;
-
-        // TODO: Notify user that they entered a game
     }
 
     public void leave(User user) {
@@ -35,6 +36,21 @@ public class Game {
     }
 
     public void start() {
-        // TODO
+        UserEnteredGameMessage message = new UserEnteredGameMessage();
+
+        message.setGameId(this.gameId);
+        message.setPlayerCount(this.userCount);
+
+        for (int i = 0; i < userCount; i++) {
+            message.addPlayerId(users[i].getId());
+        }
+
+        for (int i = 0; i < userCount; i++) {
+            try {
+                users[i].getClientConnection().sendMessage(message);
+            } catch (IOException e) {
+                users[i].getClientConnection().close();
+            }
+        }
     }
 }
