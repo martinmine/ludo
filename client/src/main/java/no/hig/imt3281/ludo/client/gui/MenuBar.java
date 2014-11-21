@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
-import no.hig.imt3281.ludo.client.gui.challenge.ChallengeListDialog;
+import no.hig.imt3281.ludo.client.gui.challenge.ChallengeUserFrame;
 import no.hig.imt3281.ludo.messaging.CreateChatRoomRequest;
 import no.hig.imt3281.ludo.messaging.EnterGameQueueMessage;
 import no.hig.imt3281.ludo.messaging.ListChallengeableUsersRequest;
@@ -61,7 +61,7 @@ public class MenuBar extends JMenuBar {
         challengePlayers.addActionListener(e -> {
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
-                new ChallengeListDialog();
+                new ChallengeUserFrame();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 JOptionPane.showMessageDialog(null,Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER"));
