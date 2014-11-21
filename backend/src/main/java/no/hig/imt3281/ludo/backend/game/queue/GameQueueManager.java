@@ -2,7 +2,6 @@ package no.hig.imt3281.ludo.backend.game.queue;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
-import no.hig.imt3281.ludo.backend.collections.QueuedAction;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.backend.game.Game;
 
@@ -43,7 +42,7 @@ public class GameQueueManager {
 
     public void challengeUsers(List<User> users) {
         int challengeId = this.challengeCounter.incrementAndGet();
-        GameChallenge challenge = new GameChallenge(challengeId);
+        GameChallenge challenge = new GameChallenge(challengeId, 1);
         users.forEach(challenge::challengeUser);
 
         this.challenges.addItem(challengeId, challenge);
