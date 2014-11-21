@@ -15,11 +15,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 /**
  * Class handling the game queues
  */
 public class GameQueueManager {
+    private static final Logger LOGGER = Logger.getLogger(GameQueueManager.class.getSimpleName());
     private Queue<User> gameQueue;
     private AtomicInteger challengeCounter;
     private QueuedMap<Integer, GameChallenge> challenges;
@@ -80,7 +82,9 @@ public class GameQueueManager {
         finally {
             this.syncRoot.unlock();
         }
+
         challenges.requestForeach((challengeId, challenge) -> challenge.cycle());
+        challenges.onCycle();
     }
 
     /**
@@ -109,6 +113,7 @@ public class GameQueueManager {
         });
 
         this.challenges.addItem(challengeId, challenge);
+        LOGGER.info("Added new challenge with id " + challengeId);
     }
 
     /**
@@ -118,5 +123,9 @@ public class GameQueueManager {
      */
     public GameChallenge getChallenge(final int id) {
         return this.challenges.get(id);
+    }
+
+    public void disposeChallenge(int id) {
+        this.challenges.removeItem(id);
     }
 }
