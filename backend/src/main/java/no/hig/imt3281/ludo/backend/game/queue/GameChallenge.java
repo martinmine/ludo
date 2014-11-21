@@ -3,21 +3,23 @@ package no.hig.imt3281.ludo.backend.game.queue;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.game.Game;
-import no.hig.imt3281.ludo.messaging.GameChallengeMessage;
 import no.hig.imt3281.ludo.messaging.GameChallengeResponse;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * A game challenge initiated by a user.
  * Takes care of the actions when users responds to the challenge.
  */
 public class GameChallenge {
+    private static final Logger LOGGER = Logger.getLogger(GameChallenge.class.getSimpleName());
     private static final int CHALLENGE_TIMEOUT = 30;
     private int id;
     private List<User> challengedUsers;
+    private User owner;
     private int[] userStates;
     private int timeCreated;
 
@@ -47,15 +49,16 @@ public class GameChallenge {
      * @param owner
      */
     public void setOwner(User owner) {
-        this.challengedUsers.add(owner);
-        this.userStates[this.challengedUsers.size() - 1] = GameChallengeState.ACCEPTED;
+        this.owner = owner;
     }
 
     /**
      * Cycles the game challenge and takes care of timed out events, etc.
      */
     public void cycle() {
-        if (ServerEnvironment.getCurrentTimeStamp() + CHALLENGE_TIMEOUT > this.timeCreated) {
+        if (ServerEnvironment.getCurrentTimeStamp() > this.timeCreated + CHALLENGE_TIMEOUT) {
+            LOGGER.info("Challenge timed out");
+            LOGGER.info("Timestamp : " + ServerEnvironment.getCurrentTimeStamp() + " made at " + this.timeCreated);
             destroy();
         }
     }
@@ -94,7 +97,8 @@ public class GameChallenge {
 
         // all users responded
         if (waitingUsers == 0) {
-            if (acceptedUsers >= 2) {
+            if (acceptedUsers >= 1) {
+                LOGGER.info("Challenge starting game");
                 Game game = ServerEnvironment.getGameManager().createGame();
 
                 for (User user : this.challengedUsers) {
@@ -103,7 +107,9 @@ public class GameChallenge {
                     }
                 }
 
+                game.enter(owner);
                 game.start();
+                ServerEnvironment.getGameQueueManager().disposeChallenge(id);
             } else {
                 destroy();
             }
@@ -114,6 +120,7 @@ public class GameChallenge {
      * Tells the users that the challenge was rejected for whatever reason
      */
     private void destroy() {
+        LOGGER.info("Challenge failed");
         GameChallengeResponse response = new GameChallengeResponse();
         response.setChallengeId(this.id);
         response.setState(GameChallengeResponse.REJECTED);
@@ -128,5 +135,7 @@ public class GameChallenge {
                 }
             }
         }
+
+        ServerEnvironment.getGameQueueManager().disposeChallenge(this.id);
     }
 }

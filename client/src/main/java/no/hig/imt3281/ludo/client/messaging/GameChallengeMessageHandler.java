@@ -24,6 +24,7 @@ public class GameChallengeMessageHandler implements MessageHandler {
 
         GameChallengeResponse response = new GameChallengeResponse();
 
+        response.setChallengeId(message.getChallengeId());
         if (result == CHALLENGE_ACCEPTED) {
             response.setState(GameChallengeResponse.ACCEPTED);
         } else {
