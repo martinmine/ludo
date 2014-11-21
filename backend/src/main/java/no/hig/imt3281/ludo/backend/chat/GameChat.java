@@ -10,10 +10,17 @@ import no.hig.imt3281.ludo.messaging.GameChatMessage;
 public class GameChat extends ChatRoom {
     private int gameId;
 
+    /**
+     * Makes a new game chat
+     * @param gameId Id of teh game chat
+     */
     public GameChat(int gameId) {
         this.gameId = gameId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void userSays(User user, String chatMessage) {
         GameChatMessage message = new GameChatMessage();
@@ -33,6 +40,9 @@ public class GameChat extends ChatRoom {
         super.broadcastMessage(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void broadcastSystemMessage(String systemMessage) {
         GameChatMessage message = new GameChatMessage();

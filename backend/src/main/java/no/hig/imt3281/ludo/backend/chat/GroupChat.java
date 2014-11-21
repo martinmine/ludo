@@ -5,7 +5,7 @@ import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.messaging.GroupChatMessage;
 
 /**
- * Created by Martin on 11.11.2014.
+ * A group chat for a user generated chat room
  */
 public class GroupChat extends ChatRoom {
     private int id;
@@ -21,14 +21,25 @@ public class GroupChat extends ChatRoom {
         this.caption = caption;
     }
 
+    /**
+     * Gets the unique identifier for the chat room
+     * @return Chat room id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Gets the name or the title of the chat room
+     * @return Name of the chat room
+     */
     public String getCaption() {
         return caption;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void broadcastSystemMessage(String systemMessage) {
         GroupChatMessage message = new GroupChatMessage();
@@ -39,6 +50,9 @@ public class GroupChat extends ChatRoom {
         super.broadcastMessage(message);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void userSays(User user, String chatMessage) {
         ChatLogEntry entry = new ChatLogEntry(ChatLogEntry.GROUP_MESSAGE);

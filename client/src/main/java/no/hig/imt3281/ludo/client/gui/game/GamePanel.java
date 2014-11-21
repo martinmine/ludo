@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 /**
  * Created by Joakim on 27.10.2014.
  *
+ * GamePanel is the Board which maps all tiles.
  */
 public class GamePanel extends JComponent implements MouseListener {
 
