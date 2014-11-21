@@ -1,10 +1,10 @@
 package no.hig.imt3281.ludo.backend;
 
-
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 
 import javax.persistence.*;
+import java.io.IOException;
 
 /**
  * Created by Martin on 27.10.2014.
@@ -106,5 +106,9 @@ public class User implements ConnectivityNotifier {
     @Override
     public void connectionClosed() {
         ServerEnvironment.getUserManager().reportLoggedOut(this.id);
+    }
+
+    public void setTokensOnBoard() throws IOException {
+        getClientConnection().sendMessage(new no.hig.imt3281.ludo.messaging.InitializePlayerTokenMessage());
     }
 }

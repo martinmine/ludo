@@ -1,11 +1,14 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
+import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
+import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -15,6 +18,7 @@ import java.util.logging.Logger;
  * GamePanel is the Board which maps all tiles.
  */
 public class GamePanel extends JComponent implements MouseListener {
+    private static final int MAX_PLAYERS = 4;
 
     private Dimension boardSize;
     private final static int TILE_SIZE = 35;
@@ -22,10 +26,16 @@ public class GamePanel extends JComponent implements MouseListener {
     private Image loading;
     private ArrayList<Tile> tiles;
     private ArrayList<ArrayList<Integer>> tile;
+    private Player players[];
+    private int numPlayer;
+    private int turn;
     private boolean isLoading;
 
     public GamePanel() {
         addMouseListener(this);
+        players = new Player[MAX_PLAYERS];
+        turn = 0;
+
         tiles = new ArrayList<>();
 
         // SHARED TILES:
@@ -338,9 +348,21 @@ public class GamePanel extends JComponent implements MouseListener {
 
         if (!isLoading) {
 
+            // get dice value.
             int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
 
-            //Get current player id from backend (0-3) 0 = red...
+            MoveTokenRequest request = new MoveTokenRequest();
+            request.setTokenId(0);
+
+            // TODO: get token id from mouseClicked!!!!!
+
+            try {
+                Main.getServerConnection().sendMessage(request);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            // the users turn...
             Faction player = Faction.RED;
 
             Tile tt = tiles.stream().filter(tile -> tile.clicked(e.getX(), e.getY())).findFirst().orElse(null);
@@ -475,4 +497,21 @@ public class GamePanel extends JComponent implements MouseListener {
     public void setLoading(boolean load) {
         isLoading = load;
     }
+
+    public void joinTable(int faction) {
+        Faction color = Faction.RED;
+        switch(faction) {
+            case 0: color = Faction.RED;
+                break;
+            case 1: color = Faction.BLUE;
+                break;
+            case 2: color = Faction.YELLOW;
+                break;
+            case 3: color = Faction.GREEN;
+        }
+
+        players[numPlayer++] = new Player(color);
+        repaint();
+    }
+
 }

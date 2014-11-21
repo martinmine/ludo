@@ -26,6 +26,7 @@ public class Client extends JFrame {
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
         GamePanel gamePanel = GuiManager.getGamePanel();
+
         SidePanel sidePanel = GuiManager.getSidePanel();
         add(sidePanel, BorderLayout.CENTER);
         add(new JScrollPane(gamePanel), BorderLayout.WEST);
