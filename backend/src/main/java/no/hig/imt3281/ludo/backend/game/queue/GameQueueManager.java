@@ -10,25 +10,46 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Martin on 17.11.2014.
+ * Class handling the game queues
  */
 public class GameQueueManager {
     private Queue<User> gameQueue;
     private AtomicInteger challengeCounter;
     private QueuedMap<Integer, GameChallenge> challenges;
+    private Lock accessLock = new ReentrantLock();
 
+    /**
+     * Prepares a new game queue manager
+     */
     public GameQueueManager() {
         this.gameQueue = new ConcurrentLinkedQueue<>();
         this.challenges = new QueuedMap<>(new ConcurrentHashMap<>());
         this.challengeCounter = new AtomicInteger();
     }
 
+    /**
+     * Makes a user enter the game queue
+     * @param user User entering the queue
+     */
     public void enterQueue(User user) {
         this.gameQueue.add(user);
     }
 
+    /**
+     * Makes a user leave the queue
+     * @param user User leaving the queue
+     */
+    public void leaveQueue(User user) {
+        this.gameQueue.remove(user);
+    }
+
+    /**
+     * Cycles the game queue and takes care of timeouts, etc.
+     */
     public void cycle() {
         while (gameQueue.size() >= Game.PLAYERS_MAX) {
             Game game = ServerEnvironment.getGameManager().createGame();
@@ -40,6 +61,10 @@ public class GameQueueManager {
         challenges.requestForeach((challengeId, challenge) -> challenge.cycle());
     }
 
+    /**
+     * Challenges a list of users
+     * @param users Users to challenge
+     */
     public void challengeUsers(List<User> users) {
         assert(users.size() <= 4);
         int challengeId = this.challengeCounter.incrementAndGet();
@@ -49,6 +74,11 @@ public class GameQueueManager {
         this.challenges.addItem(challengeId, challenge);
     }
 
+    /**
+     * Gets a challenge
+     * @param id Id of the challenge
+     * @return the id of the challenge 
+     */
     public GameChallenge getChallenge(final int id) {
         return this.challenges.get(id);
     }

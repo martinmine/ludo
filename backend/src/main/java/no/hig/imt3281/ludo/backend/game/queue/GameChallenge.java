@@ -8,7 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Martin on 17.11.2014.
+ * A game challenge initiated by a user.
+ * Takes care of the actions when users responds to the challenge.
  */
 public class GameChallenge {
     private static final int CHALLENGE_TIMEOUT = 30;
@@ -17,6 +18,11 @@ public class GameChallenge {
     private int[] userStates;
     private int timeCreated;
 
+    /**
+     * Makes a new game challenge
+     * @param id Id of the game challenge
+     * @param timeCreated The timestamp when the challenge was made
+     */
     public GameChallenge(final int id, final int timeCreated) {
         this.id = id;
         this.timeCreated = timeCreated;
@@ -24,6 +30,10 @@ public class GameChallenge {
         this.userStates = new int[Game.PLAYERS_MAX];
     }
 
+    /**
+     * Adds a user to the game challenge
+     * @param user User being challenged
+     */
     public void challengeUser(User user) {
         this.challengedUsers.add(user);
         this.userStates[this.challengedUsers.size() - 1] = GameChallengeState.WAITING;
@@ -31,24 +41,38 @@ public class GameChallenge {
         // TODO: Notify user's client
     }
 
+    /**
+     * Cycles the game challenge and takes care of timed out events, etc.
+     */
     public void cycle() {
         if (ServerEnvironment.getCurrentTimeStamp() + CHALLENGE_TIMEOUT > this.timeCreated) {
             destroy();
         }
     }
 
+    /**
+     * Make a user accept the game challenge
+     * @param user User accepting the challenge
+     */
     public void accept(User user) {
         this.userStates[challengedUsers.indexOf(user)] = GameChallengeState.ACCEPTED;
+        checkState();
     }
 
+    /**
+     * Deny the game challenge for a user
+     * @param user User denying the challenge
+     */
     public void deny(User user) {
         this.userStates[challengedUsers.indexOf(user)] = GameChallengeState.DENIED;
+        checkState();
     }
 
     private void checkState() {
         int waitingUsers = 0;
         int acceptedUsers = 0;
 
+        // Count accepted/waiting users
         for (int i = 0; i < this.challengedUsers.size(); i++) {
             if (this.userStates[i] == GameChallengeState.ACCEPTED) {
                 acceptedUsers++;
@@ -77,6 +101,6 @@ public class GameChallenge {
     }
 
     private void destroy() {
-
+        // TODO: notify the users the challenge was rejected
     }
 }

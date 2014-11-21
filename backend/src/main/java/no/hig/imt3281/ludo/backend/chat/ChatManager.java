@@ -120,6 +120,10 @@ public class ChatManager {
         this.groupChats.requestForeach((groupChatId, groupChat) -> groupChat.leave(userId));
     }
 
+    /**
+     * Stores a chat log entry in the chat-log system
+     * @param entry The chat log entry to store
+     */
     public void storeChatLogEntry(ChatLogEntry entry) {
         Session session = ServerEnvironment.getSessionFactory().openSession();
         Transaction tx = null;
