@@ -124,4 +124,12 @@ public class QueuedMap<K, V> {
     public boolean containsKey(K key) {
         return this.map.containsKey(key);
     }
+
+    /**
+     * Gets the amount of items in the map
+     * @return Count of elements in the collection
+     */
+    public int size() {
+        return this.map.size();
+    }
 }

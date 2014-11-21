@@ -14,6 +14,7 @@ public class ChallengeableUserHandler implements MessageHandler {
     private ChallengeUserFrame listFrame;
 
     public void handle(ChallengeableUser message, CommunicationContext context) {
+        System.out.println("User is challengable: " + message.getUsername());
        if (this.listFrame != null)
            listFrame.addListItem(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
        else {

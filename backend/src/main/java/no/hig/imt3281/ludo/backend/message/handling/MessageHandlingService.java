@@ -10,6 +10,7 @@ public class MessageHandlingService extends MessageHandlerFactory {
     public MessageHandlingService() {
         super();
 
+        registerResponse(EnterGameQueueMessage.class, new EnterGameQueueMessageHandler());
         registerResponse(LoginRequest.class, new LoginRequestHandler());
         registerResponse(CreateChatRoomRequest.class, new CreateChatRoomRequestHandler());
         registerResponse(GameChatMessage.class, new GameChatMessageHandler());

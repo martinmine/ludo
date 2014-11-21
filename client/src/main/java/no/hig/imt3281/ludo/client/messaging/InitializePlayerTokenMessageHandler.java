@@ -10,7 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
  */
 public class InitializePlayerTokenMessageHandler implements MessageHandler {
 
-    public void handler(InitializePlayerTokenMessage message, CommunicationContext context) {
+    public void handle(InitializePlayerTokenMessage message, CommunicationContext context) {
         GuiManager.getGamePanel().joinTable(message.getPlayerId());
     }
 }

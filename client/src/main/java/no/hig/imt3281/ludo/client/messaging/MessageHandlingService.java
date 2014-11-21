@@ -19,5 +19,6 @@ public class MessageHandlingService extends MessageHandlerFactory {
         registerResponse(GlobalChatMessage.class, new GlobalChatMessageHandler());
         registerResponse(GameChatMessage.class, new GameChatMessageHandler());
         registerResponse(TriggerDiceResult.class, new TriggerDiceResultMessageHandler());
+        registerResponse(GameChallengeResponse.class, new GameChallengeResponseHandler());
     }
 }

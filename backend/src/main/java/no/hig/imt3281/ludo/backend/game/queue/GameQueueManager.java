@@ -73,10 +73,13 @@ public class GameQueueManager {
             this.syncRoot.lock();
 
             while (gameQueue.size() >= Game.PLAYERS_MAX) {
+                LOGGER.info("New game from queue");
                 Game game = ServerEnvironment.getGameManager().createGame();
                 for (int i = 0; i < Game.PLAYERS_MAX; i++) {
                     game.enter(gameQueue.remove());
                 }
+
+                game.start();
             }
         }
         finally {

@@ -171,15 +171,12 @@ public class UserManager {
     public void broadcastMessage(final Message message) {
         this.activeUsers.requestForeach((Integer userId, User user) -> {
             if (user.getClientConnection() != null) {
-                LOGGER.info("Attempting to send a message");
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
                     LOGGER.log(Level.INFO, e.getMessage(), e);
                     user.getClientConnection().close();
                 }
-            } else {
-                LOGGER.info("Connection is null");
             }
         });
     }

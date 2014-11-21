@@ -127,7 +127,7 @@ public class GameChallenge {
 
         for (User user : this.challengedUsers) {
             int state = this.userStates[this.challengedUsers.indexOf(user)];
-            if (state == GameChallengeState.ACCEPTED || state == GameChallengeState.WAITING) {
+            if (state == GameChallengeState.ACCEPTED || state == GameChallengeState.WAITING || user.getId() == owner.getId()) {
                 try {
                     user.getClientConnection().sendMessage(response);
                 } catch (IOException e) {
