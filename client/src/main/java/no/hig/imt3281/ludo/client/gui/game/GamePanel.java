@@ -1,7 +1,6 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.gui.GuiManager;
-import no.hig.imt3281.ludo.client.gui.SideTopPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,13 +16,13 @@ import java.util.logging.Logger;
  */
 public class GamePanel extends JComponent implements MouseListener {
 
-    //private static final Logger LOGGER = Logger.getLogger(GamePanel.class.getName());
-
     private Dimension boardSize;
     private final static int TILE_SIZE = 35;
     private Image board;
+    private Image loading;
     private ArrayList<Tile> tiles;
     private ArrayList<ArrayList<Integer>> tile;
+    private boolean isLoading;
 
     public GamePanel() {
         addMouseListener(this);
@@ -254,6 +253,9 @@ public class GamePanel extends JComponent implements MouseListener {
         boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
 
+        ImageIcon tempLoading = new ImageIcon(getClass().getResource("/img/ludo_loader.gif"));
+        loading = tempLoading.getImage();
+
         /* Debugging
         for (int i=0; i<tile.get(0).size(); i++) {
             System.out.println(i + " " + tile.get(0).get(i));
@@ -303,10 +305,21 @@ public class GamePanel extends JComponent implements MouseListener {
 
         tiles.forEach(t -> {
             t.draw(g2d);
-            g2d.setColor(Color.WHITE);
-            g2d.drawString(String.valueOf(tiles.indexOf(t)),t.getX() + 12, t.getY() + 22);
-
+            //g2d.setColor(Color.WHITE);
+            //g2d.drawString(String.valueOf(tiles.indexOf(t)),t.getX() + 12, t.getY() + 22);
         });
+
+        if (isLoading) {
+            Rectangle outOfFocus = new Rectangle(0,0,600,600);
+            Composite comp = g2d.getComposite();
+            AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f);
+            g2d.setComposite(composite);
+            Color color = new Color(1,1,1, 0.9f);
+            g2d.setPaint(color);
+            g2d.fill(outOfFocus);
+            g2d.setComposite(comp);
+            g2d.drawImage(loading, 250, 250, null, this);
+        }
 
     }
 
@@ -322,68 +335,72 @@ public class GamePanel extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
 
-        //Get current player id from backend (0-3) 0 = red...
-        Faction player = Faction.RED;
+        if (!isLoading) {
 
-        Tile tt = tiles.stream().filter(tile -> tile.clicked(e.getX(), e.getY())).findFirst().orElse(null);
-        if (tt != null  &&  tt.getPosition() != -1) {
+            int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
 
-            Faction check = tt.getFaction();
-            if (check != null  &&  check == player) {
+            //Get current player id from backend (0-3) 0 = red...
+            Faction player = Faction.RED;
 
-                // Calculate target out of the top Token on tile (blockade)
-                int target = tt.getPosition();
+            Tile tt = tiles.stream().filter(tile -> tile.clicked(e.getX(), e.getY())).findFirst().orElse(null);
+            if (tt != null && tt.getPosition() != -1) {
 
-                if (tt.getPosition() < 4) {
+                Faction check = tt.getFaction();
+                if (check != null && check == player) {
 
-                    // Token can leave base. (or stay at home: see line above)
-                    if (dice == 6) target = 4;
-                } else {
+                    // Calculate target out of the top Token on tile (blockade)
+                    int target = tt.getPosition();
 
-                    // target is dice tiles from current position.
-                    target += dice;
+                    if (tt.getPosition() < 4) {
+
+                        // Token can leave base. (or stay at home: see line above)
+                        if (dice == 6) target = 4;
+                    } else {
+
+                        // target is dice tiles from current position.
+                        target += dice;
+                    }
+
+                    // current position;
+                    int temp = tt.getPosition();
+
+                    int blockade = isBlocked(player, temp, target);
+
+                    // If there is a blockade:
+                    if (blockade > 0) {
+                        // move just behind blockade.
+                        target = blockade - 1;
+                    }
+
+                    int last = tile.get(player.getIndex()).size() - 1;
+                    if (target > last) {
+                        int diff = target - last;
+                        target = last - diff;
+                    }
+
+                    // Remove token from current tile.
+                    Token move = tt.remove();
+
+                    // Reset a tokens position. (!)
+                    move.setPosition(target);
+
+                    // Get index to actual tile.
+                    int targetTileIndex = tile.get(player.getIndex()).get(target);
+
+                    // If target Tile is occupied by an enemy Token (no blockade)
+                    // enemy token gets kicked back to base, else returns null.
+                    Token backToBase = tiles.get(targetTileIndex).addToken(move);
+
+                    // Kicking an enemy Token back to base:
+                    if (backToBase != null) {
+                        // Finding the next free home Tile
+                        int home = getBaseTilePosition(backToBase);
+                        tiles.get(home).addToken(backToBase);
+                    }
+
+                    repaint();
                 }
-
-                // current position;
-                int temp = tt.getPosition();
-
-                int blockade = isBlocked(player, temp, target);
-
-                // If there is a blockade:
-                if (blockade > 0) {
-                    // move just behind blockade.
-                    target = blockade - 1;
-                }
-
-                int last = tile.get(player.getIndex()).size() - 1;
-                if (target > last) {
-                    int diff = target - last;
-                    target = last - diff;
-                }
-
-                // Remove token from current tile.
-                Token move = tt.remove();
-
-                // Reset a tokens position. (!)
-                move.setPosition(target);
-
-                // Get index to actual tile.
-                int targetTileIndex = tile.get(player.getIndex()).get(target);
-
-                // If target Tile is occupied by an enemy Token (no blockade)
-                // enemy token gets kicked back to base, else returns null.
-                Token backToBase = tiles.get(targetTileIndex).addToken(move);
-
-                // Kicking an enemy Token back to base:
-                if (backToBase != null) {
-                    // Finding the next free home Tile
-                    int home = getBaseTilePosition(backToBase);
-                    tiles.get(home).addToken(backToBase);
-                }
-
-                repaint();
             }
         }
     }
@@ -453,5 +470,9 @@ public class GamePanel extends JComponent implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void setLoading(boolean load) {
+        isLoading = load;
     }
 }

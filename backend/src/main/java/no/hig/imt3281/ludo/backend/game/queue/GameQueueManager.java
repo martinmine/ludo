@@ -87,6 +87,7 @@ public class GameQueueManager {
     public void challengeUsers(List<User> users) {
         assert(users.size() <= 4);
         int challengeId = this.challengeCounter.incrementAndGet();
+
         GameChallenge challenge = new GameChallenge(challengeId, ServerEnvironment.getCurrentTimeStamp());
         users.forEach(challenge::challengeUser);
 

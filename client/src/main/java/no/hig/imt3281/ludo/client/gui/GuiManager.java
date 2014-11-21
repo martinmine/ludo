@@ -7,6 +7,7 @@ import javax.swing.*;
 
 /**
  * Created by Joakim on 10.11.2014.
+ *
  */
 public class GuiManager {
     private static StartDialog startDialog;

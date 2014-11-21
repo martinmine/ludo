@@ -1,20 +1,26 @@
 package no.hig.imt3281.ludo.client.gui.challenge;
 
+
+
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Joakim on 17.11.2014.
  */
 public class ChallengeUserFrame extends JFrame {
-    private JDialog dialog;
+    private ChallengeList challengeableUsersList;
+    private ChallengeUserPanel listPanel;
 
     public ChallengeUserFrame() {
+        super("Challengeable players");
+        setPreferredSize(new Dimension(300, 500));
 
-        dialog = new JDialog(this, "hei", true);
+        this.listPanel = new ChallengeUserPanel();
+        add(listPanel);
 
-
-        add(dialog);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        pack();
         setVisible(true);
     }
 }

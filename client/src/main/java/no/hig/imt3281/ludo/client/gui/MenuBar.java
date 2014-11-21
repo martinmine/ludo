@@ -1,11 +1,13 @@
 package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
-import no.hig.imt3281.ludo.client.gui.challenge.ChallengeListDialog;
+import no.hig.imt3281.ludo.client.gui.challenge.ChallengeUserFrame;
 import no.hig.imt3281.ludo.messaging.CreateChatRoomRequest;
+import no.hig.imt3281.ludo.messaging.EnterGameQueueMessage;
 import no.hig.imt3281.ludo.messaging.ListChallengeableUsersRequest;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +61,7 @@ public class MenuBar extends JMenuBar {
         challengePlayers.addActionListener(e -> {
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
-                new ChallengeListDialog();
+                new ChallengeUserFrame();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 JOptionPane.showMessageDialog(null,Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER"));
@@ -69,8 +71,14 @@ public class MenuBar extends JMenuBar {
         JMenuItem joinRandomGame = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_RANDOM_GAME"));
         gameMenu.add(joinRandomGame);
         joinRandomGame.addActionListener(e -> {
-            LOGGER.info("joining a random game");
-            // TODO: add to que...
+            GuiManager.getGamePanel().setLoading(true);
+
+            try {
+                Main.getServerConnection().sendMessage(new EnterGameQueueMessage());
+            } catch (IOException e1) {
+                LOGGER.info("Could not send message");
+            }
+
         });
 
         add(fileMenu);
