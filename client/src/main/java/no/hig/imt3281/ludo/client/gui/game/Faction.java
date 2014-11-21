@@ -4,7 +4,7 @@ import java.awt.*;
 
 /**
  * Created by Thomas on 05.11.2014.
- *
+ * Enum to distinguish between players by color.
  */
 public enum Faction {
     RED(0),

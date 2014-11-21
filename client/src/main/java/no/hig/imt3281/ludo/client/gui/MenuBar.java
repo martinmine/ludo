@@ -22,8 +22,18 @@ public class MenuBar extends JMenuBar {
         JMenu fileMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_FILE"));
         fileMenu.setMnemonic("F".charAt(0));
 
+        JMenu chatMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_CHAT"));
+        chatMenu.setMnemonic("C".charAt(0));
+
+        JMenu gameMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_GAME"));
+        gameMenu.setMnemonic("G".charAt(0));
+
+        JMenuItem quitGame = new JMenuItem(Main.resourceBundle.getString("MENUBAR_QUIT_GAME"));
+        fileMenu.add(quitGame);
+        quitGame.addActionListener(e -> System.exit(0));
+
         JMenuItem newChatroom = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_CHATROOM"));
-        fileMenu.add(newChatroom);
+        chatMenu.add(newChatroom);
         newChatroom.addActionListener(e -> {
             String dialogResult = JOptionPane.showInputDialog
                     (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_INPUT_MSG"));
@@ -45,6 +55,7 @@ public class MenuBar extends JMenuBar {
         });
 
         JMenuItem challengePlayers = new JMenuItem(Main.resourceBundle.getString("MENUBAR_CHALLENGE_USERS"));
+        gameMenu.add(challengePlayers);
         challengePlayers.addActionListener(e -> {
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
@@ -54,8 +65,16 @@ public class MenuBar extends JMenuBar {
                 JOptionPane.showMessageDialog(null,Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER"));
             }
         });
-        fileMenu.add(challengePlayers);
+
+        JMenuItem joinRandomGame = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_RANDOM_GAME"));
+        gameMenu.add(joinRandomGame);
+        joinRandomGame.addActionListener(e -> {
+            LOGGER.info("joining a random game");
+            // TODO: add to que...
+        });
 
         add(fileMenu);
+        add(chatMenu);
+        add(gameMenu);
     }
 }

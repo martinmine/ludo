@@ -5,7 +5,7 @@ import java.awt.geom.Ellipse2D;
 
 /**
  * Created by Thomas on 05.11.2014.
- *
+ * A Token represent a players piece.
  */
 public class Token {
 
