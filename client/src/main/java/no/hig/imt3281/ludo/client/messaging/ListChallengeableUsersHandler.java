@@ -14,12 +14,11 @@ public class ListChallengeableUsersHandler implements MessageHandler {
     private ChallengeUserFrame listFrame;
 
     void handle(ChallengeableUser message, CommunicationContext context) {
-      /*  if (this.listFrame != null)
-           listFrame.addToList(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
+       if (this.listFrame != null)
+           listFrame.addListItem(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
        else {
            this.listFrame = new ChallengeUserFrame();
-           this.listFrame.addToList(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
+           this.listFrame.addListItem(new ChallengeableUserComponent(message.getUsername(), message.getUserId()));
        }
-*/
     }
 }

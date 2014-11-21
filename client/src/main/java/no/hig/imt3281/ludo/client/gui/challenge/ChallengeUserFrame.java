@@ -23,4 +23,8 @@ public class ChallengeUserFrame extends JFrame {
         pack();
         setVisible(true);
     }
+
+    public void addListItem(Component component) {
+        listPanel.addToList(component);
+    }
 }

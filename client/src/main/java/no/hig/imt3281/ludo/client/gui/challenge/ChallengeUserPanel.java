@@ -31,7 +31,7 @@ public class ChallengeUserPanel extends JPanel {
         challengeButton.addActionListener( e -> {
            ChallengeUserRequest request = new ChallengeUserRequest();
            for(int index : challengeableUsersList.getSelectedIndices()) {
-               ChallengeableUserComponent c = (ChallengeableUserComponent) challengeableUsersList.getComponent(index);
+               ChallengeableUserComponent c = (ChallengeableUserComponent) challengeableUsersList.getElement(index);
                request.addUserId(c.getId());
 
            }
