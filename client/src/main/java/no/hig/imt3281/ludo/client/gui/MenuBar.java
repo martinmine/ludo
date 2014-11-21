@@ -61,7 +61,6 @@ public class MenuBar extends JMenuBar {
         challengePlayers.addActionListener(e -> {
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
-                new ChallengeUserFrame();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 JOptionPane.showMessageDialog(null,Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER"));

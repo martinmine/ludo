@@ -9,7 +9,8 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandlerFactory;
 public class MessageHandlingService extends MessageHandlerFactory {
     public MessageHandlingService() {
         super();
-        registerResponse(ListChallengeableUsersRequest.class, new ListChallengeableUsersHandler());
+        registerResponse(GameChallengeMessage.class, new GameChallengeMessageHandler());
+        registerResponse(ChallengeableUser.class, new ChallengeableUserHandler());
         registerResponse(CreateChatRoomResult.class, new CreateChatRoomResultHandler());
         registerResponse(LoginResult.class, new LoginResultHandler());
         registerResponse(RegistrationResult.class, new RegistrationResultHandler());

@@ -8,7 +8,7 @@ import javax.persistence.Id;
  * A chat log entry for every chat log entry in the system
  */
 @Entity
-public class chatLogEntry {
+public class ChatLogEntry {
     /**
      * Indicates that a message is a public chat message
      */
@@ -37,14 +37,14 @@ public class chatLogEntry {
      * @param chatLogTypeFlag What kind of chat-log entry this is, valid values are
      *                        PUBLIC_MESSAGE, GROUP_MESSAGE and GAME_MESSAGE
      */
-    public chatLogEntry(int chatLogTypeFlag) {
+    public ChatLogEntry(int chatLogTypeFlag) {
         this.chatLogTypeFlag = chatLogTypeFlag;
     }
 
     /**
      * Makes a new, default, chat log entry
      */
-    public chatLogEntry() {
+    public ChatLogEntry() {
     }
 
     /**
