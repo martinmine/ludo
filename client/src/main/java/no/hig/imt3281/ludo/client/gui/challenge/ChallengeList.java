@@ -7,11 +7,15 @@ import java.awt.*;
  * Created by Joakim on 17.11.2014.
  */
 public class ChallengeList extends JList<ChallengeableUserComponent> {
+    public DefaultListModel<ChallengeableUserComponent> model;
 
     public ChallengeList() {
-        final DefaultListModel<ChallengeableUserComponent> model = new DefaultListModel();
+        this.model = new DefaultListModel();
         setModel(model);
+    }
 
+    public void addToList(ChallengeableUserComponent component) {
+        this.model.addElement(component);
     }
 
     public Component getElement(int index) {
