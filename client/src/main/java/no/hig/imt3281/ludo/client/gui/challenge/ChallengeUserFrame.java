@@ -10,12 +10,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 17.11.2014.
  */
 public class ChallengeUserFrame extends JFrame {
     private static ChallengeUserFrame instance;
+    private static final Logger LOGGER = Logger.getLogger(ChallengeUserFrame.class.getSimpleName());
 
     public static ChallengeUserFrame getInstance() {
         if (instance == null) {
@@ -31,6 +33,7 @@ public class ChallengeUserFrame extends JFrame {
 
     private ChallengeUserFrame() {
         super(Main.resourceBundle.getString("CHALLENGE_PLAYERS_TITLE"));
+        LOGGER.info("Creating a new challenge user frame");
         this.usersAdded = new HashMap<>();
         setPreferredSize(new Dimension(300, 500));
 
@@ -38,12 +41,11 @@ public class ChallengeUserFrame extends JFrame {
         add(listPanel);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        pack();
-        setVisible(true);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 ChallengeUserFrame.instance = null;
+                LOGGER.info("Closing challenge user frame");
             }
         });
     }
@@ -53,5 +55,11 @@ public class ChallengeUserFrame extends JFrame {
             this.usersAdded.put(userId, username);
             listPanel.addToList(new ChallengeableUserComponent(username, userId));
         }
+    }
+
+    public void display() {
+        LOGGER.info("Displaying challenge user frame");
+        pack();
+        setVisible(true);
     }
 }

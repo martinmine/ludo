@@ -59,6 +59,9 @@ public class MenuBar extends JMenuBar {
         JMenuItem challengePlayers = new JMenuItem(Main.resourceBundle.getString("MENUBAR_CHALLENGE_USERS"));
         gameMenu.add(challengePlayers);
         challengePlayers.addActionListener(e -> {
+            ChallengeUserFrame listFrame = ChallengeUserFrame.getInstance();
+            listFrame.display();
+
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
             } catch (IOException e1) {
