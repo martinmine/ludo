@@ -26,6 +26,12 @@ public class User implements ConnectivityNotifier {
     @Transient
     private CommunicationContext clientConnection;
 
+    @Transient
+    private int currentGameId;
+
+    @Transient
+    private int gamePlayerId;
+
     public User() {
     }
 
@@ -79,6 +85,22 @@ public class User implements ConnectivityNotifier {
 
     public CommunicationContext getClientConnection() {
         return clientConnection;
+    }
+
+    public int getCurrentGameId() {
+        return currentGameId;
+    }
+
+    public void setCurrentGameId(int currentGameId) {
+        this.currentGameId = currentGameId;
+    }
+
+    public int getGamePlayerId() {
+        return gamePlayerId;
+    }
+
+    public void setGamePlayerId(int gamePlayerId) {
+        this.gamePlayerId = gamePlayerId;
     }
 
     @Override

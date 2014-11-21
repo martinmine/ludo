@@ -60,7 +60,6 @@ public class ServerEnvironment {
         configString = configString.replace("${env.LUDO_DB_NAME}", environmentVariables.get("LUDO_DB_NAME"));
 
         configuration.setProperty(HIBERNATE_CONNECTION_URL, configString);
-        System.out.println(environmentVariables.get("LUDO_DB_PASSWORD"));
         configuration.setProperty("hibernate.connection.username", environmentVariables.get("LUDO_DB_USERNAME"));
         configuration.setProperty("hibernate.connection.password", environmentVariables.get("LUDO_DB_PASSWORD"));
 

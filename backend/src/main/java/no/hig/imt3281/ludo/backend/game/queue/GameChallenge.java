@@ -50,19 +50,16 @@ public class GameChallenge {
         int acceptedUsers = 0;
 
         for (int i = 0; i < this.challengedUsers.size(); i++) {
-            switch (this.userStates[i]) {
-                case GameChallengeState.ACCEPTED: {
-                    acceptedUsers++;
-                    break;
-                }
-                case GameChallengeState.WAITING: {
-                    waitingUsers++;
-                    break;
-                }
+            if (this.userStates[i] == GameChallengeState.ACCEPTED) {
+                acceptedUsers++;
+            }
+            else if (this.userStates[i] == GameChallengeState.WAITING) {
+                waitingUsers++;
             }
         }
 
-        if (waitingUsers == 0) { // all users responded
+        // all users responded
+        if (waitingUsers == 0) {
             if (acceptedUsers >= 2) {
                 Game game = ServerEnvironment.getGameManager().createGame();
 

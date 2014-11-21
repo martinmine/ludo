@@ -18,7 +18,11 @@ public class Game {
     }
 
     public void enter(User user) {
+        user.setCurrentGameId(this.gameId);
+        user.setGamePlayerId(this.userCount);
+
         users[userCount++] = user;
+
         // TODO: Notify user that they entered a game
     }
 

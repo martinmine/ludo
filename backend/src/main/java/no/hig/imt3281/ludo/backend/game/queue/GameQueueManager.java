@@ -2,7 +2,6 @@ package no.hig.imt3281.ludo.backend.game.queue;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
-import no.hig.imt3281.ludo.backend.collections.QueuedAction;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.backend.game.Game;
 
@@ -31,7 +30,7 @@ public class GameQueueManager {
     }
 
     public void cycle() {
-        while (gameQueue.size() >= 4) {
+        while (gameQueue.size() >= Game.PLAYERS_MAX) {
             Game game = ServerEnvironment.getGameManager().createGame();
             for (int i = 0; i < Game.PLAYERS_MAX; i++) {
                 game.enter(gameQueue.remove());
@@ -42,8 +41,9 @@ public class GameQueueManager {
     }
 
     public void challengeUsers(List<User> users) {
+        assert(users.size() <= 4);
         int challengeId = this.challengeCounter.incrementAndGet();
-        GameChallenge challenge = new GameChallenge(challengeId);
+        GameChallenge challenge = new GameChallenge(challengeId, ServerEnvironment.getCurrentTimeStamp());
         users.forEach(challenge::challengeUser);
 
         this.challenges.addItem(challengeId, challenge);
