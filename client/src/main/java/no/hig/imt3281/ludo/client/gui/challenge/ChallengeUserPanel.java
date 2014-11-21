@@ -30,9 +30,10 @@ public class ChallengeUserPanel extends JPanel {
                ChallengeableUserComponent c = (ChallengeableUserComponent) challengeableUsersList.getElement(index);
                request.addUserId(c.getId());
            }
-
            try {
                Main.getServerConnection().sendMessage(request);
+               JFrame mainFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+               mainFrame.dispose();
            } catch (IOException e1) {
                e1.printStackTrace();
            }
