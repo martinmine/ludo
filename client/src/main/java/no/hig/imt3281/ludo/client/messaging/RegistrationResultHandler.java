@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.messaging;
 
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.client.gui.Client;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.RegistrationResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
@@ -29,6 +30,7 @@ public class RegistrationResultHandler implements MessageHandler {
                 break;
             case RegistrationResult.OK:
                 GuiManager.getStartDialog().dispose();
+                new Client();
                 break;
         }
     }
