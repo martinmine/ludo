@@ -65,7 +65,7 @@ public class MenuBar extends JMenuBar {
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
             } catch (IOException e1) {
-                e1.printStackTrace();
+                LOGGER.log(Level.WARNING, e1.getMessage(), e1);
                 JOptionPane.showMessageDialog(null,Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER"));
             }
         });
@@ -78,7 +78,8 @@ public class MenuBar extends JMenuBar {
             try {
                 Main.getServerConnection().sendMessage(new EnterGameQueueMessage());
             } catch (IOException e1) {
-                LOGGER.info("Could not send message");
+                LOGGER.severe("Unable to send message");
+                LOGGER.log(Level.WARNING, e1.getMessage(), e1);
             }
 
         });

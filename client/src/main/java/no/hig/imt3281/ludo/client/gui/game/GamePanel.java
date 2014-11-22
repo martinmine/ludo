@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
  */
 public class GamePanel extends JComponent implements MouseListener {
     private static final int MAX_PLAYERS = 4;
+    public static final Logger LOGGER = Logger.getLogger(GamePanel.class.getSimpleName());
 
     private Dimension boardSize;
     private final static int TILE_SIZE = 35;
@@ -359,7 +361,7 @@ public class GamePanel extends JComponent implements MouseListener {
             try {
                 Main.getServerConnection().sendMessage(request);
             } catch (IOException e1) {
-                e1.printStackTrace();
+                LOGGER.log(Level.WARNING, e1.getMessage(), e);
             }
 
             // the users turn...

@@ -5,6 +5,8 @@ import no.hig.imt3281.ludo.messaging.ChallengeUserRequest;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 21.11.2014.
@@ -13,6 +15,7 @@ public class ChallengeUserPanel extends JPanel {
     private JScrollPane scrollPane;
     private ChallengeList challengeableUsersList;
     private JButton challengeButton;
+    public static final Logger LOGGER = Logger.getLogger(ChallengeUserPanel.class.getSimpleName());
 
     public ChallengeUserPanel() {
         BorderLayout layout = new BorderLayout();
@@ -35,7 +38,7 @@ public class ChallengeUserPanel extends JPanel {
                JFrame mainFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
                mainFrame.dispose();
            } catch (IOException e1) {
-               e1.printStackTrace();
+               LOGGER.log(Level.SEVERE, e1.getMessage(), e1);
            }
         });
 
