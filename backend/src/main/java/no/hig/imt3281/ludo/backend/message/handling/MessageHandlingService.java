@@ -21,5 +21,6 @@ public class MessageHandlingService extends MessageHandlerFactory {
         registerResponse(ListChallengeableUsersRequest.class, new ListChallengeableUserRequestHandler());
         registerResponse(ChallengeUserRequest.class, new ChallengeUserRequestHandler());
         registerResponse(GameChallengeResponse.class, new GameChallengeResponseHandler());
+        registerResponse(MoveTokenRequest.class, new MoveTokenRequestHandler());
     }
 }
