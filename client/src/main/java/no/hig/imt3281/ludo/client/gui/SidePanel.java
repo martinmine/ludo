@@ -5,16 +5,18 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Joakim on 05.11.2014.
- *
+ * Containing all the panels that are not directly
+ * related to the gameboard
  */
 public class SidePanel extends JPanel {
 
     private ChatPanel chatPanel;
     private SideTopPanel sideTopPanel;
 
+    /**
+     * Create a new instance of the sidepanel
+     */
     public SidePanel() {
-
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
         setMinimumSize(new Dimension(380, 640));

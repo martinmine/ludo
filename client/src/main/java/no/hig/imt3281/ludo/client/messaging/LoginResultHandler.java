@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Martin on 08.11.2014.
+ * Handles incoming messages of the type LoginResult
  */
 public class LoginResultHandler implements MessageHandler {
     public void handle(LoginResult message, CommunicationContext context) {

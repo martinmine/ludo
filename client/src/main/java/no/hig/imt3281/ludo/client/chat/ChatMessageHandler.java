@@ -20,6 +20,7 @@ public class ChatMessageHandler {
     public static final int GROUP_CHAT = 0;
 
     private ChatState currentState;
+
     private ChatMessageHandler() {
         currentState = new GlobalChatState();
     }

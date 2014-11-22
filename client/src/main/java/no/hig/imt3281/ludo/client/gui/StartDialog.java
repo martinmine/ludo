@@ -14,8 +14,6 @@ import java.awt.*;
  * Based on: http://www.zentut.com/java-swing/simple-login-dialog/
  */
 public class StartDialog extends JDialog {
-
-    //private StartDialogFeedback feedback = new StartDialogFeedback();
     private JLabel feedback;
 
     public StartDialog(JFrame parent) {

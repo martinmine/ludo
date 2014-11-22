@@ -8,7 +8,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 import javax.swing.*;
 
 /**
- * Created by marti_000 on 21.11.2014.
+ * Handles incoming messges of the type GameChallengeResponse
  */
 public class GameChallengeResponseHandler implements MessageHandler {
     public void handle(GameChallengeResponse request, CommunicationContext context) {

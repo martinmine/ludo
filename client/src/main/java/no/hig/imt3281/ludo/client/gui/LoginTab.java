@@ -10,8 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Thomas on 11.11.2014.
- *
+ * Login tab that lets the user log into the system
  */
 public class LoginTab extends JPanel {
     private static final Logger LOGGER = Logger.getLogger(LoginTab.class.getSimpleName());
@@ -21,6 +20,11 @@ public class LoginTab extends JPanel {
     private JLabel passwordLabel;
     private JButton loginBtn;
 
+    /**
+     * Creates a new instance of logintab
+     * @param parent reference
+     * @param dialog reference to mainframe
+     */
     public LoginTab(Frame parent, StartDialog dialog) {
         setLayout(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
@@ -72,11 +76,11 @@ public class LoginTab extends JPanel {
         cs.gridwidth = 3;
         add(loginBtn, cs);
     }
-
+    /** @return username */
     public String getUsername() {
         return usernameField.getText().trim();
     }
-
+    /** @return password */
     public String getPassword() {
         return new String(passwordField.getPassword());
     }

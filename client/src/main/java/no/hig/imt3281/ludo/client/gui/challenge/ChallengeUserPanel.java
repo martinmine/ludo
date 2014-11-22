@@ -9,7 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 21.11.2014.
+ * Panel containing the list of challengeable users
+ * and the challenge selected users button
  */
 public class ChallengeUserPanel extends JPanel {
     private JScrollPane scrollPane;
@@ -17,6 +18,9 @@ public class ChallengeUserPanel extends JPanel {
     private JButton challengeButton;
     private static final Logger LOGGER = Logger.getLogger(ChallengeUserPanel.class.getSimpleName());
 
+    /**
+     * Creates an instance of challengeUserPanel
+     */
     public ChallengeUserPanel() {
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
@@ -46,6 +50,10 @@ public class ChallengeUserPanel extends JPanel {
         add(scrollPane, BorderLayout.WEST);
     }
 
+    /**
+     * Adding a new component to the list of challengeable users
+     * @param component to be added
+     */
     public void addToList(ChallengeableUserComponent component) {
         this.challengeableUsersList.addToList(component);
     }

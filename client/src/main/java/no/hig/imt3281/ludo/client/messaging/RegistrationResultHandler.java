@@ -8,7 +8,7 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 /**
- * Created by Martin on 11.11.2014.
+ * Handles incoming messages of the type RegistrationResult
  */
 public class RegistrationResultHandler implements MessageHandler {
     public void handle(RegistrationResult result, CommunicationContext context) {

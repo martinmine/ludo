@@ -12,10 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 21.11.2014.
+ * Handles incoming messages of the type GameChallengeMessage
  */
 public class GameChallengeMessageHandler implements MessageHandler {
-
     public static final int CHALLENGE_ACCEPTED = 0;
     private static final Logger LOGGER = Logger.getLogger(GameChallengeMessageHandler.class.getSimpleName());
 
