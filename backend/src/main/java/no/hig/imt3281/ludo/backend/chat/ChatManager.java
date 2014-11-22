@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.backend.chat;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
+import no.hig.imt3281.ludo.backend.game.Game;
 import no.hig.imt3281.ludo.messaging.Message;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -90,9 +91,11 @@ public class ChatManager {
      * Creates a game chat for a game
      * @return a new Game chat
      */
-    public GameChat createGameChat() {
-        // TODO
-        throw new UnsupportedOperationException("Not yet implemented");
+    public GameChat createGameChat(Game game) {
+        GameChat gameChat = new GameChat(game.getGameId());
+        this.gameChats.addItem(game.getGameId(), gameChat);
+
+        return gameChat;
     }
 
     /**

@@ -26,6 +26,10 @@ public class Game {
         this.users = new User[PLAYERS_MAX];
     }
 
+    public int getGameId() {
+        return gameId;
+    }
+
     public void enter(User user) {
         final int playerId = userCount++;
         user.setCurrentGameId(this.gameId);
