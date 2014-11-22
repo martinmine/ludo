@@ -89,8 +89,7 @@ public class GameChallenge {
         for (int i = 0; i < this.challengedUsers.size(); i++) {
             if (this.userStates[i] == GameChallengeState.ACCEPTED) {
                 acceptedUsers++;
-            }
-            else if (this.userStates[i] == GameChallengeState.WAITING) {
+            } else if (this.userStates[i] == GameChallengeState.WAITING) {
                 waitingUsers++;
             }
         }

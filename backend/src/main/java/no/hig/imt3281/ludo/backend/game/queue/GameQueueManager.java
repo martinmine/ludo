@@ -45,8 +45,7 @@ public class GameQueueManager {
         try {
             this.syncRoot.lock();
             this.gameQueue.add(user);
-        }
-        finally {
+        } finally {
             this.syncRoot.unlock();
         }
     }
@@ -59,8 +58,7 @@ public class GameQueueManager {
         try {
             this.syncRoot.lock();
             this.gameQueue.remove(user);
-        }
-        finally {
+        } finally {
             this.syncRoot.unlock();
         }
     }
@@ -81,8 +79,7 @@ public class GameQueueManager {
 
                 game.start();
             }
-        }
-        finally {
+        } finally {
             this.syncRoot.unlock();
         }
 
@@ -95,7 +92,7 @@ public class GameQueueManager {
      * @param users Users to challenge
      */
     public void challengeUsers(List<User> users, User owner) {
-        assert(users.size() <= 4 && users.size() >= 1);
+        assert users.size() <= 4 && !users.isEmpty();
         final int challengeId = this.challengeCounter.incrementAndGet();
 
         GameChallenge challenge = new GameChallenge(challengeId, ServerEnvironment.getCurrentTimeStamp());

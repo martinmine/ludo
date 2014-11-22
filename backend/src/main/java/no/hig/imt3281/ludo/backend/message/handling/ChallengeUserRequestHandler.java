@@ -31,7 +31,7 @@ public class ChallengeUserRequestHandler implements MessageHandler {
             }
         }
 
-        if (users.size() >= 1) {
+        if (!users.isEmpty()) {
             ServerEnvironment.getGameQueueManager().challengeUsers(users, user);
         } else {
             GameChallengeResponse response = new GameChallengeResponse();
