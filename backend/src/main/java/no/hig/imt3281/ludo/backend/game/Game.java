@@ -1,6 +1,8 @@
 package no.hig.imt3281.ludo.backend.game;
 
 import no.hig.imt3281.ludo.backend.User;
+import no.hig.imt3281.ludo.messaging.GameStartedMessage;
+import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.UserEnteredGameMessage;
 
 import java.io.IOException;
@@ -24,8 +26,9 @@ public class Game {
     }
 
     public void enter(User user) {
+        final int playerId = userCount++;
         user.setCurrentGameId(this.gameId);
-        user.setGamePlayerId(this.userCount);
+        user.setGamePlayerId(playerId);
 
         try {
             user.setTokensOnBoard();
@@ -33,7 +36,7 @@ public class Game {
             LOGGER.severe("Joining game failed");
         }
 
-        users[userCount++] = user;
+        users[playerId] = user;
     }
 
     public void leave(User user) {
@@ -54,6 +57,20 @@ public class Game {
             message.addPlayerId(users[i].getId());
         }
 
+        broadcastMessage(message);
+
+        GameStartedMessage startMessage = new GameStartedMessage();
+        for (int i = 0; i < userCount; i++) {
+            startMessage.setFaction(i);
+            try {
+                users[i].getClientConnection().sendMessage(message);
+            } catch (IOException e) {
+                users[i].getClientConnection().close();
+            }
+        }
+    }
+
+    public void broadcastMessage(Message message) {
         for (int i = 0; i < userCount; i++) {
             try {
                 users[i].getClientConnection().sendMessage(message);
