@@ -30,11 +30,10 @@ public class GameManager {
     }
 
     public Game getGame(int gameId) {
-        LOGGER.info("Requesting game with id " + gameId + " there are " +  this.games.size() + " games");
         return this.games.get(gameId);
     }
 
-    public void cycle() {
+    public void onCycle() {
         this.games.requestForeach((gameId, game) -> game.cycle());
         this.games.onCycle();
     }
