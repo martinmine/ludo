@@ -1,10 +1,11 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 14.11.2014.
+ * Message being sent to all the clients in the game when a player has requested that the dice should be triggered.
  */
 public class TriggerDiceResult extends Message {
     private int diceValue;
+    private boolean anyTokensValid;
 
     public int getDiceValue() {
         return diceValue;
@@ -12,5 +13,13 @@ public class TriggerDiceResult extends Message {
 
     public void setDiceValue(int diceValue) {
         this.diceValue = diceValue;
+    }
+
+    public boolean hasAnyTokensValid() {
+        return anyTokensValid;
+    }
+
+    public void setAnyTokensValid(boolean anyTokensValid) {
+        this.anyTokensValid = anyTokensValid;
     }
 }
