@@ -245,37 +245,20 @@ public class GamePanel extends JComponent implements MouseListener {
             int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
 
             // the users turn...
-            Faction player = Faction.RED;
+            Faction player = Faction.getFaction(currentPlayer);
 
             // Get correct legal tile. (correct player and token on tile):
             Tile tt = tiles.stream()
-                    .filter(tile -> tile.clicked(e.getX(), e.getY())  &&  tile.getFaction() == player)
+                    .filter(tile -> tile.clicked(e.getX(), e.getY()))
                     .findFirst()
                     .orElse(null);
 
+            // Clicked a tile AND it's token(s) on it:
             if (tt != null  &&  !tt.isEmpty()) {
 
                 // Tile owner. Has player allowed to move this token?
                 Faction check = tt.getFaction();
                 if (check != null  &&  check == player) {
-
-                    MoveTokenRequest request = new MoveTokenRequest();
-                    request.setTokenId(tt.getPosition());
-
-                    try {
-                        Main.getServerConnection().sendMessage(request);
-                    } catch (IOException e1) {
-                        LOGGER.log(Level.WARNING, e1.getMessage(), e);
-                    }
-
-                    InitializePlayerTokenMessage initPlayerMessage = new InitializePlayerTokenMessage();
-                    initPlayerMessage.setPlayerId(player.getIndex());
-
-                    try {
-                        Main.getServerConnection().sendMessage(initPlayerMessage);
-                    } catch (IOException e1) {
-                        LOGGER.log(Level.WARNING, e1.getMessage(), e);
-                    }
 
                     // Calculate target out of the top Token on tile (blockade)
                     int target = tt.getPosition();
@@ -416,6 +399,7 @@ public class GamePanel extends JComponent implements MouseListener {
                     color = Faction.RED;
                     break;
                 case 1:
+
                     color = Faction.BLUE;
                     break;
                 case 2:
@@ -428,7 +412,6 @@ public class GamePanel extends JComponent implements MouseListener {
             currentPlayer = numPlayer++;
             players[currentPlayer] = new Player(color);
             players[currentPlayer].setTokens(tiles);
-
             repaint();
         }
     }
