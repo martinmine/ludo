@@ -7,16 +7,18 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Joakim on 05.11.2014.
- *
+ * Contains the panels to the top right side in the GUI layout.
+ * Consists of a dice panel and a feedback panel
  */
 public class SideTopPanel extends JPanel {
 
     private DicePanel dicePanel;
     private FeedbackPanel feedbackPanel;
 
+    /**
+     * Create a new instance of the SideTopPanel
+     */
     SideTopPanel() {
-
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
         this.dicePanel = new DicePanel();
@@ -25,8 +27,12 @@ public class SideTopPanel extends JPanel {
         add(dicePanel, BorderLayout.WEST);
         add(feedbackPanel, BorderLayout.CENTER);
     }
-
+    /** @return reference to the dice panel */
     public DicePanel getDicePanel() {
         return this.dicePanel;
+    }
+    /** @return reference to the feedback panel */
+    public FeedbackPanel getFeedbackPanel() {
+        return this.feedbackPanel;
     }
 }

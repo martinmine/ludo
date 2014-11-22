@@ -58,6 +58,7 @@ public class ChatRooms {
     }
 
     /**
+     *Join a game chat when a new game is started
      *
      * @param gameId id of a specific gameChatroom related
      * to a specific ongoing game
@@ -65,7 +66,5 @@ public class ChatRooms {
     public void joinGameChannel(int gameId) {
         chatRooms.put(GAME_CHAT_KEY, new GameChatChannel(gameId));
     }
-
-
 }
 

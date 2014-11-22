@@ -1,12 +1,10 @@
 package no.hig.imt3281.ludo.client.gui.chat;
 
-import no.hig.imt3281.ludo.client.chat.ChatRooms;
-
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Joakim on 03.11.2014.
+ * Panel containing the TabbedChatContainer
  */
 public class ChatPanel extends JPanel {
     private TabbedChatContainer tabbedChatContainer;
@@ -20,6 +18,11 @@ public class ChatPanel extends JPanel {
         tabbedChatContainer = new TabbedChatContainer();
         add(tabbedChatContainer, BorderLayout.SOUTH);
     }
+
+    /**
+     * Create a new chatroom in the GUI layer
+     * @param channel
+     */
     public void joinNewChatroom(ChatChannel channel) {
         this.tabbedChatContainer.addGroupChatChannel(channel);
     }

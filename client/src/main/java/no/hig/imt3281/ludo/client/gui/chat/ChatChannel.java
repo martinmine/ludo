@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Joakim on 03.11.2014.
+ * Abstract class containing general data for a chatchannel
  */
 public abstract class ChatChannel extends JPanel{
     private int id;
@@ -17,6 +17,14 @@ public abstract class ChatChannel extends JPanel{
     private JTextArea chatMessageContainer;
     private JTextField messageInputField;
 
+    /**
+     * Creates a new instance of ChatChannel
+     * @param id for the channel
+     * @param channelName to be displayed on the tab
+     * @param welcomeMsg to be displayed upon channel entry
+     * @param iconURL resource path to the favicon
+     * @param type type of channel identifier
+     */
     public ChatChannel(int id, String channelName, String welcomeMsg, String iconURL, int type) {
         this.id = id;
         this.type = type;
@@ -47,11 +55,20 @@ public abstract class ChatChannel extends JPanel{
         });
     }
 
+    /**
+     * Appends incoming message
+     * @param message to be appended
+     */
     public void appendIncomingMessage(String message) {
         chatMessageContainer.append("\n" + message);
     }
 
-    /** Returns an ImageIcon, or null if the path was invalid. */
+    /**
+     * Creates imageIcon
+     *
+     * @param path to the resource file
+     * @return imageIcon from resource or null
+     */
     public  ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = TabbedChatContainer.class.getResource(path);
         if (imgURL != null) {
@@ -62,14 +79,23 @@ public abstract class ChatChannel extends JPanel{
         }
     }
 
+    /**
+     * @return the chat channels favicon
+     */
     public ImageIcon getIcon() {
         return this.icon;
     }
 
+    /**
+     * @return name of the chat channel
+     */
     public String getChannelName() {
         return this.channelName;
     }
 
+    /**
+     * @return type of the chatchannel
+     */
     public int getType() {
         return this.type;
     }

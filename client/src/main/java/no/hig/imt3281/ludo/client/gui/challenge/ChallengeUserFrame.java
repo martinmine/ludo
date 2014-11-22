@@ -13,17 +13,19 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 17.11.2014.
+ * Frame holding the instruments for handling player challenging
  */
 public class ChallengeUserFrame extends JFrame {
     private static ChallengeUserFrame instance;
     private static final Logger LOGGER = Logger.getLogger(ChallengeUserFrame.class.getSimpleName());
 
+    /**
+     * @return the single instance of this or create this upon function call
+     */
     public static ChallengeUserFrame getInstance() {
         if (instance == null) {
             instance = new ChallengeUserFrame();
         }
-
         return instance;
     }
 
@@ -50,6 +52,13 @@ public class ChallengeUserFrame extends JFrame {
         });
     }
 
+    /**
+     * Adds a new challengeable user to the list residing in
+     * my listPanel child.
+     *
+     * @param username of new item
+     * @param userId of the new item
+     */
     public void addListItem(String username, int userId) {
         if (!this.usersAdded.containsKey(userId)) {
             this.usersAdded.put(userId, username);
@@ -57,6 +66,9 @@ public class ChallengeUserFrame extends JFrame {
         }
     }
 
+    /**
+     * Display this
+     */
     public void display() {
         LOGGER.info("Displaying challenge user frame");
         pack();

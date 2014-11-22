@@ -7,7 +7,7 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 /**
- * Created by Joakim on 11.11.2014.
+ * Handles incoming messages of the type GroupchatMessage
  */
 public class GroupChatMessageHandler implements MessageHandler {
     public void handle(GroupChatMessage message, CommunicationContext context) {

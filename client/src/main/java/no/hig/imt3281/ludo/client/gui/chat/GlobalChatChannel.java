@@ -5,11 +5,15 @@ import no.hig.imt3281.ludo.client.chat.ChatMessageHandler;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
 
 /**
- * Created by Joakim on 03.11.2014.
+ * GlobalChatChannel is the channel where
+ * users can exchange messages across all games
  */
 public class GlobalChatChannel extends ChatChannel {
-
     public static int GlobalChatChannelId = -1;
+
+    /**
+     * Creates a GlobalChatChennel
+     */
     public GlobalChatChannel() {
         super(GlobalChatChannelId, Main.resourceBundle.getString("GLOBAL_CHAT_CHANNEL"),
                 Main.resourceBundle.getString("GLOBAL_CHAT_CHANNEL_WELCOME_MSG"),

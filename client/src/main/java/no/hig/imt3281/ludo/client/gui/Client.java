@@ -8,13 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Joakim on 27.10.2014.
- *
+ * Class containing the root element of the client GUI
  */
 public class Client extends JFrame {
 
     public no.hig.imt3281.ludo.client.gui.MenuBar menuBar;
 
+    /**
+     * Creates a new instance of Client
+     */
     public Client() {
         super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
 

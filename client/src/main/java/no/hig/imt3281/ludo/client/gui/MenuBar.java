@@ -13,14 +13,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 05.11.2014.
- *
+ * Class containing the menubar and its sub items
  */
 public class MenuBar extends JMenuBar {
     private static final Logger LOGGER = Logger.getLogger(MenuBar.class.getName());
 
+    /**
+     * Create a new instance of the menu bar
+     */
     public MenuBar() {
-
         JMenu fileMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_FILE"));
         fileMenu.setMnemonic("F".charAt(0));
 
@@ -83,7 +84,6 @@ public class MenuBar extends JMenuBar {
             }
 
         });
-
         add(fileMenu);
         add(chatMenu);
         add(gameMenu);

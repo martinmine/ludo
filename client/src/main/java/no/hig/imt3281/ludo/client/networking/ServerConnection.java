@@ -14,7 +14,9 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ *
+ */
 public class ServerConnection implements Runnable, CommunicationContext {
     private static final Logger LOGGER = Logger.getLogger(ServerConnection.class.getSimpleName());
     private Socket connection;

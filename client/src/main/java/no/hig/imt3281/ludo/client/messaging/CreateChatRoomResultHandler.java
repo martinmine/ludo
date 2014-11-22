@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 14.11.2014.
+ * Handles incoming messages of the type CreateChatRoomResult
  */
 public class CreateChatRoomResultHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(CreateChatRoomResultHandler.class.getSimpleName());

@@ -8,7 +8,7 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 /**
- * Created by Joakim on 11.11.2014.
+ * Handles incoming messages of the type GlobalChatMessage
  */
 public class GlobalChatMessageHandler implements MessageHandler {
     public void handle(GlobalChatMessage message, CommunicationContext context) {

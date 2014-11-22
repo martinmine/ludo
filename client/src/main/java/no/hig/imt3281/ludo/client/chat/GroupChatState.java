@@ -9,13 +9,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 10.11.2014.
- *
+ * State for the ChatMessageHandler
+ * Creates and sends GroupChatMessages to the server
  */
 public class GroupChatState implements ChatState {
 
     private static final Logger LOGGER = Logger.getLogger(GroupChatState.class.getName());
 
+    /**
+     * Creates and sends a groupChatMessage to the server
+     * @param channelId is the channel of the specific group channel
+     * @param message chatmessage string
+     */
     @Override
     public void broadcastMessage(int channelId, String message) {
         try {
