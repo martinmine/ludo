@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -311,7 +312,8 @@ public class GamePanel extends JComponent implements MouseListener {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.drawImage(board, 0, 0, null, this); // image is 600, 600.
+        // image is 600, 600.
+        g2d.drawImage(board, 0, 0, null, this);
 
         tiles.forEach(t -> {
             t.draw(g2d);
@@ -347,29 +349,32 @@ public class GamePanel extends JComponent implements MouseListener {
     public void mouseClicked(MouseEvent e) {
 
         if (!isLoading) {
-
-            // get dice value.
+            // get dice value. (take this from backend)...
             int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
-
-            MoveTokenRequest request = new MoveTokenRequest();
-            request.setTokenId(0);
-
-            // TODO: get token id from mouseClicked!!!!!
-
-            try {
-                Main.getServerConnection().sendMessage(request);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
 
             // the users turn...
             Faction player = Faction.RED;
 
-            Tile tt = tiles.stream().filter(tile -> tile.clicked(e.getX(), e.getY())).findFirst().orElse(null);
-            if (tt != null && tt.getPosition() != -1) {
+            // Get correct legal tile. (correct player and token on tile):
+            Tile tt = tiles.stream()
+                    .filter(tile -> tile.clicked(e.getX(), e.getY())  &&  tile.getFaction() == player)
+                    .findFirst()
+                    .orElse(null);
 
+            if (tt != null  &&  !tt.isEmpty()) {
+
+                // Tile owner. Has player allowed to move this token?
                 Faction check = tt.getFaction();
-                if (check != null && check == player) {
+                if (check != null  &&  check == player) {
+
+                    MoveTokenRequest request = new MoveTokenRequest();
+                    request.setTokenId(tt.getPosition());
+
+                    try {
+                        Main.getServerConnection().sendMessage(request);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
 
                     // Calculate target out of the top Token on tile (blockade)
                     int target = tt.getPosition();
