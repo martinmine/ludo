@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
+import no.hig.imt3281.ludo.messaging.InitializePlayerTokenMessage;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class GamePanel extends JComponent implements MouseListener {
     private static final int MAX_PLAYERS = 4;
+    public static final Logger LOGGER = Logger.getLogger(GamePanel.class.getSimpleName());
 
     private Dimension boardSize;
     private final static int TILE_SIZE = 35;
@@ -373,7 +375,16 @@ public class GamePanel extends JComponent implements MouseListener {
                     try {
                         Main.getServerConnection().sendMessage(request);
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        LOGGER.log(Level.WARNING, e1.getMessage(), e);
+                    }
+
+                    InitializePlayerTokenMessage initPlayerMessage = new InitializePlayerTokenMessage();
+                    initPlayerMessage.setPlayerId(player.getIndex());
+
+                    try {
+                        Main.getServerConnection().sendMessage(initPlayerMessage);
+                    } catch (IOException e1) {
+                        LOGGER.log(Level.WARNING, e1.getMessage(), e);
                     }
 
                     // Calculate target out of the top Token on tile (blockade)

@@ -8,6 +8,8 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 import javax.swing.JOptionPane;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 21.11.2014.
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class GameChallengeMessageHandler implements MessageHandler {
 
     public static final int CHALLENGE_ACCEPTED = 0;
+    private static final Logger LOGGER = Logger.getLogger(GameChallengeMessageHandler.class.getSimpleName());
 
     public void handle(GameChallengeMessage message, CommunicationContext context) {
         int result = new JOptionPane().showConfirmDialog(null,
@@ -34,7 +37,7 @@ public class GameChallengeMessageHandler implements MessageHandler {
         try {
             Main.getServerConnection().sendMessage(response);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 }
