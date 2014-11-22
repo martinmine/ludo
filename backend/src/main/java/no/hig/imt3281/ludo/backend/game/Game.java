@@ -1,10 +1,7 @@
 package no.hig.imt3281.ludo.backend.game;
 
 import no.hig.imt3281.ludo.backend.User;
-import no.hig.imt3281.ludo.messaging.GameStartedMessage;
-import no.hig.imt3281.ludo.messaging.Message;
-import no.hig.imt3281.ludo.messaging.TriggerDiceResult;
-import no.hig.imt3281.ludo.messaging.UserEnteredGameMessage;
+import no.hig.imt3281.ludo.messaging.*;
 
 import java.io.IOException;
 import java.util.Random;
@@ -94,6 +91,7 @@ public class Game {
             startMessage.setFaction(i);
         }
         broadcastMessage(startMessage);
+        nextPlayerTurn();
     }
 
     private void sendMessage(User user, Message message) {
@@ -130,11 +128,14 @@ public class Game {
     }
 
     private void nextPlayerTurn() {
-        final int playerId = this.currentMovingPlayer + 1 % this.userCount;
+        final int playerId = (this.currentMovingPlayer + 1) % (this.userCount - 1);
         LOGGER.info("Next player id is " + playerId);
 
         this.currentMovingPlayer = playerId;
         this.currentTurnUserId = users[playerId].getId();
+        this.diceValue = 0;
+
+        sendMessage(users[playerId], new TurnMessage());
     }
 
     /**
@@ -152,5 +153,37 @@ public class Game {
         if (!movesAvailable) {
             nextPlayerTurn();
         }
+    }
+
+    public void moveToken(int tokenId) {
+        // check if the user has rolled the dice yet
+        if (diceValue <= 0) {
+            return;
+        }
+
+        MoveTokenResult message = new MoveTokenResult();
+        // if user can move this token
+        boolean canMoveToken = true;
+
+        message.setValidMove(canMoveToken);
+        sendMessage(users[currentMovingPlayer], message);
+
+        if (canMoveToken) {
+            TokenMovedMessage movedMessage = new TokenMovedMessage();
+            movedMessage.setFactionMoving(this.currentMovingPlayer);
+            movedMessage.setTokenId(tokenId);
+            movedMessage.setNewPosition(1 + diceValue);
+            broadcastMessage(movedMessage);
+
+            nextPlayerTurn();
+        }
+    }
+
+    /**
+     * Returns true if the dice has been thrown in this turn.
+     * @return True if dice triggered in this turn, otherwise false.
+     */
+    public boolean diceTriggered() {
+        return this.diceValue > 0;
     }
 }
