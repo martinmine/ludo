@@ -231,6 +231,8 @@ public class GamePanel extends JComponent implements MouseListener {
                 MoveTokenRequest request = new MoveTokenRequest();
                 request.setTokenId(tt.getTokenID());
 
+                System.out.println("id = " + tt.getTokenID());
+
                 try {
                     Main.getServerConnection().sendMessage(new MoveTokenRequest());
                 } catch (IOException e1) {
@@ -399,6 +401,12 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void moveToken(int playerId, int tokenId, int target) {
-
+        Token token = players[playerId].getToken(tokenId);
+        int currentTile = token.getPosition();
+        int targetTile = players[playerId].getTileIndex(target);
+        tiles.get(currentTile).remove();
+        token.setPosition(target);
+        tiles.get(targetTile).addToken(token);
+        repaint();
     }
 }

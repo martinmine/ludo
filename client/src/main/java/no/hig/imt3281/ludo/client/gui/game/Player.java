@@ -142,4 +142,8 @@ public class Player {
         return tiles.get(index);
     }
 
+    public int getTokenPosition(int tokenId) {
+        return token[tokenId].getPosition();
+    }
+
 }
