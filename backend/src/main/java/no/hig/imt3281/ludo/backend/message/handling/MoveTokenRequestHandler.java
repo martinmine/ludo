@@ -19,7 +19,7 @@ public class MoveTokenRequestHandler implements MessageHandler {
         User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
         Game game = ServerEnvironment.getGameManager().getGame(user.getCurrentGameId());
 
-        LOGGER.info("Player " + user.getUsername() + " requesting to move token");
+        LOGGER.info("Player " + user.getUsername() + " requesting to move token " + message.getTokenId());
         if (game.getCurrentTurnUserId() == user.getId() && game.diceTriggered()) {
             LOGGER.info("approved");
             game.moveToken(message.getTokenId());

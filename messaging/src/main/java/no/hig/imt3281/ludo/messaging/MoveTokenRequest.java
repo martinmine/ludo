@@ -5,12 +5,7 @@ package no.hig.imt3281.ludo.messaging;
  * unhandled...
  */
 public class MoveTokenRequest extends Message {
-
     private int tokenId;
-
-    public MoveTokenRequest() {
-
-    }
 
     public int getTokenId() {
         return tokenId;
