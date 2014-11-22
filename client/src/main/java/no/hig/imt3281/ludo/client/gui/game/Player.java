@@ -143,7 +143,7 @@ public class Player {
     }
 
     public int getTokenPosition(int tokenId) {
-        return token[tokenId].getPosition();
+        return tiles.get(token[tokenId].getPosition());
     }
 
 }

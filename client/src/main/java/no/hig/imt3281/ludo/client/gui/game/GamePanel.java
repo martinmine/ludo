@@ -240,6 +240,8 @@ public class GamePanel extends JComponent implements MouseListener {
                 }
 
 
+                /*
+
                 // Tile owner. Has player allowed to move this token?
                 Faction check = tt.getFaction();
                 if (check != null  &&  check == player) {
@@ -296,6 +298,8 @@ public class GamePanel extends JComponent implements MouseListener {
 
                     repaint();
                 }
+                */
+
             }
         }
     }
@@ -402,11 +406,12 @@ public class GamePanel extends JComponent implements MouseListener {
 
     public void moveToken(int playerId, int tokenId, int target) {
         Token token = players[playerId].getToken(tokenId);
-        int currentTile = token.getPosition();
-        int targetTile = players[playerId].getTileIndex(target);
-        tiles.get(currentTile).remove();
+        int currentTileIndex = players[playerId].getTokenPosition(tokenId);
+        int targetTileIndex = players[playerId].getTileIndex(target);
+        System.out.println("currentTile " + currentTileIndex);
+        tiles.get(currentTileIndex).remove();
         token.setPosition(target);
-        tiles.get(targetTile).addToken(token);
+        tiles.get(targetTileIndex).addToken(token);
         repaint();
     }
 }

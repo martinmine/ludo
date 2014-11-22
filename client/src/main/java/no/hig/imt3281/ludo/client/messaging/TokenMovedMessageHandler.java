@@ -11,6 +11,6 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
  */
 public class TokenMovedMessageHandler implements MessageHandler {
     public void handle(TokenMovedMessage message, CommunicationContext context) {
-        GuiManager.getGamePanel().moveToken(message.getFactionMoving(),message.getTokenId(), message.getNewPosition());
+        GuiManager.getGamePanel().moveToken(message.getFactionMoving(), message.getTokenId(), message.getNewPosition());
     }
 }
