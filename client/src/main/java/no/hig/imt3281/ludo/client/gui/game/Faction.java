@@ -32,4 +32,14 @@ public enum Faction {
         return null;
     }
 
+    public static Faction getFaction(int index) {
+        switch(index) {
+            case 0: return RED;
+            case 1: return BLUE;
+            case 2: return YELLOW;
+            case 3: return GREEN;
+            default: return null;
+        }
+    }
+
 }

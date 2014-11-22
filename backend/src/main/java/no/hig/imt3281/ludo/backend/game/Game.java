@@ -1,11 +1,11 @@
 package no.hig.imt3281.ludo.backend.game;
 
 import no.hig.imt3281.ludo.backend.User;
-import no.hig.imt3281.ludo.messaging.GameStartedMessage;
-import no.hig.imt3281.ludo.messaging.Message;
-import no.hig.imt3281.ludo.messaging.UserEnteredGameMessage;
+import no.hig.imt3281.ludo.messaging.*;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -13,17 +13,39 @@ import java.util.logging.Logger;
  *
  */
 public class Game {
-    private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
     public static final int PLAYERS_MAX = 4;
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
+    private static final Random RANDOM = new Random();
+    private static final int DICE_MAX = 6;
 
     private int gameId;
     private User[] users;
     private int userCount;
+    /**
+     * Index of the current turn player
+     */
     private int currentMovingPlayer;
+    /**
+     * User id of the current turn player
+     */
+    private int currentTurnUserId;
+    /**
+     * Value of the dice
+     */
+    private int diceValue;
 
     public Game(final int gameId) {
         this.gameId = gameId;
         this.users = new User[PLAYERS_MAX];
+        this.currentMovingPlayer = -1;
+    }
+
+    /**
+     * Gets the user id of the user which makes the current turn in the game
+     * @return user id
+     */
+    public int getCurrentTurnUserId() {
+        return currentTurnUserId;
     }
 
     public int getGameId() {
@@ -52,10 +74,6 @@ public class Game {
         // check if the current player that has to roll has not timed out
     }
 
-    private void nextPlayerMove() {
-
-    }
-
     public void start() {
         UserEnteredGameMessage message = new UserEnteredGameMessage();
 
@@ -72,6 +90,8 @@ public class Game {
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
         }
+        broadcastMessage(startMessage);
+        nextPlayerTurn();
     }
 
     private void sendMessage(User user, Message message) {
@@ -98,4 +118,72 @@ public class Game {
 
     }
 
+    /**
+     * Checks if the current player which has the turn can move any tokens from the current dice value.
+     * @return True if player can move anything, otherwise
+     */
+    private boolean movesAvailable() {
+        // TODO: Not yet implemented
+        return true;
+    }
+
+    private void nextPlayerTurn() {
+        final int playerId = (this.currentMovingPlayer + 1) % (this.userCount - 1);
+        LOGGER.info("Next player id is " + playerId);
+
+        this.currentMovingPlayer = playerId;
+        this.currentTurnUserId = users[playerId].getId();
+        this.diceValue = 0;
+
+        sendMessage(users[playerId], new TurnMessage());
+    }
+
+    /**
+     * Triggers the dice for the current user which has the turn in the game
+     */
+    public void triggerDice() {
+        this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
+        boolean movesAvailable = movesAvailable();
+
+        TriggerDiceResult message = new TriggerDiceResult();
+        message.setDiceValue(diceValue);
+        message.setAnyTokensValid(movesAvailable);
+        broadcastMessage(message);
+
+        if (!movesAvailable) {
+            nextPlayerTurn();
+        }
+    }
+
+    public void moveToken(int tokenId) {
+        // check if the user has rolled the dice yet
+        if (diceValue <= 0) {
+            return;
+        }
+
+        MoveTokenResult message = new MoveTokenResult();
+        // if user can move this token
+        boolean canMoveToken = true;
+
+        message.setValidMove(canMoveToken);
+        sendMessage(users[currentMovingPlayer], message);
+
+        if (canMoveToken) {
+            TokenMovedMessage movedMessage = new TokenMovedMessage();
+            movedMessage.setFactionMoving(this.currentMovingPlayer);
+            movedMessage.setTokenId(tokenId);
+            movedMessage.setNewPosition(1 + diceValue);
+            broadcastMessage(movedMessage);
+
+            nextPlayerTurn();
+        }
+    }
+
+    /**
+     * Returns true if the dice has been thrown in this turn.
+     * @return True if dice triggered in this turn, otherwise false.
+     */
+    public boolean diceTriggered() {
+        return this.diceValue > 0;
+    }
 }
