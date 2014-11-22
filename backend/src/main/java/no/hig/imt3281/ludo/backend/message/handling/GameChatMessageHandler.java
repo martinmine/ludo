@@ -13,10 +13,8 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 public class GameChatMessageHandler implements MessageHandler {
     public void handle(GameChatMessage request, CommunicationContext context) {
         User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
-        GameChat chat = ServerEnvironment.getChatManager().getGameChat(request.getGameId());
+        GameChat chat = ServerEnvironment.getChatManager().getGameChat(user.getCurrentGameId());
 
-        if (user != null && chat != null) {
-            chat.userSays(user, request.getMessage());
-        }
+        chat.userSays(user, request.getMessage());
     }
 }
