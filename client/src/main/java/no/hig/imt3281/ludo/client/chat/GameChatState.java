@@ -9,12 +9,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 03.11.2014.
+ * State for the ChatMessageHandler
+ *
+ * Handles outgoing GameChatMessages
  */
 public class GameChatState implements ChatState {
 
     private static final Logger LOGGER = Logger.getLogger(GameChatState.class.getSimpleName());
 
+    /**
+     * Generates a GameChatMessage and sends it to server
+     *
+     * @param channelId is not in use in this case
+     * @param message chatmessage string
+     */
     @Override
     public void broadcastMessage(int channelId, String message) {
         try {
