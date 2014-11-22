@@ -25,5 +25,6 @@ public class MessageHandlingService extends MessageHandlerFactory {
         registerResponse(MoveTokenResult.class, new MoveTokenResultHandler());
         registerResponse(TokenMovedMessage.class, new TokenMovedMessageHandler());
         registerResponse(TurnMessage.class, new TurnMessageHandler());
+        registerResponse(UserEnteredGameMessage.class, new UserEnteredGameMessageHandler());
     }
 }
