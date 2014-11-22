@@ -28,16 +28,15 @@ public class GamePanel extends JComponent implements MouseListener {
     private Image board;
     private Image loading;
     private ArrayList<Tile> tiles;
-    private ArrayList<ArrayList<Integer>> tile;
     private Player players[];
     private int numPlayer;
-    private int turn;
+    private int currentPlayer;
     private boolean isLoading;
 
     public GamePanel() {
         addMouseListener(this);
         players = new Player[MAX_PLAYERS];
-        turn = 0;
+        currentPlayer = 0;
 
         tiles = new ArrayList<>();
 
@@ -163,105 +162,6 @@ public class GamePanel extends JComponent implements MouseListener {
         tiles.add(new Tile(151, 113, TILE_SIZE));
         tiles.add(new Tile(113, 151, TILE_SIZE));
 
-        // Player tiles - referencing with int (index).
-        tile = new ArrayList<>();
-
-        // Red is first index = 0;
-        tile.add(new ArrayList<>());
-
-        // Blue is second index = 1;
-        tile.add(new ArrayList<>());
-
-        // Yellow is third index = 2;
-        tile.add(new ArrayList<>());
-
-        // Green is 4th index = 3;
-        tile.add(new ArrayList<>());
-
-        // Red point of view BASE:
-        for (int i=76; i<80; i++) {
-            tile.get(Faction.RED.getIndex()).add(i);
-        }
-
-        // Red point of view SHARED:
-        for (int j=0; j<52; j++)  {
-            tile.get(Faction.RED.getIndex()).add(j);
-        }
-
-        // Red point of view SHARED (back to start)
-        tile.get(Faction.RED.getIndex()).add(0);
-
-        // Red point of view FINISH:
-        for (int k=52; k<58; k++) tile.get(Faction.RED.getIndex()).add(k);
-
-
-        // Blue poi BASE:
-        for (int i=80; i<84; i++) {
-            tile.get(Faction.BLUE.getIndex()).add(i);
-        }
-
-        // Blue poi SHARED #1:
-        for (int j=0; j<39; j++)  {
-            tile.get(Faction.BLUE.getIndex()).add(j+13);
-        }
-
-        // Blue poi SHARED #2:
-        for (int j=0; j<13; j++)  tile.get(Faction.BLUE.getIndex()).add(j);
-
-        // Blue poi SHARED (back to start):
-        tile.get(Faction.BLUE.getIndex()).add(13);
-
-        // Blue poi FINISH:
-        for (int k=58; k<64; k++) {
-            tile.get(Faction.BLUE.getIndex()).add(k);
-        }
-
-        // Yellow poi BASE:
-        for (int i=84; i<88; i++) {
-            tile.get(Faction.YELLOW.getIndex()).add(i);
-        }
-
-        // Yellow poi SHARED #1:
-        for (int j=0; j<26; j++)  {
-            tile.get(Faction.YELLOW.getIndex()).add(j+26);
-        }
-
-        // Yellow poi SHARED #2:
-        for (int j=0; j<26; j++)  {
-            tile.get(Faction.YELLOW.getIndex()).add(j);
-        }
-
-        // Yellow poi SHARED (back to start)
-        tile.get(Faction.YELLOW.getIndex()).add(26);
-
-        // Yellow poi FINISH:
-        for (int k=64; k<70; k++) {
-            tile.get(Faction.YELLOW.getIndex()).add(k);
-        }
-
-        // Green poi BASE:
-        for (int i=88; i<92; i++) {
-            tile.get(Faction.GREEN.getIndex()).add(i);
-        }
-
-        // Green poi SHARED #1:
-        for (int j=0; j<13; j++)  {
-            tile.get(Faction.GREEN.getIndex()).add(j+39);
-        }
-
-        // Green poi SHARED #2:
-        for (int j=0; j<39; j++)  {
-            tile.get(Faction.GREEN.getIndex()).add(j);
-        }
-
-        // Green poi SHARED (back to start)
-        tile.get(Faction.GREEN.getIndex()).add(39);
-
-        // Green poi FINISH:
-        for (int k=70; k<76; k++) {
-            tile.get(Faction.GREEN.getIndex()).add(k);
-        }
-
         ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.jpg"));
         boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
@@ -269,7 +169,7 @@ public class GamePanel extends JComponent implements MouseListener {
         ImageIcon tempLoading = new ImageIcon(getClass().getResource("/img/ludo_loader.gif"));
         loading = tempLoading.getImage();
 
-        demo();
+        //demo();
     }
 
 
@@ -281,24 +181,22 @@ public class GamePanel extends JComponent implements MouseListener {
      */
     private void demo() {
 
-        Token token = new Token(Faction.RED, 0);
-        Token redToken = new Token(Faction.RED, 4);
-        Token blueToken = new Token(Faction.BLUE, 0);
-        Token green1Token = new Token(Faction.GREEN, 20);
-        Token green2Token = new Token(Faction.GREEN, 30);
+        currentPlayer = numPlayer++;
+        players[currentPlayer] = new Player(Faction.RED);
+        players[currentPlayer].setTokens(tiles);
 
-        //  REDs enum int value.
-        int redId = Faction.RED.getIndex();
+        currentPlayer = numPlayer++;
+        players[currentPlayer] = new Player(Faction.BLUE);
+        players[currentPlayer].setTokens(tiles);
 
-        //  TileId for reds first tile.
-        int tileId = tile.get(redId).get(0);
+        currentPlayer = numPlayer++;
+        players[currentPlayer] = new Player(Faction.YELLOW);
+        players[currentPlayer].setTokens(tiles);
 
-        // Add a token to a tile!!
-        tiles.get(tileId).addToken(token);
-        tiles.get(tile.get(Faction.BLUE.getIndex()).get(0)).addToken(blueToken);
-        tiles.get(tile.get(Faction.RED.getIndex()).get(4)).addToken(redToken);
-        tiles.get(tile.get(Faction.GREEN.getIndex()).get(20)).addToken(green1Token);
-        tiles.get(tile.get(Faction.GREEN.getIndex()).get(30)).addToken(green2Token);
+        currentPlayer = numPlayer++;
+        players[currentPlayer] = new Player(Faction.GREEN);
+        players[currentPlayer].setTokens(tiles);
+
     }
 
     @Override
@@ -404,7 +302,7 @@ public class GamePanel extends JComponent implements MouseListener {
                         target = blockade - 1;
                     }
 
-                    int last = tile.get(player.getIndex()).size() - 1;
+                    int last = players[player.getIndex()].getEndTileIndex(); //tile.get(player.getIndex()).size() - 1;
                     if (target > last) {
                         int diff = target - last;
                         target = last - diff;
@@ -417,7 +315,7 @@ public class GamePanel extends JComponent implements MouseListener {
                     move.setPosition(target);
 
                     // Get index to actual tile.
-                    int targetTileIndex = tile.get(player.getIndex()).get(target);
+                    int targetTileIndex = players[player.getIndex()].getTileIndex(target); //tile.get(player.getIndex()).get(target);
 
                     // If target Tile is occupied by an enemy Token (no blockade)
                     // enemy token gets kicked back to base, else returns null.
@@ -439,7 +337,7 @@ public class GamePanel extends JComponent implements MouseListener {
     private int getBaseTilePosition(Token token) {
         for (int i=0; i<4; i++) {
 
-            int basePosition = tile.get(token.getFaction().getIndex()).get(i);
+            int basePosition = players[token.getFaction().getIndex()].getTileIndex(i);
 
             if (tiles.get(basePosition).isEmpty()) {
                 return basePosition;
@@ -457,7 +355,7 @@ public class GamePanel extends JComponent implements MouseListener {
      * @return int the position where its a blockade. You can move just behind the blockade.
      */
     private int isBlocked(Faction player, int currentPosition, int target) {
-        int last = tile.get(player.getIndex()).get(tile.get(player.getIndex()).size() - 6);
+        int last = players[currentPlayer].getStartOfFinishTileIndex();
         int num = (target - currentPosition) + 1;
 
         // No point looking for blockades on finish tiles.
@@ -471,7 +369,8 @@ public class GamePanel extends JComponent implements MouseListener {
         // i becomes number of tiles from current position to nearest blockade.
         // if no blockade is found, i becomes the target position.
         while (!blocked  &&  ++i < num) {
-            int index = tile.get(player.getIndex()).get(currentPosition + i);
+
+            int index = players[currentPlayer].getTileIndex(currentPosition + i);
             blocked = tiles.get(index).isBlocked(player);
         }
 
@@ -519,7 +418,10 @@ public class GamePanel extends JComponent implements MouseListener {
             case 3: color = Faction.GREEN;
         }
 
-        players[numPlayer++] = new Player(color);
+        currentPlayer = numPlayer++;
+        players[currentPlayer] = new Player(color);
+        players[currentPlayer].setTokens(tiles);
+
         repaint();
     }
 
