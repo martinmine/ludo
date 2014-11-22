@@ -37,7 +37,6 @@ public class GamePanel extends JComponent implements MouseListener {
         addMouseListener(this);
         players = new Player[MAX_PLAYERS];
         currentPlayer = 0;
-
         tiles = new ArrayList<>();
 
         // SHARED TILES:
