@@ -508,6 +508,7 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void joinTable(int faction) {
+        LOGGER.info("User with faction " + faction + " entered the game");
         Faction color = Faction.RED;
         switch(faction) {
             case 0: color = Faction.RED;
