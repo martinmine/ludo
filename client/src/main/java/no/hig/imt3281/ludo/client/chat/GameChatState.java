@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class GameChatState implements ChatState {
 
-    public static final Logger LOGGER = Logger.getLogger(GameChatState.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(GameChatState.class.getSimpleName());
 
     @Override
     public void broadcastMessage(int channelId, String message) {

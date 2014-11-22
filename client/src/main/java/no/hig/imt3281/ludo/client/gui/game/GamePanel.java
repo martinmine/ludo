@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class GamePanel extends JComponent implements MouseListener {
     private static final int MAX_PLAYERS = 4;
-    public static final Logger LOGGER = Logger.getLogger(GamePanel.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(GamePanel.class.getSimpleName());
 
     private Dimension boardSize;
     private final static int TILE_SIZE = 35;
