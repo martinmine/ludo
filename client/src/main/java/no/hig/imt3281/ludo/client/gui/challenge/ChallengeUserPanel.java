@@ -15,7 +15,7 @@ public class ChallengeUserPanel extends JPanel {
     private JScrollPane scrollPane;
     private ChallengeList challengeableUsersList;
     private JButton challengeButton;
-    public static final Logger LOGGER = Logger.getLogger(ChallengeUserPanel.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ChallengeUserPanel.class.getSimpleName());
 
     public ChallengeUserPanel() {
         BorderLayout layout = new BorderLayout();

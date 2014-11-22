@@ -19,6 +19,7 @@ public class Game {
     private int gameId;
     private User[] users;
     private int userCount;
+    private int currentMovingPlayer;
 
     public Game(final int gameId) {
         this.gameId = gameId;
@@ -44,6 +45,10 @@ public class Game {
     }
 
     public void cycle() {
+        // check if the current player that has to roll has not timed out
+    }
+
+    private void nextPlayerMove() {
 
     }
 
@@ -54,7 +59,7 @@ public class Game {
         message.setPlayerCount(this.userCount);
 
         for (int i = 0; i < userCount; i++) {
-            message.addPlayerId(users[i].getId());
+            message.addPlayerId(i);
         }
 
         broadcastMessage(message);
@@ -62,10 +67,15 @@ public class Game {
         GameStartedMessage startMessage = new GameStartedMessage();
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
+        }
+    }
+
+    private void sendMessage(User user, Message message) {
+        if (user.getCurrentGameId() == this.gameId) {
             try {
-                users[i].getClientConnection().sendMessage(message);
+                user.getClientConnection().sendMessage(message);
             } catch (IOException e) {
-                users[i].getClientConnection().close();
+                user.getClientConnection().close();
             }
         }
     }
