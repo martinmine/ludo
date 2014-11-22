@@ -269,23 +269,15 @@ public class GamePanel extends JComponent implements MouseListener {
         ImageIcon tempLoading = new ImageIcon(getClass().getResource("/img/ludo_loader.gif"));
         loading = tempLoading.getImage();
 
-        /* Debugging
-        for (int i=0; i<tile.get(0).size(); i++) {
-            System.out.println(i + " " + tile.get(0).get(i));
-        }
-        */
-
         demo();
     }
+
 
     /**
      * Tile setup: (Its the same for all PLAYERS!! (factions)
      * 0-3   = base tiles
      * 4-52  = shared tiles
      * 53-57 = finish tiles
-     *
-     *
-     * DELETE THIS FUNCTION ;)
      */
     private void demo() {
 
@@ -349,6 +341,7 @@ public class GamePanel extends JComponent implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
 
         if (!isLoading) {
             // get dice value. (take this from backend)...
