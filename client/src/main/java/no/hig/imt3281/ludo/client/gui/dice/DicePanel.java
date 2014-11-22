@@ -18,10 +18,8 @@ import java.util.logging.Logger;
  */
 public class DicePanel extends JComponent implements MouseListener {
 
-
     private static final Logger LOGGER = Logger.getLogger(DicePanel.class.getName());
-    private static final int MAX = 6;
-    private static final int MIN = 0;
+    private static final int MAX = 7;
 
     private Image[] dice;
     private int face;
@@ -31,20 +29,20 @@ public class DicePanel extends JComponent implements MouseListener {
         dice = new Image[MAX];
 
         for (int i = 0; i < MAX; i++) {
-            ImageIcon temp = new ImageIcon(getClass().getResource("/img/dice" + (i+1) + ".png"));
+            ImageIcon temp = new ImageIcon(getClass().getResource("/img/dice" + i + ".png"));
             dice[i] = temp.getImage();
         }
     }
 
     public int getValue() {
-        return this.face + 1;
+        return this.face;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.black);
-        g.drawImage(dice[face],0,0,160,160,this);
+        g.drawImage(dice[face], 0, 0, this);
     }
 
     @Override
