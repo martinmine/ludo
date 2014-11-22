@@ -24,7 +24,8 @@ public class MoveTokenRequestHandler implements MessageHandler {
             LOGGER.info("approved");
             game.moveToken(message.getTokenId());
         } else {
-            LOGGER.info("Can't move that token, not your turn");
+            LOGGER.info("Can't move that token, not your turn, current turn uid " + game.getCurrentTurnUserId() +
+                    " your uid is " + user.getId());
         }
     }
 }

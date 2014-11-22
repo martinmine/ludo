@@ -128,7 +128,7 @@ public class Game {
     }
 
     private void nextPlayerTurn() {
-        final int playerId = (this.currentMovingPlayer + 1) % (this.userCount - 1);
+        final int playerId = (this.currentMovingPlayer + 1) % (this.userCount);
         LOGGER.info("Next player id is " + playerId);
 
         this.currentMovingPlayer = playerId;
@@ -162,7 +162,7 @@ public class Game {
         }
 
         MoveTokenResult message = new MoveTokenResult();
-        // if user can move this token
+        // TODO: if user can move this token
         boolean canMoveToken = true;
 
         message.setValidMove(canMoveToken);
