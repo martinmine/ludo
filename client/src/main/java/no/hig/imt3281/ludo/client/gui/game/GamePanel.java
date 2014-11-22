@@ -168,34 +168,6 @@ public class GamePanel extends JComponent implements MouseListener {
         ImageIcon tempLoading = new ImageIcon(getClass().getResource("/img/ludo_loader.gif"));
         loading = tempLoading.getImage();
 
-        //demo();
-    }
-
-
-    /**
-     * Tile setup: (Its the same for all PLAYERS!! (factions)
-     * 0-3   = base tiles
-     * 4-52  = shared tiles
-     * 53-57 = finish tiles
-     */
-    private void demo() {
-
-        currentPlayer = numPlayer++;
-        players[currentPlayer] = new Player(Faction.RED);
-        players[currentPlayer].setTokens(tiles);
-
-        currentPlayer = numPlayer++;
-        players[currentPlayer] = new Player(Faction.BLUE);
-        players[currentPlayer].setTokens(tiles);
-
-        currentPlayer = numPlayer++;
-        players[currentPlayer] = new Player(Faction.YELLOW);
-        players[currentPlayer].setTokens(tiles);
-
-        currentPlayer = numPlayer++;
-        players[currentPlayer] = new Player(Faction.GREEN);
-        players[currentPlayer].setTokens(tiles);
-
     }
 
     @Override
@@ -255,6 +227,16 @@ public class GamePanel extends JComponent implements MouseListener {
 
             // Clicked a tile AND it's token(s) on it:
             if (tt != null  &&  !tt.isEmpty()) {
+
+                MoveTokenRequest request = new MoveTokenRequest();
+                request.setTokenId(tt.getTokenID());
+
+                try {
+                    Main.getServerConnection().sendMessage(new MoveTokenRequest());
+                } catch (IOException e1) {
+                    LOGGER.severe("Error " + e1.getMessage());
+                }
+
 
                 // Tile owner. Has player allowed to move this token?
                 Faction check = tt.getFaction();
@@ -414,5 +396,9 @@ public class GamePanel extends JComponent implements MouseListener {
             players[currentPlayer].setTokens(tiles);
             repaint();
         }
+    }
+
+    public void moveToken(int playerId, int tokenId, int target) {
+
     }
 }

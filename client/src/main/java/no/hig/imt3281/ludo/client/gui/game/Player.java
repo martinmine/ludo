@@ -29,7 +29,7 @@ public class Player {
 
     private void initTokens() {
         for (int i=0; i<MAX_PLAYERS; i++) {
-            token[i] = new Token(faction, i);
+            token[i] = new Token(faction, i, i);
         }
     }
 

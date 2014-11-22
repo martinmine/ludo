@@ -17,11 +17,13 @@ public class Token {
 
     // Knowing its own position from the owners point og view:
     private int position;
+    private int tokenId;
 
-    Token(Faction faction, int position) {
+    Token(Faction faction, int position, int tokenId) {
         this.rawToken = new Ellipse2D.Double(0, 0, SQR_SIZE, SQR_SIZE);
         this.faction = faction;
         this.position = position;
+        this.tokenId = tokenId;
     }
 
     /**
@@ -50,5 +52,9 @@ public class Token {
 
     public int getPosition() {
         return this.position;
+    }
+
+    public int getTokenId() {
+        return tokenId;
     }
 }

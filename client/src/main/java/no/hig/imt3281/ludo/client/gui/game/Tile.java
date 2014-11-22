@@ -134,4 +134,15 @@ public class Tile {
         return (tile.isEmpty())? null: tile.get(0).getFaction();
     }
 
+    /**
+     * Players tokenId for the player
+     * @return int uniq tokenId
+     */
+    public int getTokenID() {
+        if (tile.isEmpty()) {
+            return -1;
+        }
+        return tile.get(tile.size() -1 ).getTokenId();
+    }
+
 }
