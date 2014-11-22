@@ -141,7 +141,7 @@ public class Game {
      * Triggers the dice for the current user which has the turn in the game
      */
     public void triggerDice() {
-        this.diceValue = RANDOM.nextInt(DICE_MAX - 1) + 1;
+        this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
         boolean movesAvailable = movesAvailable();
 
         TriggerDiceResult message = new TriggerDiceResult();
