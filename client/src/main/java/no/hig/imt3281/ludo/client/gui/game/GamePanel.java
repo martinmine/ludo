@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
+import no.hig.imt3281.ludo.messaging.InitializePlayerTokenMessage;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 
 import javax.swing.*;
@@ -268,23 +269,15 @@ public class GamePanel extends JComponent implements MouseListener {
         ImageIcon tempLoading = new ImageIcon(getClass().getResource("/img/ludo_loader.gif"));
         loading = tempLoading.getImage();
 
-        /* Debugging
-        for (int i=0; i<tile.get(0).size(); i++) {
-            System.out.println(i + " " + tile.get(0).get(i));
-        }
-        */
-
         demo();
     }
+
 
     /**
      * Tile setup: (Its the same for all PLAYERS!! (factions)
      * 0-3   = base tiles
      * 4-52  = shared tiles
      * 53-57 = finish tiles
-     *
-     *
-     * DELETE THIS FUNCTION ;)
      */
     private void demo() {
 
@@ -313,7 +306,8 @@ public class GamePanel extends JComponent implements MouseListener {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.drawImage(board, 0, 0, null, this); // image is 600, 600.
+        // image is 600, 600.
+        g2d.drawImage(board, 0, 0, null, this);
 
         tiles.forEach(t -> {
             t.draw(g2d);
@@ -348,30 +342,43 @@ public class GamePanel extends JComponent implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
+
         if (!isLoading) {
-
-            // get dice value.
+            // get dice value. (take this from backend)...
             int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
-
-            MoveTokenRequest request = new MoveTokenRequest();
-            request.setTokenId(0);
-
-            // TODO: get token id from mouseClicked!!!!!
-
-            try {
-                Main.getServerConnection().sendMessage(request);
-            } catch (IOException e1) {
-                LOGGER.log(Level.WARNING, e1.getMessage(), e);
-            }
 
             // the users turn...
             Faction player = Faction.RED;
 
-            Tile tt = tiles.stream().filter(tile -> tile.clicked(e.getX(), e.getY())).findFirst().orElse(null);
-            if (tt != null && tt.getPosition() != -1) {
+            // Get correct legal tile. (correct player and token on tile):
+            Tile tt = tiles.stream()
+                    .filter(tile -> tile.clicked(e.getX(), e.getY())  &&  tile.getFaction() == player)
+                    .findFirst()
+                    .orElse(null);
 
+            if (tt != null  &&  !tt.isEmpty()) {
+
+                // Tile owner. Has player allowed to move this token?
                 Faction check = tt.getFaction();
-                if (check != null && check == player) {
+                if (check != null  &&  check == player) {
+
+                    MoveTokenRequest request = new MoveTokenRequest();
+                    request.setTokenId(tt.getPosition());
+
+                    try {
+                        Main.getServerConnection().sendMessage(request);
+                    } catch (IOException e1) {
+                        LOGGER.log(Level.WARNING, e1.getMessage(), e);
+                    }
+
+                    InitializePlayerTokenMessage initPlayerMessage = new InitializePlayerTokenMessage();
+                    initPlayerMessage.setPlayerId(player.getIndex());
+
+                    try {
+                        Main.getServerConnection().sendMessage(initPlayerMessage);
+                    } catch (IOException e1) {
+                        LOGGER.log(Level.WARNING, e1.getMessage(), e);
+                    }
 
                     // Calculate target out of the top Token on tile (blockade)
                     int target = tt.getPosition();
@@ -501,6 +508,7 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void joinTable(int faction) {
+        LOGGER.info("User with faction " + faction + " entered the game");
         Faction color = Faction.RED;
         switch(faction) {
             case 0: color = Faction.RED;

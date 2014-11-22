@@ -11,4 +11,8 @@ public class InitializePlayerTokenMessage extends Message {
         return playerId;
     }
 
+    public void setPlayerId(int id) {
+        playerId = id;
+    }
+
 }

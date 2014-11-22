@@ -7,6 +7,7 @@ package no.hig.imt3281.ludo.messaging;
 public class GameStartedMessage extends Message {
     private int faction;
 
+
     public int getFaction() {
         return faction;
     }
