@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
+import no.hig.imt3281.ludo.client.messaging.AssignUserFactionMessageHandler;
 import no.hig.imt3281.ludo.messaging.InitializePlayerTokenMessage;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 
@@ -11,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -180,8 +180,8 @@ public class GamePanel extends JComponent implements MouseListener {
 
         tiles.forEach(t -> {
             t.draw(g2d);
-            //g2d.setColor(Color.WHITE);
-            //g2d.drawString(String.valueOf(tiles.indexOf(t)),t.getX() + 12, t.getY() + 22);
+            g2d.setColor(Color.WHITE);
+            g2d.drawString(String.valueOf(tiles.indexOf(t)),t.getX() + 12, t.getY() + 22);
         });
 
         if (isLoading) {
@@ -213,8 +213,6 @@ public class GamePanel extends JComponent implements MouseListener {
 
 
         if (!isLoading) {
-            // get dice value. (take this from backend)...
-            int dice = GuiManager.getSideTopPanel().getDicePanel().getValue();
 
             // the users turn...
             Faction player = Faction.getFaction(currentPlayer);
@@ -228,16 +226,18 @@ public class GamePanel extends JComponent implements MouseListener {
             // Clicked a tile AND it's token(s) on it:
             if (tt != null  &&  !tt.isEmpty()) {
 
-                MoveTokenRequest request = new MoveTokenRequest();
-                request.setTokenId(tt.getTokenID());
+                if (tt.getFaction().getIndex() == currentPlayer) {
 
-                try {
-                    Main.getServerConnection().sendMessage(request);
-                } catch (IOException e1) {
-                    LOGGER.severe("Error " + e1.getMessage());
+                    MoveTokenRequest request = new MoveTokenRequest();
+                    request.setTokenId(tt.getTokenID());
+
+                    try {
+                        Main.getServerConnection().sendMessage(request);
+                    } catch (IOException e1) {
+                        LOGGER.severe("Error " + e1.getMessage());
+                    }
+
                 }
-
-
                 /*
 
                 // Tile owner. Has player allowed to move this token?
@@ -412,5 +412,9 @@ public class GamePanel extends JComponent implements MouseListener {
         token.setPosition(target);
         tiles.get(targetTileIndex).addToken(token);
         repaint();
+    }
+
+    public void setCurrentPlayerFaction(int faction) {
+        currentPlayer = faction;
     }
 }

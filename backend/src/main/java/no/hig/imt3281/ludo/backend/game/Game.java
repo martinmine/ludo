@@ -106,12 +106,10 @@ public class Game implements GameMapUpdateListener {
     }
 
     private void sendMessage(User user, Message message) {
-        if (user.getCurrentGameId() == this.gameId && user.getClientConnection() != null) {
-            try {
-                user.getClientConnection().sendMessage(message);
-            } catch (IOException e) {
-                user.getClientConnection().close();
-            }
+        try {
+            user.getClientConnection().sendMessage(message);
+        } catch (IOException e) {
+            user.getClientConnection().close();
         }
     }
 

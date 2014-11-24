@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.AssignUserFactionMessage;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
@@ -9,6 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
  */
 public class AssignUserFactionMessageHandler implements MessageHandler {
     public void handle(AssignUserFactionMessage message, CommunicationContext context) {
+        GuiManager.getGamePanel().setCurrentPlayerFaction(message.getFaction());
         System.out.println("Your color is: " + message.getFaction());
     }
 }

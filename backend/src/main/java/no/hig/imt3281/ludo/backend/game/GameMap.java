@@ -1,10 +1,16 @@
 package no.hig.imt3281.ludo.backend.game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * The game map contains the core game logic and manages player movement and the state of the game map.
  */
 public class GameMap {
+
+    private static final int MAX_TILES = 92;
     private GameMapUpdateListener listener;
+    private int tiles[];
 
     /**
      * Prepares a new game map for use
@@ -12,6 +18,18 @@ public class GameMap {
      */
     public GameMap(GameMapUpdateListener listener) {
         this.listener = listener;
+
+        tiles = new int[MAX_TILES];
+
+        Arrays.stream(tiles).forEach(value -> value = 0);
+
+        tiles[76] = 10;
+        tiles[77] = 11;
+        tiles[78] = 12;
+        tiles[79] = 13;
+
+        tiles[80] =
+
     }
 
     /**
@@ -31,11 +49,12 @@ public class GameMap {
      * the listener for the changes that was made to the game map.
      * @param factionId id of the faction/color of the player [0-3]
      * @param tokenId id of the token [0-3]
-     * @param steps how many steps the user wants to take from the dice
+     * @param dice how many steps the user wants to take from the dice
      */
-    public void makeTurn(final int factionId, final int tokenId, final int steps) {
+    public void makeTurn(final int factionId, final int tokenId, final int dice) {
         // TODO: Update game map, update states for all affected tokens in the map
-        this.listener.tokenUpdated(factionId, tokenId, 1 + steps);
+
+        this.listener.tokenUpdated(factionId, tokenId, 1 + dice);
     }
 
     /**

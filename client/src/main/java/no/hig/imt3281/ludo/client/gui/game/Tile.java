@@ -62,7 +62,6 @@ public class Tile {
      * @return the last token added.
      */
     public Token remove() {
-        System.out.println("trying to remove (size) = " + tile.size());
         return tile.remove(tile.size()-1);
     }
 

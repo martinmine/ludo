@@ -21,6 +21,8 @@ public class Player {
         initTokens();
         tiles = new ArrayList<>();
         initPlayerTiles();
+
+        //tiles.stream().forEach(t -> System.out.println("i " + t));
     }
 
     public Faction getFaction() {
