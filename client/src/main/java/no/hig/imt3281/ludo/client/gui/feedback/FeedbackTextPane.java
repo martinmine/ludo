@@ -31,39 +31,35 @@ public class FeedbackTextPane extends JTextPane {
         setOpaque(false);
         setBackground(Color.cyan);
         setPreferredSize(new Dimension(240, 160));
+        setText("hey");
+
+        style = styleContext.addStyle("text", null);
+        style.addAttribute(StyleConstants.FontSize, new Integer(32));
+        style.addAttribute(StyleConstants.FontFamily, "arial");
+        style.addAttribute(StyleConstants.Bold, new Boolean(true));
+        setFeedbackString("oh no");
     }
 
     public void styleByFaction(int faction) {
-        style = styleContext.addStyle("text", null);
 
         switch(Faction.getFaction(faction)) {
             case GREEN:
                 style.addAttribute(StyleConstants.Foreground, Color.green);
-            break;
+                break;
             case RED:
                 style.addAttribute(StyleConstants.Foreground, Color.red);
-            break;
+                break;
             case BLUE:
                 style.addAttribute(StyleConstants.Foreground, Color.blue);
-            break;
+                break;
             case YELLOW:
                 style.addAttribute(StyleConstants.Foreground, Color.yellow);
-            break;
+                break;
             default:
                 break;
         }
-
-        style.addAttribute(StyleConstants.FontSize, new Integer(32));
-        style.addAttribute(StyleConstants.Background, new Color(Color.PINK.getBlue()));
-        style.addAttribute(StyleConstants.FontFamily, "arial");
-        style.addAttribute(StyleConstants.Bold, new Boolean(true));
-        try {
-            document.insertString(0, feedbackString, style);
-        } catch(Exception e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-        }
+        setFeedbackString(feedbackString);
     }
-
     public void setFeedbackString(String text) {
         LOGGER.info("REmoving old text");
         feedbackString = text;
