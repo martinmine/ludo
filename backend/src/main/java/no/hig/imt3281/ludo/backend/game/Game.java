@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.backend.game;
 
+import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.messaging.*;
 
@@ -32,6 +33,7 @@ public class Game implements GameMapUpdateListener {
      * Value of the dice
      */
     private int diceValue;
+    private int diceThrownTimestamp;
     private GameMap gameMap;
 
     public Game(final int gameId) {
@@ -90,13 +92,14 @@ public class Game implements GameMapUpdateListener {
         GameStartedMessage startMessage = new GameStartedMessage();
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
+            gameMap.addTokens(i);
         }
         broadcastMessage(startMessage);
         nextPlayerTurn();
     }
 
     private void sendMessage(User user, Message message) {
-        if (user.getCurrentGameId() == this.gameId) {
+        if (user.getCurrentGameId() == this.gameId && user.getClientConnection() != null) {
             try {
                 user.getClientConnection().sendMessage(message);
             } catch (IOException e) {
@@ -107,10 +110,12 @@ public class Game implements GameMapUpdateListener {
 
     public void broadcastMessage(Message message) {
         for (int i = 0; i < userCount; i++) {
-            try {
-                users[i].getClientConnection().sendMessage(message);
-            } catch (IOException e) {
-                users[i].getClientConnection().close();
+            if (users[i] != null && users[i].getClientConnection() != null) {
+                try {
+                    users[i].getClientConnection().sendMessage(message);
+                } catch (IOException e) {
+                    users[i].getClientConnection().close();
+                }
             }
         }
     }
@@ -131,6 +136,7 @@ public class Game implements GameMapUpdateListener {
      */
     public void triggerDice() {
         this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
+        this.diceThrownTimestamp = ServerEnvironment.getCurrentTimeStamp();
         boolean movesAvailable = gameMap.playerCanMoveAnyTokens(currentMovingPlayer, diceValue);
 
         TriggerDiceResult message = new TriggerDiceResult();
@@ -143,11 +149,17 @@ public class Game implements GameMapUpdateListener {
         }
     }
 
+    /**
+     * Moves the token for a player and makes the move if the move is possible.
+     * @param tokenId Id of the token which the user wants to move.
+     */
     public void moveToken(int tokenId) {
         // check if the user has rolled the dice yet
         if (diceValue <= 0) {
             return;
         }
+
+        this.diceThrownTimestamp = Integer.MAX_VALUE;
 
         boolean canMoveToken = gameMap.playerCanMove(currentMovingPlayer, tokenId, diceValue);
 
@@ -169,6 +181,9 @@ public class Game implements GameMapUpdateListener {
         return this.diceValue > 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void tokenUpdated(int factionId, int tokenId, int position) {
         TokenMovedMessage movedMessage = new TokenMovedMessage();
@@ -176,5 +191,13 @@ public class Game implements GameMapUpdateListener {
         movedMessage.setTokenId(tokenId);
         movedMessage.setNewPosition(position);
         broadcastMessage(movedMessage);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void gameOver(int triggeringFaction) {
+        // TODO: Not yet implemented
     }
 }

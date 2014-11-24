@@ -64,4 +64,12 @@ public class GameMap {
     public void clearMapForPlayer(final int factionId) {
         // TODO: Not yet implemented, note: no need to notify listener, as this is notified to the client through an UserLeaveMessage
     }
+
+    /**
+     * Adds a faction (or a player) to the game map)
+     * @param factionId Id of the faction that was added
+     */
+    public void addTokens(final int factionId) {
+
+    }
 }
