@@ -409,6 +409,7 @@ public class GamePanel extends JComponent implements MouseListener {
         int currentTileIndex = players[playerId].getTokenPosition(tokenId);
         int targetTileIndex = players[playerId].getTileIndex(target);
         System.out.println("currentTile " + currentTileIndex);
+        System.out.println("targetTile " + targetTileIndex);
         tiles.get(currentTileIndex).remove();
         token.setPosition(target);
         tiles.get(targetTileIndex).addToken(token);
