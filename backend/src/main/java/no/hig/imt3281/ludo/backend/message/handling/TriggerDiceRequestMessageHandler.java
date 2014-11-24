@@ -4,13 +4,9 @@ import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.game.Game;
 import no.hig.imt3281.ludo.messaging.TriggerDiceRequest;
-import no.hig.imt3281.ludo.messaging.TriggerDiceResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
-import java.io.IOException;
-import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -23,8 +19,8 @@ public class TriggerDiceRequestMessageHandler implements MessageHandler {
         User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
         Game game = ServerEnvironment.getGameManager().getGame(user.getCurrentGameId());
 
-        if (game != null && game.getCurrentTurnUserId() != user.getId()) {
-            LOGGER.warning("User with id " + user.getId() + " current turn is " + game.getCurrentTurnUserId());
+        if (game != null && game.getCurrentFactionTurn() != user.getId()) {
+            LOGGER.warning("User with id " + user.getId() + " current turn is " + game.getCurrentFactionTurn());
         } else if (!game.diceTriggered()) {
             game.triggerDice();
         }
