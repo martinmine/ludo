@@ -20,11 +20,11 @@ public class MoveTokenRequestHandler implements MessageHandler {
         Game game = ServerEnvironment.getGameManager().getGame(user.getCurrentGameId());
 
         LOGGER.info("Player " + user.getUsername() + " requesting to move token " + message.getTokenId());
-        if (game.getCurrentTurnUserId() == user.getId() && game.diceTriggered()) {
+        if (game.getCurrentFactionTurn() == user.getId() && game.diceTriggered()) {
             LOGGER.info("approved");
             game.moveToken(message.getTokenId());
         } else {
-            LOGGER.info("Can't move that token, not your turn, current turn uid " + game.getCurrentTurnUserId() +
+            LOGGER.info("Can't move that token, not your turn, current turn uid " + game.getCurrentFactionTurn() +
                     " your uid is " + user.getId());
         }
     }

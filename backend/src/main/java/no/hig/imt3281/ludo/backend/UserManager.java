@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.backend;
 
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
+import no.hig.imt3281.ludo.backend.game.Game;
 import no.hig.imt3281.ludo.messaging.ChallengeableUser;
 import no.hig.imt3281.ludo.messaging.Message;
 import org.hibernate.*;
@@ -131,8 +132,17 @@ public class UserManager {
      */
     public void reportLoggedOut(int userId) {
         LOGGER.info("User " + userId + " logging out");
+        User user = this.activeUsers.get(userId);
+
         this.activeUsers.removeItem(userId);
         ServerEnvironment.getChatManager().removeFromChatRooms(userId);
+
+        if (user != null && user.getCurrentGameId() != 0) {
+            Game currentUserGame = ServerEnvironment.getGameManager().getGame(user.getCurrentGameId());
+            if (currentUserGame != null) {
+                currentUserGame.leave(user);
+            }
+        }
         // TODO: Notify active games, chats, etc.
     }
 

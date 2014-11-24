@@ -37,4 +37,8 @@ public class GameManager {
         this.games.requestForeach((gameId, game) -> game.cycle());
         this.games.onCycle();
     }
+
+    public void reportGameDestroyed(int gameId) {
+        this.games.removeItem(gameId);
+    }
 }

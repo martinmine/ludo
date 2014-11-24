@@ -95,7 +95,7 @@ public class User implements ConnectivityNotifier {
         this.currentGameId = currentGameId;
     }
 
-    public int getGamePlayerId() {
+    public int getGameFactionId() {
         return gamePlayerId;
     }
 
