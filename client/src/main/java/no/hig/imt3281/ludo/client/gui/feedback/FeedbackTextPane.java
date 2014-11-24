@@ -17,9 +17,11 @@ public class FeedbackTextPane extends JTextPane {
     private Border border;
     private StyleContext styleContext;
     private DefaultStyledDocument document;
+    private Style style;
     String feedbackString;
 
     public FeedbackTextPane() {
+        feedbackString = "yo";
         styleContext = new StyleContext();
         document = new DefaultStyledDocument(styleContext);
         setDocument(document);
@@ -29,12 +31,10 @@ public class FeedbackTextPane extends JTextPane {
         setOpaque(false);
         setBackground(Color.cyan);
         setPreferredSize(new Dimension(240, 160));
-        feedbackString = String.valueOf(Faction.BLUE);
-        System.out.println(Faction.BLUE);
     }
 
     public void styleByFaction(int faction) {
-        final Style style = styleContext.addStyle("Heading2", null);
+        style = styleContext.addStyle("text", null);
 
         switch(Faction.getFaction(faction)) {
             case GREEN:
@@ -53,12 +53,12 @@ public class FeedbackTextPane extends JTextPane {
                 break;
         }
 
-        style.addAttribute(StyleConstants.FontSize, new Integer(42));
+        style.addAttribute(StyleConstants.FontSize, new Integer(32));
+        style.addAttribute(StyleConstants.Background, new Color(Color.PINK.getBlue()));
         style.addAttribute(StyleConstants.FontFamily, "arial");
         style.addAttribute(StyleConstants.Bold, new Boolean(true));
         try {
-            document.insertString(0, feedbackString, null);
-            document.setParagraphAttributes(0, 1, style, false);
+            document.insertString(0, feedbackString, style);
         } catch(Exception e) {
 
         }
@@ -68,7 +68,7 @@ public class FeedbackTextPane extends JTextPane {
         feedbackString = text;
         try {
             document.remove(0,document.getLength());
-            document.insertString(0,text, null);
+            document.insertString(0,text, style);
         } catch (BadLocationException e) {
             LOGGER.log(Level.INFO, e.getMessage());
         }
