@@ -29,13 +29,11 @@ public class GamePanel extends JComponent implements MouseListener {
     private int numPlayer;
     private int currentPlayer;
     private boolean isLoading;
-    private boolean sentRequest;
 
     public GamePanel() {
         addMouseListener(this);
         players = new Player[MAX_PLAYERS];
         currentPlayer = 0;
-        sentRequest = false;
         tiles = new ArrayList<>();
 
         // SHARED TILES:
@@ -224,16 +222,13 @@ public class GamePanel extends JComponent implements MouseListener {
 
                 if (tt.getFaction().getIndex() == currentPlayer) {
 
-                    if (!sentRequest) {
-                        sentRequest = true;
-                        MoveTokenRequest request = new MoveTokenRequest();
-                        request.setTokenId(tt.getTokenID());
+                    MoveTokenRequest request = new MoveTokenRequest();
+                    request.setTokenId(tt.getTokenID());
 
-                        try {
-                            Main.getServerConnection().sendMessage(request);
-                        } catch (IOException e1) {
-                            LOGGER.severe("Error " + e1.getMessage());
-                        }
+                    try {
+                        Main.getServerConnection().sendMessage(request);
+                    } catch (IOException e1) {
+                        LOGGER.severe("Error " + e1.getMessage());
                     }
                 }
             }
@@ -305,8 +300,6 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void moveToken(int playerId, int tokenId, int target) {
-        sentRequest = true;
-
         Token token = players[playerId].getToken(tokenId);
         int currentTileIndex = players[playerId].getTokenPosition(tokenId);
         int targetTileIndex = players[playerId].getTileIndex(target);
