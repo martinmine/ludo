@@ -29,11 +29,9 @@ public class LoginRequestHandler implements MessageHandler {
             if (user == null) {
                 response.setResultCode(LoginResult.INVALID_CREDENTIALS);
             } else {
-                context.setReferenceToken(user.getId());
-                context.setStatusListener(user);
+                ServerEnvironment.getUserManager().setLoggedIn(user, context);
+
                 response.setResultCode(LoginResult.OK);
-                user.setClientConnection(context);
-                ServerEnvironment.getUserManager().setLoggedIn(user);
             }
         } catch (Exception e) {
             response.setResultCode(LoginResult.SERVER_ERROR);

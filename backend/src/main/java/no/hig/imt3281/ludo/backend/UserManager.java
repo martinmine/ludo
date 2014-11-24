@@ -4,6 +4,7 @@ import no.hig.imt3281.ludo.backend.collections.QueuedMap;
 import no.hig.imt3281.ludo.backend.game.Game;
 import no.hig.imt3281.ludo.messaging.ChallengeableUser;
 import no.hig.imt3281.ludo.messaging.Message;
+import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
@@ -117,13 +118,18 @@ public class UserManager {
     /**
      * Sets the state of the user to be signed in
      * @param user User that has successfully signed in
+     * @param context The connection to the user who tries to sign in
      */
-    public void setLoggedIn(User user) {
+    public void setLoggedIn(User user, CommunicationContext context) {
         if (this.activeUsers.containsKey(user.getId())) {
             reportLoggedOut(user.getId());
         }
 
         this.activeUsers.addItem(user.getId(), user);
+
+        context.setReferenceToken(user.getId());
+        context.setStatusListener(user);
+        user.setClientConnection(context);
     }
 
     /**
