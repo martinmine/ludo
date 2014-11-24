@@ -95,6 +95,13 @@ public class Game implements GameMapUpdateListener {
             gameMap.addTokens(i);
         }
         broadcastMessage(startMessage);
+
+        AssignUserFactionMessage colorAssignMessage = new AssignUserFactionMessage();
+        for (int i = 0; i < userCount; i++) {
+            colorAssignMessage.setFaction(i);
+            sendMessage(users[i], colorAssignMessage);
+        }
+
         nextPlayerTurn();
     }
 
