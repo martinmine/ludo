@@ -19,6 +19,7 @@ public class GameMap {
     public GameMap(GameMapUpdateListener listener) {
         this.listener = listener;
 
+        /*
         tiles = new int[MAX_TILES];
 
         Arrays.stream(tiles).forEach(value -> value = 0);
@@ -28,8 +29,8 @@ public class GameMap {
         tiles[78] = 12;
         tiles[79] = 13;
 
-        tiles[80] =
-
+        tiles[80] = 20;
+        */
     }
 
     /**
