@@ -1,10 +1,9 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Message sent to each client in a game which tells them that the game has started
- * and which faction the user has been assigned.
+ * Created by Martin on 24.11.2014.
  */
-public class GameStartedMessage extends Message {
+public class UserLeftGameMessage extends Message {
     private int faction;
 
     public int getFaction() {

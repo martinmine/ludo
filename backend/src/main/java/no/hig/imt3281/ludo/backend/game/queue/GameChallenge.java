@@ -130,7 +130,7 @@ public class GameChallenge {
                 try {
                     user.getClientConnection().sendMessage(response);
                 } catch (IOException e) {
-                    user.getClientConnection().close();
+                    user.getClientConnection().close(e);
                 }
             }
         }

@@ -12,6 +12,12 @@ public class GameStartedMessageHandler implements MessageHandler {
     public void handle(GameStartedMessage message, CommunicationContext context) {
         GuiManager.getSideTopPanel().getDicePanel().setValue(0);
         GuiManager.getSideTopPanel().getDicePanel().repaint();
+<<<<<<< HEAD
         GuiManager.getSideTopPanel().getFeedbackPanel().setFontColorByFaction(message.getFaction());
+=======
+
+        GuiManager.getGamePanel().setCurrentPlayerFaction(message.getFaction());
+        System.out.println("Your color is: " + message.getFaction());
+>>>>>>> 6bd1f0c15390980eecbe06dc231fcbae52cca33f
     }
 }

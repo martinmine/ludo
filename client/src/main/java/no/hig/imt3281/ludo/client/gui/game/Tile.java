@@ -145,4 +145,10 @@ public class Tile {
         return tile.get(tile.size() -1 ).getTokenId();
     }
 
+    /**
+     * Removes all the tokens from the tile
+     */
+    public void clear() {
+        this.tile.clear();
+    }
 }

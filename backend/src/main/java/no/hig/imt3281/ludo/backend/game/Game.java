@@ -9,46 +9,49 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 17.11.2014.
- *
+ * Contains user management, communication and interaction with the game map
  */
 public class Game implements GameMapUpdateListener {
     public static final int PLAYERS_MAX = 4;
     private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
     private static final Random RANDOM = new Random();
     private static final int DICE_MAX = 6;
+    private static final int TURN_TIMEOUT = 30;
 
     private int gameId;
     private User[] users;
     private int userCount;
+    private boolean gameActive;
     /**
      * Index of the current turn player
      */
     private int currentMovingPlayer;
     /**
-     * User id of the current turn player
+     * User id of the current turn player/faction
      */
-    private int currentTurnUserId;
+    private int currentFactionTurn;
     /**
      * Value of the dice
      */
     private int diceValue;
-    private int diceThrownTimestamp;
+    private int lastGameActionTimestamp;
     private GameMap gameMap;
 
     public Game(final int gameId) {
         this.gameId = gameId;
         this.users = new User[PLAYERS_MAX];
         this.currentMovingPlayer = -1;
+        this.lastGameActionTimestamp = Integer.MAX_VALUE - TURN_TIMEOUT;
         this.gameMap = new GameMap(this);
+        this.gameActive = true;
     }
 
     /**
      * Gets the user id of the user which makes the current turn in the game
      * @return user id
      */
-    public int getCurrentTurnUserId() {
-        return currentTurnUserId;
+    public int getCurrentFactionTurn() {
+        return currentFactionTurn;
     }
 
     public int getGameId() {
@@ -56,9 +59,9 @@ public class Game implements GameMapUpdateListener {
     }
 
     public void enter(User user) {
-        final int playerId = userCount++;
+        final int factionId = userCount++;
         user.setCurrentGameId(this.gameId);
-        user.setGamePlayerId(playerId);
+        user.setGamePlayerId(factionId);
 
         try {
             user.setTokensOnBoard();
@@ -66,15 +69,64 @@ public class Game implements GameMapUpdateListener {
             LOGGER.severe("Joining game failed");
         }
 
-        users[playerId] = user;
+        users[factionId] = user;
     }
 
-    public void leave(User user) {
+    public synchronized void leave(User user) {
+        if (user.getCurrentGameId() != this.gameId)
+            return;
 
+        int faction = user.getGameFactionId();
+
+        if (faction < 0) {
+            return;
+        }
+
+        this.users[faction] = null;
+        this.gameMap.clearMapForPlayer(faction);
+
+        UserLeftGameMessage leaveMessage = new UserLeftGameMessage();
+        leaveMessage.setFaction(faction);
+        broadcastMessage(leaveMessage);
+
+        // If there is only one remaining user, the remaining user wins the game
+        if (activePlayerCount() == 1) {
+            GameEndMessage message = new GameEndMessage();
+            message.setGameResult(GameEndMessage.WON);
+            broadcastMessage(message);
+
+            // The game is over
+            destroy();
+        } else if (faction == currentFactionTurn) {
+            nextPlayerTurn();
+        }
+    }
+
+    private void destroy() {
+        this.gameActive = false;
+        ServerEnvironment.getGameManager().reportGameDestroyed(this.gameId);
+    }
+
+    private int activePlayerCount() {
+        int playerCount = 0;
+        for (int i = 0; i < userCount; i++) {
+            if (users[i] != null && users[i].getCurrentGameId() == this.gameId) {
+                playerCount++;
+            }
+        }
+
+        return playerCount;
     }
 
     public void cycle() {
-        // check if the current player that has to roll has not timed out
+        if (ServerEnvironment.getCurrentTimeStamp() > lastGameActionTimestamp + TURN_TIMEOUT) {
+            User kickingUser = users[currentMovingPlayer];
+            LOGGER.info("Scrublord " + kickingUser.getUsername() + " timed out");
+            leave(kickingUser);
+            GameEndMessage leaveMessage = new GameEndMessage();
+            leaveMessage.setGameResult(GameEndMessage.KICKED);
+            sendMessage(kickingUser, leaveMessage);
+        }
     }
 
     public void start() {
@@ -93,14 +145,7 @@ public class Game implements GameMapUpdateListener {
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
             gameMap.addTokens(i);
-        }
-        broadcastMessage(startMessage);
-
-        AssignUserFactionMessage colorAssignMessage = new AssignUserFactionMessage();
-        for (int i = 0; i < userCount; i++) {
-            colorAssignMessage.setFaction(i);
-            sendMessage(users[i], colorAssignMessage);
-            LOGGER.info("User " + users[i].getUsername() + " is color " + i);
+            sendMessage(users[i], startMessage);
         }
 
         nextPlayerTurn();
@@ -111,7 +156,7 @@ public class Game implements GameMapUpdateListener {
             try {
                 user.getClientConnection().sendMessage(message);
             } catch (IOException e) {
-                user.getClientConnection().close();
+                user.getClientConnection().close(e);
             }
         } else {
             LOGGER.warning("COULD NOT SEND STUFF TO USER");
@@ -125,21 +170,24 @@ public class Game implements GameMapUpdateListener {
                 try {
                     users[i].getClientConnection().sendMessage(message);
                 } catch (IOException e) {
-                    users[i].getClientConnection().close();
+                    users[i].getClientConnection().close(e);
                 }
             }
         }
     }
 
     private void nextPlayerTurn() {
-        final int playerId = (this.currentMovingPlayer + 1) % (this.userCount);
-        LOGGER.info("Next player id is " + playerId);
+        // Finds a new player id that is active and in the game
+        do {
+            this.currentMovingPlayer = (this.currentMovingPlayer + 1) % (this.userCount);
+        } while (users[currentMovingPlayer] == null || users[currentMovingPlayer].getCurrentGameId() != this.gameId);
+        LOGGER.info("New player id is " + currentMovingPlayer);
 
-        this.currentMovingPlayer = playerId;
-        this.currentTurnUserId = users[playerId].getId();
+        this.currentFactionTurn = users[currentMovingPlayer].getId();
         this.diceValue = 0;
+        this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
 
-        sendMessage(users[playerId], new TurnMessage());
+        sendMessage(users[currentMovingPlayer], new TurnMessage());
     }
 
     /**
@@ -147,7 +195,7 @@ public class Game implements GameMapUpdateListener {
      */
     public void triggerDice() {
         this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
-        this.diceThrownTimestamp = ServerEnvironment.getCurrentTimeStamp();
+        this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
         boolean movesAvailable = gameMap.playerCanMoveAnyTokens(currentMovingPlayer, diceValue);
 
         TriggerDiceResult message = new TriggerDiceResult();
@@ -170,7 +218,7 @@ public class Game implements GameMapUpdateListener {
             return;
         }
 
-        this.diceThrownTimestamp = Integer.MAX_VALUE;
+        this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
 
         boolean canMoveToken = gameMap.playerCanMove(currentMovingPlayer, tokenId, diceValue);
 
@@ -181,6 +229,9 @@ public class Game implements GameMapUpdateListener {
         if (canMoveToken) {
             gameMap.makeTurn(currentMovingPlayer, tokenId, diceValue);
             nextPlayerTurn();
+        } else {
+            // User has done something, reset the timer so he doesn't get kicked
+            this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
         }
     }
 
@@ -209,6 +260,19 @@ public class Game implements GameMapUpdateListener {
      */
     @Override
     public void gameOver(int triggeringFaction) {
-        // TODO: Not yet implemented
+        GameEndMessage message = new GameEndMessage();
+        for (int i = 0; i < userCount; i++) {
+            if (users[i] != null && users[i].getClientConnection() != null) {
+                if (i == triggeringFaction) {
+                    message.setGameResult(GameEndMessage.WON);
+                } else {
+                    message.setGameResult(GameEndMessage.LOST);
+                }
+
+                sendMessage(users[i], message);
+            }
+        }
+
+        destroy();
     }
 }

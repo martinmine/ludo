@@ -1,8 +1,10 @@
 package no.hig.imt3281.ludo.backend;
 
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
+import no.hig.imt3281.ludo.backend.game.Game;
 import no.hig.imt3281.ludo.messaging.ChallengeableUser;
 import no.hig.imt3281.ludo.messaging.Message;
+import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
@@ -116,13 +118,18 @@ public class UserManager {
     /**
      * Sets the state of the user to be signed in
      * @param user User that has successfully signed in
+     * @param context The connection to the user who tries to sign in
      */
-    public void setLoggedIn(User user) {
+    public void setLoggedIn(User user, CommunicationContext context) {
         if (this.activeUsers.containsKey(user.getId())) {
             reportLoggedOut(user.getId());
         }
 
         this.activeUsers.addItem(user.getId(), user);
+
+        context.setReferenceToken(user.getId());
+        context.setStatusListener(user);
+        user.setClientConnection(context);
     }
 
     /**
@@ -131,8 +138,17 @@ public class UserManager {
      */
     public void reportLoggedOut(int userId) {
         LOGGER.info("User " + userId + " logging out");
+        User user = this.activeUsers.get(userId);
+
         this.activeUsers.removeItem(userId);
         ServerEnvironment.getChatManager().removeFromChatRooms(userId);
+
+        if (user != null && user.getCurrentGameId() != 0) {
+            Game currentUserGame = ServerEnvironment.getGameManager().getGame(user.getCurrentGameId());
+            if (currentUserGame != null) {
+                currentUserGame.leave(user);
+            }
+        }
         // TODO: Notify active games, chats, etc.
     }
 
@@ -174,8 +190,7 @@ public class UserManager {
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
-                    LOGGER.log(Level.INFO, e.getMessage(), e);
-                    user.getClientConnection().close();
+                    user.getClientConnection().close(e);
                 }
             }
         });
@@ -214,8 +229,7 @@ public class UserManager {
                 try {
                     requestingUser.getClientConnection().sendMessage(response);
                 } catch (IOException e) {
-                    LOGGER.log(Level.INFO, e.getMessage(), e);
-                    requestingUser.getClientConnection().close();
+                    requestingUser.getClientConnection().close(e);
                 }
             }
         });

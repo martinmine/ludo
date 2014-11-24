@@ -37,8 +37,7 @@ public class RegistrationRequestHandler implements MessageHandler {
                 String password = ServerEnvironment.getUserManager().hashPassword(request.getPassword());
                 user.setPassword(password);
                 ServerEnvironment.getUserManager().registerUser(user);
-                ServerEnvironment.getUserManager().setLoggedIn(user);
-                context.setReferenceToken(user.getId());
+                ServerEnvironment.getUserManager().setLoggedIn(user, context);
                 response.setResult(RegistrationResult.OK);
             } catch (Exception e) {
                 response.setResult(RegistrationResult.SERVER_ERROR);
@@ -49,8 +48,7 @@ public class RegistrationRequestHandler implements MessageHandler {
         try {
             context.sendMessage(response);
         } catch (IOException e) {
-            LOGGER.log(Level.INFO, e.getMessage(), e);
-            context.close();
+            context.close(e);
         }
     }
 }
