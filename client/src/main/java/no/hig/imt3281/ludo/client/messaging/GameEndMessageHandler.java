@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.AudioManager;
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.GameEndMessage;
@@ -21,10 +22,12 @@ public class GameEndMessageHandler implements MessageHandler {
                 break;
             case GameEndMessage.WON:
                 outputMessage = "GAME_WON";
+                AudioManager.playSound("playerwins.wav");
                 break;
             default:
             case GameEndMessage.LOST:
                 outputMessage = "GAME_LOST";
+                AudioManager.playSound("gameover.wav");
                 break;
         }
 

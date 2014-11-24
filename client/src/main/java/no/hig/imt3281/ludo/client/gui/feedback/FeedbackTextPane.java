@@ -60,18 +60,22 @@ public class FeedbackTextPane extends JTextPane {
             document.insertString(0, feedbackString, null);
             document.setParagraphAttributes(0, 1, style, false);
         } catch(Exception e) {
-
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
     public void setFeedbackString(String text) {
+        LOGGER.info("REmoving old text");
         feedbackString = text;
         try {
+            LOGGER.info("SEtting");
             document.remove(0,document.getLength());
+            LOGGER.info("Finalizing");
             document.insertString(0,text, null);
         } catch (BadLocationException e) {
             LOGGER.log(Level.INFO, e.getMessage());
         }
+        LOGGER.info("Returning");
     }
 }
 
