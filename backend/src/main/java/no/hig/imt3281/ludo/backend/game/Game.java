@@ -100,6 +100,7 @@ public class Game implements GameMapUpdateListener {
         for (int i = 0; i < userCount; i++) {
             colorAssignMessage.setFaction(i);
             sendMessage(users[i], colorAssignMessage);
+            LOGGER.info("User " + users[i].getUsername() + " is color " + i);
         }
 
         nextPlayerTurn();
@@ -112,6 +113,9 @@ public class Game implements GameMapUpdateListener {
             } catch (IOException e) {
                 user.getClientConnection().close();
             }
+        } else {
+            LOGGER.warning("COULD NOT SEND STUFF TO USER");
+            //leave(user);
         }
     }
 
