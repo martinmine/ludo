@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.TriggerDiceResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
@@ -13,5 +14,6 @@ public class TriggerDiceResultMessageHandler implements MessageHandler {
         int value = result.getDiceValue();
 
         GuiManager.getSideTopPanel().getDicePanel().setValue(value);
+        GuiManager.getSideTopPanel().getFeedbackPanel().setText(Main.resourceBundle.getString("PLAYER_CLICK_TOKEN"));
     }
 }
