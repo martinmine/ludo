@@ -23,7 +23,7 @@ public class TriggerDiceRequestMessageHandler implements MessageHandler {
         User user = ServerEnvironment.getUserManager().getUser(context.getReferenceToken());
         Game game = ServerEnvironment.getGameManager().getGame(user.getCurrentGameId());
 
-        if (game.getCurrentTurnUserId() != user.getId()) {
+        if (game != null && game.getCurrentTurnUserId() != user.getId()) {
             LOGGER.warning("User with id " + user.getId() + " current turn is " + game.getCurrentTurnUserId());
         } else if (!game.diceTriggered()) {
             game.triggerDice();
