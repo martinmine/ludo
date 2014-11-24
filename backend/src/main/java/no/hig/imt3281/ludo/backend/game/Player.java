@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Player {
 
     public final static int MAX_TOKENS = 4;
-    public final static int LAST_TILE = 34;
 
     private int faction;
     private ArrayList<Integer> tiles;
@@ -20,13 +19,16 @@ public class Player {
         tiles = new ArrayList<>();
         initPlayerTiles();
         token = new Token[MAX_TOKENS];
-        initTokens();
+
+        for (int i=0; i<MAX_TOKENS; i++) {
+            token[i] = new Token(faction, i);
+        }
     }
 
     private void initPlayerTiles() {
 
         switch(faction) {
-            case 0: {
+            case 0:
                 for (int i=76; i<80; i++) {
                     tiles.add(i);
                 }
@@ -37,8 +39,8 @@ public class Player {
                 for (int k=52; k<58; k++) {
                     tiles.add(k);
                 }
-            } break;
-            case 1: {
+            break;
+            case 1:
                 for (int i=80; i<84; i++) {
                     tiles.add(i);
                 }
@@ -52,8 +54,8 @@ public class Player {
                 for (int l=58; l<64; l++) {
                     tiles.add(l);
                 }
-            } break;
-            case 2: {
+            break;
+            case 2:
                 for (int i=84; i<88; i++) {
                     tiles.add(i);
                 }
@@ -67,8 +69,8 @@ public class Player {
                 for (int l=64; l<70; l++) {
                     tiles.add(l);
                 }
-            } break;
-            case 3: {
+            break;
+            case 3:
                 for (int i = 88; i < 92; i++) {
                     tiles.add(i);
                 }
@@ -82,22 +84,18 @@ public class Player {
                 for (int l = 70; l < 76; l++) {
                     tiles.add(l);
                 }
-            }
-        }
-    }
 
-    private void initTokens() {
-        for (int i=0; i<MAX_TOKENS; i++) {
-            token[i] = new Token(faction, i);
         }
     }
 
     public int getStartOfFinishTileIndex() {
-        return tiles.size() - 6;
+        int firstFinishTileIndex = tiles.size() - 6;
+        return tiles.get(firstFinishTileIndex);
     }
 
     public int getTokenPosition(int tokenId) {
-        return tiles.get(token[tokenId].getPosition());
+        System.out.println("tokenId: " + tokenId);
+        return token[tokenId].getPosition();
     }
 
     public Token getToken(int index) {

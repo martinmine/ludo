@@ -35,6 +35,7 @@ public class Tile {
     }
 
     public Token remove() {
+        System.out.println("Remove token from tile (size): " + numToken);
         return token[numToken--];
     }
 

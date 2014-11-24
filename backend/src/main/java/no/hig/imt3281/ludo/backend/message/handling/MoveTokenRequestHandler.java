@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * Created by Martin on 22.11.2014.
+ *
  */
 public class MoveTokenRequestHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(MoveTokenRequestHandler.class.getSimpleName());

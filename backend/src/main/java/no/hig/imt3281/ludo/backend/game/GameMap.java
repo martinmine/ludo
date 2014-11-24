@@ -1,7 +1,5 @@
 package no.hig.imt3281.ludo.backend.game;
 
-import java.util.Arrays;
-
 /**
  * The game map contains the core game logic and manages player movement and the state of the game map.
  */
@@ -21,12 +19,15 @@ public class GameMap {
     public GameMap(GameMapUpdateListener listener) {
         this.listener = listener;
         player = new Player[MAX_PLAYERS];
-        tile = new Tile[MAX_TILES];
-        Arrays.stream(tile).forEach(tile -> tile = new Tile());
-        initTile();
-    }
+        for (int i=0; i<MAX_PLAYERS; i++) {
+            player[i] = new Player(i);
+        }
 
-    private void initTile() {
+        tile = new Tile[MAX_TILES];
+        for (int i=0; i<MAX_TILES; i++) {
+            tile[i] = new Tile();
+        }
+
         for (int i=0; i<MAX_PLAYERS; i++) {
             for (int j=0; j<MAX_TOKENS; j++) {
                 Token token = player[i].getToken(j);
@@ -56,7 +57,8 @@ public class GameMap {
      */
     public int isBlocked(final int factionId, final int tokenId, final int steps) {
         int firstFinishTileIndex = player[factionId].getStartOfFinishTileIndex();
-        int currentTileIndex = player[factionId].getTokenPosition(tokenId);
+        int currentTileIndex = player[factionId].getTokenPosition(tokenId); // player index
+        System.out.println("isBlocked | currentTileIndex: " + currentTileIndex);
         int numTiles = steps + 1;
 
         // No point looking for blockades on finish tiles:
@@ -76,12 +78,14 @@ public class GameMap {
             return 0;
         }
 
+        System.out.println("blockade pos " + (currentTileIndex + i));
         return currentTileIndex + i;
     }
 
-    public int getTargetTileIndex(final int factionId, final int tokenId, final int dice) {
-        int currentPosition = player[factionId].getTokenPosition(tokenId);
+    public int getTargetTileIndex(final int factionId, int currentPosition, final int dice) {
         int target = currentPosition;
+        System.out.println("dice value:        " + dice);
+        System.out.println("currentPosition:   " + currentPosition);
         if (currentPosition < 4) {
             if (dice == 6) {
                 target = 4;
@@ -90,11 +94,15 @@ public class GameMap {
             target += dice;
         }
 
-        int blockade = isBlocked(factionId, currentPosition, target);
+        System.out.println("target: " + target + " ---if 4 it should never change!!---");
 
+        int blockade = isBlocked(factionId, currentPosition, target);
+        System.out.println("blockade pos: " + blockade);
         if (blockade > 0) {
             target = blockade -1;
         }
+
+        System.out.println("target: " + target + " ---After block check---");
 
         int last = player[factionId].getEndTileIndex();
         if (target > last) {
@@ -102,6 +110,7 @@ public class GameMap {
             target = last - diff;
         }
 
+        System.out.println("target: " + target + " ---if passing goal---");
         return target;
     }
 
@@ -114,18 +123,24 @@ public class GameMap {
      */
     public void makeTurn(final int factionId, final int tokenId, final int dice) {
         int currentPosition = player[factionId].getTokenPosition(tokenId);
-        int target = getTargetTileIndex(factionId, tokenId, dice);
-        Token move = tile[currentPosition].remove();
-        move.setPosition(target);
-        Token backToBase = tile[target].addToken(move);
+        int target = getTargetTileIndex(factionId, currentPosition, dice);
+        System.out.println("TARGET: " + target);
 
-        if (backToBase != null) {
-            int home = getBaseTilePosition(factionId);
-            tile[home].addToken(backToBase);
+        if (currentPosition != target) {
+            Token move = tile[currentPosition].remove();
+            System.out.println("tokens position " + currentPosition);
+            move.setPosition(target);
+            System.out.println("target " + target);
+            Token backToBase = tile[target].addToken(move);
+
+            if (backToBase != null) {
+                int home = getBaseTilePosition(factionId);
+                tile[home].addToken(backToBase);
+            }
         }
 
         System.out.println("currentPosition: " + currentPosition);
-        this.listener.tokenUpdated(factionId, tokenId, currentPosition + dice);
+        this.listener.tokenUpdated(factionId, tokenId, target);
     }
 
     public int getBaseTilePosition(int factionId) {
