@@ -72,13 +72,10 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
             Message message = MessageFactory.deserialize(is);
             MESSAGE_HANDLER.invokeMessage(message, this);
         } catch (InvocationTargetException ex) {
-            Throwable innerException = ex.getCause();
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
-            close();
+            close(ex.getCause());
         } catch (MissingMessageHandlerException | InvalidMessageHandlerException | IOException ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            close();
+            close(ex);
         } finally {
             ReferenceCountUtil.release(msg);
         }
@@ -86,8 +83,7 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOGGER.log(Level.WARNING, cause.getMessage(), cause);
-        close();
+        close(cause);
     }
 
     public void close() {
@@ -96,6 +92,12 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
         if (this.statusListener != null) {
             this.statusListener.connectionClosed();
         }
+    }
+
+    @Override
+    public void close(Throwable cause) {
+        LOGGER.log(Level.SEVERE, cause.getMessage(), cause);
+        close();
     }
 
     @Override

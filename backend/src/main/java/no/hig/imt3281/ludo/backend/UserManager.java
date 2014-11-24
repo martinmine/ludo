@@ -184,8 +184,7 @@ public class UserManager {
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
-                    LOGGER.log(Level.INFO, e.getMessage(), e);
-                    user.getClientConnection().close();
+                    user.getClientConnection().close(e);
                 }
             }
         });
@@ -224,8 +223,7 @@ public class UserManager {
                 try {
                     requestingUser.getClientConnection().sendMessage(response);
                 } catch (IOException e) {
-                    LOGGER.log(Level.INFO, e.getMessage(), e);
-                    requestingUser.getClientConnection().close();
+                    requestingUser.getClientConnection().close(e);
                 }
             }
         });

@@ -39,7 +39,7 @@ public class ChallengeUserRequestHandler implements MessageHandler {
             try {
                 context.sendMessage(response);
             } catch (IOException e) {
-                context.close();
+                context.close(e);
             }
         }
     }
