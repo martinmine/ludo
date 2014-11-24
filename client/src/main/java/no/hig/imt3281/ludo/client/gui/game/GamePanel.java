@@ -2,7 +2,6 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
-import no.hig.imt3281.ludo.client.messaging.AssignUserFactionMessageHandler;
 import no.hig.imt3281.ludo.messaging.InitializePlayerTokenMessage;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 
@@ -214,9 +213,6 @@ public class GamePanel extends JComponent implements MouseListener {
 
         if (!isLoading) {
 
-            // the users turn...
-            Faction player = Faction.getFaction(currentPlayer);
-
             // Get correct legal tile. (correct player and token on tile):
             Tile tt = tiles.stream()
                     .filter(tile -> tile.clicked(e.getX(), e.getY()))
@@ -238,6 +234,8 @@ public class GamePanel extends JComponent implements MouseListener {
                     }
 
                 }
+
+
                 /*
 
                 // Tile owner. Has player allowed to move this token?
@@ -403,6 +401,7 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void moveToken(int playerId, int tokenId, int target) {
+
         Token token = players[playerId].getToken(tokenId);
         int currentTileIndex = players[playerId].getTokenPosition(tokenId);
         int targetTileIndex = players[playerId].getTileIndex(target);
@@ -410,7 +409,18 @@ public class GamePanel extends JComponent implements MouseListener {
         System.out.println("targetTile " + targetTileIndex);
         tiles.get(currentTileIndex).remove();
         token.setPosition(target);
-        tiles.get(targetTileIndex).addToken(token);
+
+        // If target Tile is occupied by an enemy Token (no blockade)
+        // enemy token gets kicked back to base, else returns null.
+        Token backToBase = tiles.get(targetTileIndex).addToken(token);
+
+        // Kicking an enemy Token back to base:
+        if (backToBase != null) {
+            // Finding the next free home Tile
+            int home = getBaseTilePosition(backToBase);
+            tiles.get(home).addToken(backToBase);
+        }
+
         repaint();
     }
 
