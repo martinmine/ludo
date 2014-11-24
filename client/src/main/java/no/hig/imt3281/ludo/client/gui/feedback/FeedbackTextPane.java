@@ -53,7 +53,7 @@ public class FeedbackTextPane extends JTextPane {
                 break;
         }
 
-        style.addAttribute(StyleConstants.FontSize, new Integer(62));
+        style.addAttribute(StyleConstants.FontSize, new Integer(42));
         style.addAttribute(StyleConstants.FontFamily, "arial");
         style.addAttribute(StyleConstants.Bold, new Boolean(true));
         try {
@@ -67,7 +67,7 @@ public class FeedbackTextPane extends JTextPane {
     public void setFeedbackString(String text) {
         feedbackString = text;
         try {
-            document.remove(0,1);
+            document.remove(0,document.getLength());
             document.insertString(0,text, null);
         } catch (BadLocationException e) {
             LOGGER.log(Level.INFO, e.getMessage());
