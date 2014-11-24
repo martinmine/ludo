@@ -123,6 +123,7 @@ public class GameMap {
      */
     public void makeTurn(final int factionId, final int tokenId, final int dice) {
         int currentPosition = player[factionId].getTokenPosition(tokenId);
+        System.out.println("currentPosition: " + currentPosition);
         int target = getTargetTileIndex(factionId, currentPosition, dice);
         System.out.println("TARGET: " + target);
 

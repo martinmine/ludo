@@ -94,7 +94,6 @@ public class Player {
     }
 
     public int getTokenPosition(int tokenId) {
-        System.out.println("tokenId: " + tokenId);
         return token[tokenId].getPosition();
     }
 

@@ -29,11 +29,13 @@ public class GamePanel extends JComponent implements MouseListener {
     private int numPlayer;
     private int currentPlayer;
     private boolean isLoading;
+    private boolean sentRequest;
 
     public GamePanel() {
         addMouseListener(this);
         players = new Player[MAX_PLAYERS];
         currentPlayer = 0;
+        sentRequest = false;
         tiles = new ArrayList<>();
 
         // SHARED TILES:
@@ -222,78 +224,18 @@ public class GamePanel extends JComponent implements MouseListener {
 
                 if (tt.getFaction().getIndex() == currentPlayer) {
 
-                    MoveTokenRequest request = new MoveTokenRequest();
-                    request.setTokenId(tt.getTokenID());
+                    if (!sentRequest) {
+                        sentRequest = true;
+                        MoveTokenRequest request = new MoveTokenRequest();
+                        request.setTokenId(tt.getTokenID());
 
-                    try {
-                        Main.getServerConnection().sendMessage(request);
-                    } catch (IOException e1) {
-                        LOGGER.severe("Error " + e1.getMessage());
+                        try {
+                            Main.getServerConnection().sendMessage(request);
+                        } catch (IOException e1) {
+                            LOGGER.severe("Error " + e1.getMessage());
+                        }
                     }
-
                 }
-
-
-                /*
-
-                // Tile owner. Has player allowed to move this token?
-                Faction check = tt.getFaction();
-                if (check != null  &&  check == player) {
-
-                    // Calculate target out of the top Token on tile (blockade)
-                    int target = tt.getPosition();
-
-                    if (tt.getPosition() < 4) {
-
-                        // Token can leave base. (or stay at home: see line above)
-                        if (dice == 6) target = 4;
-                    } else {
-
-                        // target is dice tiles from current position.
-                        target += dice;
-                    }
-
-                    // current position;
-                    int temp = tt.getPosition();
-
-                    int blockade = isBlocked(player, temp, target);
-
-                    // If there is a blockade:
-                    if (blockade > 0) {
-                        // move just behind blockade.
-                        target = blockade - 1;
-                    }
-
-                    int last = players[player.getIndex()].getEndTileIndex(); //tile.get(player.getIndex()).size() - 1;
-                    if (target > last) {
-                        int diff = target - last;
-                        target = last - diff;
-                    }
-
-                    // Remove token from current tile.
-                    Token move = tt.remove();
-
-                    // Reset a tokens position. (!)
-                    move.setPosition(target);
-
-                    // Get index to actual tile.
-                    int targetTileIndex = players[player.getIndex()].getTileIndex(target); //tile.get(player.getIndex()).get(target);
-
-                    // If target Tile is occupied by an enemy Token (no blockade)
-                    // enemy token gets kicked back to base, else returns null.
-                    Token backToBase = tiles.get(targetTileIndex).addToken(move);
-
-                    // Kicking an enemy Token back to base:
-                    if (backToBase != null) {
-                        // Finding the next free home Tile
-                        int home = getBaseTilePosition(backToBase);
-                        tiles.get(home).addToken(backToBase);
-                    }
-
-                    repaint();
-                }
-                */
-
             }
         }
     }
@@ -308,42 +250,6 @@ public class GamePanel extends JComponent implements MouseListener {
             }
         }
         return -1;
-    }
-
-    /**
-     * Checks if there is any blockade between two tiles.
-     *
-     * @param player Faction for checking opposite tokens. You are allowed to jump over your own blockades.
-     * @param currentPosition int tokens current position.
-     * @param target int current position + dice value
-     * @return int the position where its a blockade. You can move just behind the blockade.
-     */
-    private int isBlocked(Faction player, int currentPosition, int target) {
-        int last = players[currentPlayer].getStartOfFinishTileIndex();
-        int num = (target - currentPosition) + 1;
-
-        // No point looking for blockades on finish tiles.
-        if (currentPosition >= last) {
-            return 0;
-        }
-
-        boolean blocked = false;
-        int i = 0;
-
-        // i becomes number of tiles from current position to nearest blockade.
-        // if no blockade is found, i becomes the target position.
-        while (!blocked  &&  ++i < num) {
-
-            int index = players[currentPlayer].getTileIndex(currentPosition + i);
-            blocked = tiles.get(index).isBlocked(player);
-        }
-
-        // No blockades found.
-        if (i == num) {
-            return 0;
-        }
-
-        return currentPosition + i;
     }
 
     @Override
@@ -399,6 +305,7 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void moveToken(int playerId, int tokenId, int target) {
+        sentRequest = true;
 
         Token token = players[playerId].getToken(tokenId);
         int currentTileIndex = players[playerId].getTokenPosition(tokenId);
