@@ -231,10 +231,8 @@ public class GamePanel extends JComponent implements MouseListener {
                 MoveTokenRequest request = new MoveTokenRequest();
                 request.setTokenId(tt.getTokenID());
 
-                System.out.println("id = " + tt.getTokenID());
-
                 try {
-                    Main.getServerConnection().sendMessage(new MoveTokenRequest());
+                    Main.getServerConnection().sendMessage(request);
                 } catch (IOException e1) {
                     LOGGER.severe("Error " + e1.getMessage());
                 }

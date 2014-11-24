@@ -1,18 +1,18 @@
 package no.hig.imt3281.ludo.backend.game;
 
+import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.messaging.*;
 
 import java.io.IOException;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by Martin on 17.11.2014.
  *
  */
-public class Game {
+public class Game implements GameMapUpdateListener {
     public static final int PLAYERS_MAX = 4;
     private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
     private static final Random RANDOM = new Random();
@@ -33,11 +33,14 @@ public class Game {
      * Value of the dice
      */
     private int diceValue;
+    private int diceThrownTimestamp;
+    private GameMap gameMap;
 
     public Game(final int gameId) {
         this.gameId = gameId;
         this.users = new User[PLAYERS_MAX];
         this.currentMovingPlayer = -1;
+        this.gameMap = new GameMap(this);
     }
 
     /**
@@ -89,13 +92,14 @@ public class Game {
         GameStartedMessage startMessage = new GameStartedMessage();
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
+            gameMap.addTokens(i);
         }
         broadcastMessage(startMessage);
         nextPlayerTurn();
     }
 
     private void sendMessage(User user, Message message) {
-        if (user.getCurrentGameId() == this.gameId) {
+        if (user.getCurrentGameId() == this.gameId && user.getClientConnection() != null) {
             try {
                 user.getClientConnection().sendMessage(message);
             } catch (IOException e) {
@@ -106,25 +110,14 @@ public class Game {
 
     public void broadcastMessage(Message message) {
         for (int i = 0; i < userCount; i++) {
-            try {
-                users[i].getClientConnection().sendMessage(message);
-            } catch (IOException e) {
-                users[i].getClientConnection().close();
+            if (users[i] != null && users[i].getClientConnection() != null) {
+                try {
+                    users[i].getClientConnection().sendMessage(message);
+                } catch (IOException e) {
+                    users[i].getClientConnection().close();
+                }
             }
         }
-    }
-
-    public void getTargetPosition() {
-
-    }
-
-    /**
-     * Checks if the current player which has the turn can move any tokens from the current dice value.
-     * @return True if player can move anything, otherwise
-     */
-    private boolean movesAvailable() {
-        // TODO: Not yet implemented
-        return true;
     }
 
     private void nextPlayerTurn() {
@@ -143,7 +136,8 @@ public class Game {
      */
     public void triggerDice() {
         this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
-        boolean movesAvailable = movesAvailable();
+        this.diceThrownTimestamp = ServerEnvironment.getCurrentTimeStamp();
+        boolean movesAvailable = gameMap.playerCanMoveAnyTokens(currentMovingPlayer, diceValue);
 
         TriggerDiceResult message = new TriggerDiceResult();
         message.setDiceValue(diceValue);
@@ -155,26 +149,26 @@ public class Game {
         }
     }
 
+    /**
+     * Moves the token for a player and makes the move if the move is possible.
+     * @param tokenId Id of the token which the user wants to move.
+     */
     public void moveToken(int tokenId) {
         // check if the user has rolled the dice yet
         if (diceValue <= 0) {
             return;
         }
 
-        MoveTokenResult message = new MoveTokenResult();
-        // TODO: if user can move this token
-        boolean canMoveToken = true;
+        this.diceThrownTimestamp = Integer.MAX_VALUE;
 
+        boolean canMoveToken = gameMap.playerCanMove(currentMovingPlayer, tokenId, diceValue);
+
+        MoveTokenResult message = new MoveTokenResult();
         message.setValidMove(canMoveToken);
         sendMessage(users[currentMovingPlayer], message);
 
         if (canMoveToken) {
-            TokenMovedMessage movedMessage = new TokenMovedMessage();
-            movedMessage.setFactionMoving(this.currentMovingPlayer);
-            movedMessage.setTokenId(tokenId);
-            movedMessage.setNewPosition(1 + diceValue);
-            broadcastMessage(movedMessage);
-
+            gameMap.makeTurn(currentMovingPlayer, tokenId, diceValue);
             nextPlayerTurn();
         }
     }
@@ -185,5 +179,25 @@ public class Game {
      */
     public boolean diceTriggered() {
         return this.diceValue > 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void tokenUpdated(int factionId, int tokenId, int position) {
+        TokenMovedMessage movedMessage = new TokenMovedMessage();
+        movedMessage.setFactionMoving(factionId);
+        movedMessage.setTokenId(tokenId);
+        movedMessage.setNewPosition(position);
+        broadcastMessage(movedMessage);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void gameOver(int triggeringFaction) {
+        // TODO: Not yet implemented
     }
 }
