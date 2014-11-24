@@ -55,8 +55,7 @@ public abstract class ChatRoom {
                 try {
                     user.getClientConnection().sendMessage(message);
                 } catch (IOException e) {
-                    LOGGER.log(Level.INFO, e.getMessage(), e);
-                    user.getClientConnection().close();
+                    user.getClientConnection().close(e);
                 }
             }
         });

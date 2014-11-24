@@ -1,8 +1,6 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
-import no.hig.imt3281.ludo.client.gui.GuiManager;
-import no.hig.imt3281.ludo.messaging.InitializePlayerTokenMessage;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 
 import javax.swing.*;
@@ -420,6 +418,24 @@ public class GamePanel extends JComponent implements MouseListener {
             int home = getBaseTilePosition(backToBase);
             tiles.get(home).addToken(backToBase);
         }
+
+        repaint();
+    }
+
+    /**
+     * Resets the game panel
+     */
+    public void clearTable() {
+        for (Tile tile : this.tiles) {
+            tile.clear();
+        }
+
+        for (int i = 0; i < MAX_PLAYERS; i++) {
+            players[i] = null;
+        }
+
+        this.currentPlayer = 0;
+        this.numPlayer = 0;
 
         repaint();
     }

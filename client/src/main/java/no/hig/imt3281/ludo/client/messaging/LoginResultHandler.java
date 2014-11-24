@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.AudioManager;
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.Client;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
@@ -18,6 +19,7 @@ public class LoginResultHandler implements MessageHandler {
         switch (message.getResultCode()) {
             case LoginResult.OK: {
                 GuiManager.getStartDialog().dispose();
+                AudioManager.playSound("airhorn.wav");
                 new Client();
                 break;
             }

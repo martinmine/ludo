@@ -156,7 +156,7 @@ public class Game implements GameMapUpdateListener {
             try {
                 user.getClientConnection().sendMessage(message);
             } catch (IOException e) {
-                user.getClientConnection().close();
+                user.getClientConnection().close(e);
             }
         } else {
             LOGGER.warning("COULD NOT SEND STUFF TO USER");
@@ -170,7 +170,7 @@ public class Game implements GameMapUpdateListener {
                 try {
                     users[i].getClientConnection().sendMessage(message);
                 } catch (IOException e) {
-                    users[i].getClientConnection().close();
+                    users[i].getClientConnection().close(e);
                 }
             }
         }

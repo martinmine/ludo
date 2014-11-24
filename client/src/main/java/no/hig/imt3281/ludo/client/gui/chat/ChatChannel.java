@@ -62,7 +62,6 @@ public abstract class ChatChannel extends JPanel{
     public void appendIncomingMessage(String message) {
         chatMessageContainer.append("\n" + message);
         JScrollBar bar = chatScrollPane.getVerticalScrollBar();
-        System.out.println(bar.getMaximum());
         bar.setValue(bar.getMaximum());
     }
 

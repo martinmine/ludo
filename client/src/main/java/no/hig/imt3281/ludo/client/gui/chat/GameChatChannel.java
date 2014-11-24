@@ -17,7 +17,7 @@ public class GameChatChannel extends ChatChannel {
     public GameChatChannel(int id) {
         super(id, Main.resourceBundle.getString("GAME_CHAT_CHANNEL"),
                 Main.resourceBundle.getString("GAME_CHAT_CHANNEL_WELCOME_MSG"),
-                "/img/world20.gif", ChatMessageHandler.GAME_CHAT);
+                "/img/ludo20.gif", ChatMessageHandler.GAME_CHAT);
         GuiManager.getChatPanel().joinNewChatroom(this);
     }
 }

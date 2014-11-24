@@ -108,7 +108,7 @@ public class GameQueueManager {
             try {
                 user.getClientConnection().sendMessage(message);
             } catch (IOException e) {
-                user.getClientConnection().close();
+                user.getClientConnection().close(e);
             }
         });
 

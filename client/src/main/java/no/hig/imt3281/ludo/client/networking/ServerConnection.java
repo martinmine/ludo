@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.networking;
 
+import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.messaging.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
@@ -8,6 +9,7 @@ import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 import no.hig.imt3281.ludo.messaging.handling.InvalidMessageHandlerException;
 import no.hig.imt3281.ludo.messaging.handling.MissingMessageHandlerException;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
@@ -40,14 +42,12 @@ public class ServerConnection implements Runnable, CommunicationContext {
                 Message message = MessageFactory.deserialize(connection.getInputStream());
                 LOGGER.info("Got message: " + message.getClass().getTypeName());
                 messageHandler.invokeMessage(message, this);
-            } catch (IOException | InvalidMessageHandlerException | MissingMessageHandlerException e) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                close();
+            } catch (IOException | InvalidMessageHandlerException | MissingMessageHandlerException | ArrayIndexOutOfBoundsException e) {
+                close(e);
                 break;
             } catch (InvocationTargetException e) {
-                Throwable innerException = e.getCause();
-                LOGGER.log(Level.WARNING, innerException.getMessage(), innerException);
-                close();
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+                close(e.getCause());
                 break;
             }
         }
@@ -61,13 +61,8 @@ public class ServerConnection implements Runnable, CommunicationContext {
     public void sendMessage(Message message) throws IOException {
         LOGGER.info("Sending message " + message.getClass().getTypeName());
 
-        try {
-            MessageFactory.serialize(message, connection.getOutputStream());
-            connection.getOutputStream().flush();
-        } catch (IOException e) {
-            close();
-            throw e;
-        }
+        MessageFactory.serialize(message, connection.getOutputStream());
+        connection.getOutputStream().flush();
     }
 
     @Override
@@ -83,10 +78,20 @@ public class ServerConnection implements Runnable, CommunicationContext {
         try {
             this.connection.close();
         } catch (IOException e) {
-            // TODO: Handle exception
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
 
-        // TODO: Notify listeners
+        JOptionPane.showMessageDialog(null, Main.resourceBundle.getString("DISCONNECTED"));
+        System.exit(0);
+    }
+
+    /**
+     * Closes the server connection
+     * @param cause The exception making the connection close
+     */
+    public void close(Throwable cause) {
+        close();
+        LOGGER.log(Level.SEVERE, cause.getMessage(), cause);
     }
 
     @Override
