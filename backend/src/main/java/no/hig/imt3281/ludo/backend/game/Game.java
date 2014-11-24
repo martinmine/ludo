@@ -93,14 +93,7 @@ public class Game implements GameMapUpdateListener {
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
             gameMap.addTokens(i);
-        }
-        broadcastMessage(startMessage);
-
-        AssignUserFactionMessage colorAssignMessage = new AssignUserFactionMessage();
-        for (int i = 0; i < userCount; i++) {
-            colorAssignMessage.setFaction(i);
-            sendMessage(users[i], colorAssignMessage);
-            LOGGER.info("User " + users[i].getUsername() + " is color " + i);
+            sendMessage(users[i], startMessage);
         }
 
         nextPlayerTurn();
