@@ -7,8 +7,21 @@ import java.awt.*;
  * Created by Joakim on 05.11.2014.
  */
 public class FeedbackPanel extends JPanel {
+    private FeedbackTextPane textPane;
+
     public FeedbackPanel() {
-        setPreferredSize(new Dimension(160,160));
-        setBackground(Color.BLACK);
+
+        textPane = new FeedbackTextPane();
+        add(textPane);
+        setPreferredSize(new Dimension(240,160));
+        setVisible(true);
+    }
+
+    public void setFontColorByFaction(int faction) {
+        textPane.styleByFaction(faction);
+    }
+
+    public void setText(String text) {
+        textPane.setFeedbackString(text);
     }
 }
