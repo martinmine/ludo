@@ -16,6 +16,8 @@ public class GuiManager {
     private static SideTopPanel sideTopPanel;
     private static Client client;
 
+    private GuiManager() {
+    }
 
     /** @return reference to the login activity */
     public static StartDialog getStartDialog() {

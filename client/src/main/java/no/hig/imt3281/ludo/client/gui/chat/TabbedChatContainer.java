@@ -17,12 +17,10 @@ public class TabbedChatContainer extends JTabbedPane {
      */
     public TabbedChatContainer() {
         setPreferredSize(new Dimension(384, 430));
-        ChangeListener changeListener = new ChangeListener() {
-            public void stateChanged(ChangeEvent changeEvent) {
-                int index = getSelectedIndex();
-                ChatChannel selectedTabComponent = (ChatChannel) getComponentAt(index);
-                ChatMessageHandler.getInstance().setCurrentState(selectedTabComponent.getType());
-            }
+        ChangeListener changeListener = e -> {
+            int index = getSelectedIndex();
+            ChatChannel selectedTabComponent = (ChatChannel) getComponentAt(index);
+            ChatMessageHandler.getInstance().setCurrentState(selectedTabComponent.getType());
         };
         addChangeListener(changeListener);
     }
