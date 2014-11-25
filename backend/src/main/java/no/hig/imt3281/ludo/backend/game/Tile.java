@@ -16,27 +16,18 @@ public class Tile {
     }
 
     public Token addToken(Token t) {
-        System.out.println("number of tokens on tile " + numToken);
         if (numToken == 0) {
-            setToken(numToken++, t);
+            token[numToken++] = t;
         } else {
             if (token[0].getFaction() == t.getFaction()) {
-                setToken(numToken++, t);
+                token[numToken++] = t;
             } else {
                 Token temp = token[0];
-                setToken(numToken, t);
+                token[numToken-1] = t;
                 return temp;
             }
         }
         return null;
-    }
-
-    private void setToken(int index, Token token) {
-        if (index >= MAX_TOKENS) {
-            throw new RuntimeException("INVALID ARGUMENT");
-        }
-
-        this.token[index] = token;
     }
 
     public boolean isBlocked(int faction) {
@@ -44,8 +35,10 @@ public class Tile {
     }
 
     public Token remove() {
-        System.out.println("Remove token from tile (size): " + numToken);
-        return token[numToken--];
+        System.out.println("Number tokens: " + numToken);
+        numToken--;
+        System.out.println("Number tokens after remove " + numToken);
+        return token[numToken];
     }
 
     public boolean isEmpty() {
@@ -54,6 +47,10 @@ public class Tile {
 
     public int getFaction() {
         return (numToken == 0)? -1: token[0].getFaction();
+    }
+
+    public int getBlockSize() {
+        return numToken;
     }
 
 }
