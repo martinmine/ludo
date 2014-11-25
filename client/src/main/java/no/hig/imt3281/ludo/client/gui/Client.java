@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.chat.ChatRooms;
+import no.hig.imt3281.ludo.client.gui.feedback.FeedbackPanel;
 import no.hig.imt3281.ludo.client.gui.game.GamePanel;
 
 import javax.swing.*;
@@ -37,5 +38,15 @@ public class Client extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FeedbackPanel panel = GuiManager.getSideTopPanel().getFeedbackPanel();
+                for (int i = 0; i < 2000; i++) {
+                    panel.setText("hei" + i);
+                }
+            }
+        }).run();
     }
 }
