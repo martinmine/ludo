@@ -38,15 +38,5 @@ public class Client extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FeedbackPanel panel = GuiManager.getSideTopPanel().getFeedbackPanel();
-                for (int i = 0; i < 2000; i++) {
-                    panel.setText("hei" + i);
-                }
-            }
-        }).run();
     }
 }
