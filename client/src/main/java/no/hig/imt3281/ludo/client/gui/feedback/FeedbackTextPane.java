@@ -72,7 +72,7 @@ public class FeedbackTextPane extends JTextPane {
                     document.remove(0, document.getLength());
                     document.insertString(0,text, style);
                 } catch (BadLocationException e) {
-                    LOGGER.log(Level.INFO, e.getMessage());
+                    LOGGER.log(Level.INFO, e.getMessage(), e);
                 }
             }
         });
