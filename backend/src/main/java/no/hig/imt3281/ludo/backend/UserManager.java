@@ -121,8 +121,9 @@ public class UserManager {
      * @param context The connection to the user who tries to sign in
      */
     public void setLoggedIn(User user, CommunicationContext context) {
-        if (this.activeUsers.containsKey(user.getId())) {
-            reportLoggedOut(user.getId());
+        User activeUser = this.activeUsers.get(user.getId());
+        if (activeUser != null && activeUser.getClientConnection() != null) {
+            activeUser.getClientConnection().close();
         }
 
         this.activeUsers.addItem(user.getId(), user);

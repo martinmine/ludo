@@ -41,15 +41,21 @@ public class ServerConnection implements Runnable, CommunicationContext {
         while (connection.isConnected()) {
             try {
                 LOGGER.info("Waiting for new message");
-                Message message = MessageFactory.deserialize(connection.getInputStream());
+                final Message message = MessageFactory.deserialize(connection.getInputStream());
                 LOGGER.info("Got message: " + message.getClass().getTypeName());
-                messageHandler.invokeMessage(message, this);
-            } catch (IOException | InvalidMessageHandlerException | MissingMessageHandlerException | ArrayIndexOutOfBoundsException e) {
+                SwingUtilities.invokeLater(() -> {
+                    try {
+                        messageHandler.invokeMessage(message, ServerConnection.this);
+                    } catch (MissingMessageHandlerException | InvalidMessageHandlerException e) {
+                        close(e);
+                    } catch (InvocationTargetException e) {
+                        LOGGER.log(Level.WARNING, e.getMessage(), e);
+                        close(e.getCause());
+                    }
+                });
+
+            } catch (IOException | ArrayIndexOutOfBoundsException e) {
                 close(e);
-                break;
-            } catch (InvocationTargetException e) {
-                LOGGER.log(Level.WARNING, e.getMessage(), e);
-                close(e.getCause());
                 break;
             }
         }
