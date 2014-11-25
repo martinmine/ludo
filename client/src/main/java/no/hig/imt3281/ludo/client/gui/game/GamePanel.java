@@ -220,8 +220,6 @@ public class GamePanel extends JComponent implements MouseListener {
             // Clicked a tile AND it is token(s) on it:
             if (tt != null  &&  !tt.isEmpty()) {
 
-                System.out.println("tileId clicked: " + tt.getPosition());
-
                 if (tt.getFaction().getIndex() == currentPlayer) {
 
                     MoveTokenRequest request = new MoveTokenRequest();

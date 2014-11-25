@@ -118,8 +118,10 @@ public class GameMap {
      * @param dice how many steps the user wants to take from the dice
      */
     public void makeTurn(final int factionId, final int tokenId, final int dice) {
-        //int currentPosition = player[factionId].getTokenPosition(tokenId);
+        int currentPP = player[factionId].getTokenPosition(tokenId);
         int currentPosition = player[factionId].getToken(tokenId).getPosition();
+        System.out.println("token.position " + currentPP);
+        System.out.println("tokenPosition! " + currentPosition);
 
         int target = getTargetTileIndex(factionId, currentPosition, dice);
         System.out.println("TARGET: " + target);
