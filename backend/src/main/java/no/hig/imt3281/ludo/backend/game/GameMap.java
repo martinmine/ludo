@@ -49,36 +49,34 @@ public class GameMap {
     }
 
     /**
-     * Checks if there is any blockade between two tiles.
-     * @param factionId int playerId RED, BLUE etc...
-     * @param tokenId int players token 0-3
-     * @param steps int the value on the dice
-     * @return int The position were its a blockade. You can move just behind the blockade
+     * Check for blockades between two tiles.
+     * @param factionId int users id
+     * @param currentPosition int tokens current position
+     * @param target int target to move
+     * @return int the position of the block.
      */
-    public int isBlocked(final int factionId, final int tokenId, final int steps) {
+    public int isBlocked(int factionId, int currentPosition, int target) {
         int firstFinishTileIndex = player[factionId].getStartOfFinishTileIndex();
-        int currentTileIndex = player[factionId].getTokenMapPosition(tokenId); // player index
-        System.out.println("isBlocked | currentTileIndex: " + currentTileIndex);
-        int numTiles = steps + 1;
+        int numTilesBetween = target + 1;
 
         // No point looking for blockades on finish tiles:
-        if (currentTileIndex >= firstFinishTileIndex) {
+        if (currentPosition >= firstFinishTileIndex) {
             return 0;
         }
 
         boolean blocked = false;
         int i = 0;
 
-        while (!blocked  &&  ++i < numTiles) {
-            int index = player[factionId].getTileIndex(currentTileIndex + i);
+        while (!blocked  &&  ++i < numTilesBetween) {
+            int index = player[factionId].getTileIndex(currentPosition + i);
             blocked = tile[index].isBlocked(factionId);
         }
 
-        if (i == numTiles) {
+        if (i == numTilesBetween) {
             return 0;
         }
 
-        return currentTileIndex + i;
+        return currentPosition + i;
     }
 
     /**
@@ -100,20 +98,18 @@ public class GameMap {
             target += dice;
         }
 
-        /*
+        // Moves the token right behind the blockade.
         int blockade = isBlocked(factionId, currentPosition, target);
         if (blockade > 0) {
             target = blockade -1;
         }
-        */
 
-        /*
         int last = player[factionId].getEndTileIndex();
+        System.out.println("Last tile for player: " + last);
         if (target > last) {
             int diff = target - last;
             target = last - diff;
         }
-        */
 
         return target;
     }
@@ -136,7 +132,7 @@ public class GameMap {
 
         if (currentToken.getPosition() != target) {
 
-            System.out.println("!!!!Removing from (map) " + currentMapPosition);
+            System.out.println("Removing from (map) " + currentMapPosition);
             Token move = tile[currentMapPosition].remove();
 
             move.setPosition(target);
@@ -144,23 +140,25 @@ public class GameMap {
 
             Token backToBase = tile[targetMapPosition].addToken(move);
 
-            System.out.println("");
-
             if (backToBase != null) {
-                int home = getBaseTilePosition(factionId);
+                int enemy = backToBase.getFaction();
+                System.out.println("yout are " + factionId);
+                System.out.println("throwing " + backToBase.getFaction() + "'s token to base");
+                int home = getBaseTilePosition(enemy);
+                System.out.println("home tile position: " + home);
+                backToBase.setPosition(home);
+                System.out.println("tokens new position: " + home);
                 tile[home].addToken(backToBase);
             }
 
         }
         this.listener.tokenUpdated(factionId, tokenId, target);
-
     }
 
     public int getBaseTilePosition(int factionId) {
-        for (int i=0; i<4; i++) {
-
-            int basePosition = player[factionId].getTileIndex(0);
-
+        for (int i=0; i<MAX_TOKENS; i++) {
+            int basePosition = player[factionId].getTileIndex(i);
+            System.out.println("check position: " + basePosition);
             if (tile[basePosition].isEmpty()) {
                 return basePosition;
             }
