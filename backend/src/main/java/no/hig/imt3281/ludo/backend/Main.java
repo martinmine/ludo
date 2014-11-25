@@ -10,7 +10,7 @@ public class Main {
     /**
      * Main entry for the program.
      */
-    public static void main() {
+    public static void main(String[] args) {
         ServerEnvironment.initialize();
         ServerEnvironment.getNetworkManager().startListening();
     }
