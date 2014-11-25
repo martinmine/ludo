@@ -18,6 +18,7 @@ public class Game implements GameMapUpdateListener {
     private static final int DICE_MAX = 6;
     private static final int TURN_TIMEOUT = 120;
 
+
     private int gameId;
     private User[] users;
     private int userCount;
@@ -25,11 +26,11 @@ public class Game implements GameMapUpdateListener {
     /**
      * Index of the current turn player
      */
-    private int currentMovingPlayer;
+    private int currentMovingFaction;
     /**
      * User id of the current turn player/faction
      */
-    private int currentFactionTurn;
+    private int currentMovingUserId;
     /**
      * Value of the dice
      */
@@ -40,7 +41,7 @@ public class Game implements GameMapUpdateListener {
     public Game(final int gameId) {
         this.gameId = gameId;
         this.users = new User[PLAYERS_MAX];
-        this.currentMovingPlayer = -1;
+        this.currentMovingFaction = -1;
         this.lastGameActionTimestamp = Integer.MAX_VALUE - TURN_TIMEOUT;
         this.gameMap = new GameMap(this);
         this.gameActive = true;
@@ -50,8 +51,8 @@ public class Game implements GameMapUpdateListener {
      * Gets the user id of the user which makes the current turn in the game
      * @return user id
      */
-    public int getCurrentFactionTurn() {
-        return currentFactionTurn;
+    public int getCurrentMovingUserId() {
+        return currentMovingUserId;
     }
 
     public int getGameId() {
@@ -97,7 +98,7 @@ public class Game implements GameMapUpdateListener {
 
             // The game is over
             destroy();
-        } else if (faction == currentFactionTurn) {
+        } else if (faction == currentMovingUserId) {
             nextPlayerTurn();
         }
     }
@@ -120,7 +121,7 @@ public class Game implements GameMapUpdateListener {
 
     public void cycle() {
         if (ServerEnvironment.getCurrentTimeStamp() > lastGameActionTimestamp + TURN_TIMEOUT) {
-            User kickingUser = users[currentMovingPlayer];
+            User kickingUser = users[currentMovingFaction];
             LOGGER.info("Scrublord " + kickingUser.getUsername() + " timed out");
             leave(kickingUser);
             GameEndMessage leaveMessage = new GameEndMessage();
@@ -179,15 +180,15 @@ public class Game implements GameMapUpdateListener {
     private void nextPlayerTurn() {
         // Finds a new player id that is active and in the game
         do {
-            this.currentMovingPlayer = (this.currentMovingPlayer + 1) % (this.userCount);
-        } while (users[currentMovingPlayer] == null || users[currentMovingPlayer].getCurrentGameId() != this.gameId);
-        LOGGER.info("New player id is " + currentMovingPlayer);
+            this.currentMovingFaction = (this.currentMovingFaction + 1) % (this.userCount);
+        } while (users[currentMovingFaction] == null || users[currentMovingFaction].getCurrentGameId() != this.gameId);
+        LOGGER.info("New player id is " + currentMovingFaction);
 
-        this.currentFactionTurn = users[currentMovingPlayer].getId();
+        this.currentMovingUserId = users[currentMovingFaction].getId();
         this.diceValue = 0;
         this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
 
-        sendMessage(users[currentMovingPlayer], new TurnMessage());
+        sendMessage(users[currentMovingFaction], new TurnMessage());
     }
 
     /**
@@ -196,11 +197,13 @@ public class Game implements GameMapUpdateListener {
     public void triggerDice() {
         this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
         this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
-        boolean movesAvailable = gameMap.playerCanMoveAnyTokens(currentMovingPlayer, diceValue);
+        boolean movesAvailable = gameMap.playerCanMoveAnyTokens(currentMovingFaction, diceValue);
 
         TriggerDiceResult message = new TriggerDiceResult();
         message.setDiceValue(diceValue);
         message.setAnyTokensValid(movesAvailable);
+        message.setCurrentMovingFaction(currentMovingFaction);
+
         broadcastMessage(message);
 
         if (!movesAvailable) {
@@ -220,14 +223,14 @@ public class Game implements GameMapUpdateListener {
 
         this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
 
-        boolean canMoveToken = gameMap.playerCanMove(currentMovingPlayer, tokenId, diceValue);
+        boolean canMoveToken = gameMap.playerCanMove(currentMovingFaction, tokenId, diceValue);
 
         MoveTokenResult message = new MoveTokenResult();
         message.setValidMove(canMoveToken);
-        sendMessage(users[currentMovingPlayer], message);
+        sendMessage(users[currentMovingFaction], message);
 
         if (canMoveToken) {
-            gameMap.makeTurn(currentMovingPlayer, tokenId, diceValue);
+            gameMap.makeTurn(currentMovingFaction, tokenId, diceValue);
             nextPlayerTurn();
         } else {
             // User has done something, reset the timer so he doesn't get kicked
