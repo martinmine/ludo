@@ -247,6 +247,10 @@ public class GamePanel extends JComponent implements MouseListener {
         return -1;
     }
 
+    public int getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
 

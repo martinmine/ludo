@@ -18,17 +18,25 @@ public class Tile {
     public Token addToken(Token t) {
         System.out.println("number of tokens on tile " + numToken);
         if (numToken == 0) {
-            token[numToken++] = t;
+            setToken(numToken++, t);
         } else {
             if (token[0].getFaction() == t.getFaction()) {
-                token[numToken++] = t;
+                setToken(numToken++, t);
             } else {
                 Token temp = token[0];
-                token[numToken] = t;
+                setToken(numToken, t);
                 return temp;
             }
         }
         return null;
+    }
+
+    private void setToken(int index, Token token) {
+        if (index >= MAX_TOKENS) {
+            throw new RuntimeException("INVALID ARGUMENT");
+        }
+
+        this.token[index] = token;
     }
 
     public boolean isBlocked(int faction) {

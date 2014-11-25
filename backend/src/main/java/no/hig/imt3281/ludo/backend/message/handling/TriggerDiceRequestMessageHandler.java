@@ -23,8 +23,8 @@ public class TriggerDiceRequestMessageHandler implements MessageHandler {
             return;
         }
 
-        if (game.getCurrentFactionTurn() != user.getId()) {
-            LOGGER.warning("User with id " + user.getId() + " current turn is " + game.getCurrentFactionTurn());
+        if (game.getCurrentMovingUserId() != user.getId()) {
+            LOGGER.warning("User with id " + user.getId() + " current turn is " + game.getCurrentMovingUserId());
         } else if (!game.diceTriggered()) {
             game.triggerDice();
         }

@@ -62,7 +62,7 @@ public class ChallengeUserFrame extends JFrame {
     public void addListItem(String username, int userId) {
         if (!this.usersAdded.containsKey(userId)) {
             this.usersAdded.put(userId, username);
-            listPanel.addToList(new ChallengeableUserComponent(username, userId));
+            SwingUtilities.invokeLater(() -> listPanel.addToList(new ChallengeableUserComponent(username, userId)));
         }
     }
 
