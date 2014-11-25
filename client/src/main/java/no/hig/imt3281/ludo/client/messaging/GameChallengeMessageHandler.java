@@ -20,7 +20,7 @@ public class GameChallengeMessageHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(GameChallengeMessageHandler.class.getSimpleName());
 
     public void handle(GameChallengeMessage message, CommunicationContext context) {
-        AudioManager.playSound("challenge.wav");
+        AudioManager.playSound("challenge.wav", false);
         int result = new JOptionPane().showConfirmDialog(null,
                             message.getChallengerUsername() + " " + Main.resourceBundle.getString("CHALLENGE_INVITATION_MESSAGE"),
                             Main.resourceBundle.getString("CHALLENGE_INVITATION_TITLE"),

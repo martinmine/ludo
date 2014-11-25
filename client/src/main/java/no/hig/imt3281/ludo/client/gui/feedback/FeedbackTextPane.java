@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.gui.feedback;
 
+import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.game.Faction;
 
 import javax.swing.*;
@@ -23,7 +24,6 @@ public class FeedbackTextPane extends JTextPane {
 
 
     public FeedbackTextPane() {
-        feedbackString = "yo";
         styleContext = new StyleContext();
         document = new DefaultStyledDocument(styleContext);
         setDocument(document);
@@ -33,13 +33,12 @@ public class FeedbackTextPane extends JTextPane {
         setOpaque(false);
         setBackground(Color.cyan);
         setPreferredSize(new Dimension(240, 160));
-        setText("hey");
 
         style = styleContext.addStyle("text", null);
         style.addAttribute(StyleConstants.FontSize, new Integer(32));
         style.addAttribute(StyleConstants.FontFamily, "arial");
         style.addAttribute(StyleConstants.Bold, new Boolean(true));
-        setFeedbackString("oh no");
+        setFeedbackString(Main.resourceBundle.getString("FEEDBACK_WELCOME"));
     }
 
     public void styleByFaction(int faction) {

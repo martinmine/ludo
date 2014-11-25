@@ -8,7 +8,7 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 /**
- * Created by Martin on 11.11.2014.
+ * Message handler for messages users wants to send in the global chat room.
  */
 public class GlobalChatMessageHandler implements MessageHandler {
     public void handle(GlobalChatMessage request, CommunicationContext context) {

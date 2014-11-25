@@ -10,7 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 11.11.2014.
+ * Message handler for messages sent when a user chats in a user generated group chat.
  */
 public class GroupChatMessageHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(GroupChatMessageHandler.class.getSimpleName());

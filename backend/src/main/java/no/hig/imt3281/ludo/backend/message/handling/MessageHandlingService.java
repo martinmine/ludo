@@ -4,7 +4,8 @@ import no.hig.imt3281.ludo.messaging.*;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandlerFactory;
 
 /**
- *
+ * Service for handling messages, this concrete class registers all the handlers for
+ * different incoming messages.
  */
 public class MessageHandlingService extends MessageHandlerFactory {
     public MessageHandlingService() {
