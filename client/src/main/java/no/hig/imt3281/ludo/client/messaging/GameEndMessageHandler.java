@@ -22,16 +22,20 @@ public class GameEndMessageHandler implements MessageHandler {
                 break;
             case GameEndMessage.WON:
                 outputMessage = "GAME_WON";
-                AudioManager.playSound("playerwins.wav");
+                AudioManager.playSound("playerwins.wav", false);
                 break;
             default:
             case GameEndMessage.LOST:
                 outputMessage = "GAME_LOST";
-                AudioManager.playSound("gameover.wav");
+                AudioManager.playSound("gameover.wav", false);
                 break;
         }
 
+
         JOptionPane.showMessageDialog(null, Main.resourceBundle.getString(outputMessage));
         GuiManager.getGamePanel().clearTable();
+        GuiManager.getSideTopPanel()
+                  .getFeedbackPanel()
+                  .setText(Main.resourceBundle.getString("FEEDBACK_GAME_ENDED"));
     }
 }

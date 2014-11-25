@@ -83,7 +83,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
 
-        AudioManager.playSound("disconnected.wav");
+        AudioManager.playSound("disconnected.wav", false);
         JOptionPane.showMessageDialog(null, Main.resourceBundle.getString("DISCONNECTED"));
         GuiManager.exit();
     }
