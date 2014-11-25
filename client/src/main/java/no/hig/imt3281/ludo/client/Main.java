@@ -30,7 +30,7 @@ public class Main {
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            System.exit(0);
+            GuiManager.exit();
         }
         LOGGER.info("Connected");
         setUserPreferences();

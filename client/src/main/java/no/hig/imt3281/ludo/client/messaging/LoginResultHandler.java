@@ -20,7 +20,7 @@ public class LoginResultHandler implements MessageHandler {
             case LoginResult.OK: {
                 GuiManager.getStartDialog().dispose();
                 AudioManager.playSound("airhorn.wav");
-                new Client();
+                GuiManager.setClientRef(new Client());
                 break;
             }
             case LoginResult.INVALID_CREDENTIALS: {

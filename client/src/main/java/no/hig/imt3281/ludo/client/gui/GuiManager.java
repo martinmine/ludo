@@ -14,6 +14,7 @@ public class GuiManager {
     private static GamePanel gamePanel;
     private static SidePanel sidePanel;
     private static SideTopPanel sideTopPanel;
+    private static Client client;
 
 
     /** @return reference to the login activity */
@@ -55,5 +56,15 @@ public class GuiManager {
         sideTopPanel = new SideTopPanel();
         sidePanel = new SidePanel();
 
+    }
+
+    public static void exit() {
+        if (client != null) {
+            client.dispose();
+        }
+    }
+
+    public static void setClientRef(Client clientReference) {
+        client = clientReference;
     }
 }
