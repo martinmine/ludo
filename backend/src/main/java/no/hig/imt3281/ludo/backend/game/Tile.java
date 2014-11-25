@@ -16,6 +16,7 @@ public class Tile {
     }
 
     public Token addToken(Token t) {
+        System.out.println("number of tokens on tile " + numToken);
         if (numToken == 0) {
             token[numToken++] = t;
         } else {

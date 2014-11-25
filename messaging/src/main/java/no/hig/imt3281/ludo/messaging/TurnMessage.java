@@ -5,4 +5,7 @@ package no.hig.imt3281.ludo.messaging;
  */
 public class TurnMessage extends Message {
 
+    public int RESET_DICE_VALUE = 0;
+
+
 }

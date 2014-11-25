@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.swing.*;
 import java.awt.*;
@@ -208,7 +209,6 @@ public class GamePanel extends JComponent implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-
         if (!isLoading) {
 
             // Get correct legal tile. (correct player and token on tile):
@@ -217,8 +217,10 @@ public class GamePanel extends JComponent implements MouseListener {
                     .findFirst()
                     .orElse(null);
 
-            // Clicked a tile AND it's token(s) on it:
+            // Clicked a tile AND it is token(s) on it:
             if (tt != null  &&  !tt.isEmpty()) {
+
+                System.out.println("tileId clicked: " + tt.getPosition());
 
                 if (tt.getFaction().getIndex() == currentPlayer) {
 
@@ -282,7 +284,6 @@ public class GamePanel extends JComponent implements MouseListener {
                     color = Faction.RED;
                     break;
                 case 1:
-
                     color = Faction.BLUE;
                     break;
                 case 2:
@@ -300,11 +301,11 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void moveToken(int playerId, int tokenId, int target) {
+
         Token token = players[playerId].getToken(tokenId);
         int currentTileIndex = players[playerId].getTokenPosition(tokenId);
         int targetTileIndex = players[playerId].getTileIndex(target);
-        System.out.println("currentTile " + currentTileIndex);
-        System.out.println("targetTile " + targetTileIndex);
+
         tiles.get(currentTileIndex).remove();
         token.setPosition(target);
 
@@ -318,8 +319,8 @@ public class GamePanel extends JComponent implements MouseListener {
             int home = getBaseTilePosition(backToBase);
             tiles.get(home).addToken(backToBase);
         }
-
         repaint();
+
     }
 
     /**
