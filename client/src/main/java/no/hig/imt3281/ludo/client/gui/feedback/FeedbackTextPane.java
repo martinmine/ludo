@@ -14,11 +14,13 @@ import java.util.logging.Logger;
  */
 public class FeedbackTextPane extends JTextPane {
     private static final Logger LOGGER = Logger.getLogger(FeedbackTextPane.class.getSimpleName());
+    private static final Object SYNC_ROOT = new Object();
     private Border border;
     private StyleContext styleContext;
     private DefaultStyledDocument document;
     private Style style;
     String feedbackString;
+
 
     public FeedbackTextPane() {
         feedbackString = "yo";
@@ -60,18 +62,20 @@ public class FeedbackTextPane extends JTextPane {
         }
         setFeedbackString(feedbackString);
     }
-    public void setFeedbackString(String text) {
-        feedbackString = text;
-        try {
-            int length = document.getLength();
-            if(length > 0) {
-                document.remove(0, length);
-            }
-                document.insertString(0, text, style);
 
-        } catch (BadLocationException e) {
-            LOGGER.log(Level.INFO, e.getMessage());
-        }
+    // Fix from http://www.jguru.com/forums/view.jsp?EID=445667
+    public void setFeedbackString(String text) {
+        SwingUtilities.invokeLater(() -> {
+            synchronized(SYNC_ROOT) {
+                this.feedbackString = text;
+                try {
+                    document.remove(0, document.getLength());
+                    document.insertString(0,text, style);
+                } catch (BadLocationException e) {
+                    LOGGER.log(Level.INFO, e.getMessage());
+                }
+            }
+        });
     }
 }
 

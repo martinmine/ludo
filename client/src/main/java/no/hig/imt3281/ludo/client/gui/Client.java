@@ -7,12 +7,13 @@ import no.hig.imt3281.ludo.client.gui.game.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
 
 /**
  * Class containing the root element of the client GUI
  */
 public class Client extends JFrame {
-
+    private static final Logger LOGGER = Logger.getLogger(Client.class.getSimpleName());
     public no.hig.imt3281.ludo.client.gui.MenuBar menuBar;
 
     /**
