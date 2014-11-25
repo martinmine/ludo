@@ -93,7 +93,7 @@ public class Player {
         return tiles.get(firstFinishTileIndex);
     }
 
-    public int getTokenPosition(int tokenId) {
+    public int getTokenMapPosition(int tokenId) {
         return tiles.get(token[tokenId].getPosition());
     }
 

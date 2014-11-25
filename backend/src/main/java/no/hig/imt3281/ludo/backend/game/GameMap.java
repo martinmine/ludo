@@ -31,7 +31,7 @@ public class GameMap {
         for (int i=0; i<MAX_PLAYERS; i++) {
             for (int j=0; j<MAX_TOKENS; j++) {
                 Token token = player[i].getToken(j);
-                tile[player[i].getTokenPosition(j)].addToken(token);
+                tile[player[i].getTokenMapPosition(j)].addToken(token);
             }
         }
     }
@@ -57,7 +57,7 @@ public class GameMap {
      */
     public int isBlocked(final int factionId, final int tokenId, final int steps) {
         int firstFinishTileIndex = player[factionId].getStartOfFinishTileIndex();
-        int currentTileIndex = player[factionId].getTokenPosition(tokenId); // player index
+        int currentTileIndex = player[factionId].getTokenMapPosition(tokenId); // player index
         System.out.println("isBlocked | currentTileIndex: " + currentTileIndex);
         int numTiles = steps + 1;
 
@@ -81,11 +81,19 @@ public class GameMap {
         return currentTileIndex + i;
     }
 
+    /**
+     * Calculate target position with current position (from players point of view) and dice value.
+     * simply current position + dice.
+     * @param factionId
+     * @param currentPosition int current position from players point of view.
+     * @param dice int the value on the dice.
+     * @return int target for which position the token should move.
+     */
     public int getTargetTileIndex(final int factionId, int currentPosition, final int dice) {
         int target = currentPosition;
-        System.out.println("CURRENT POSITION FROM PLAYER POS: " + currentPosition);
+        System.out.println("CURRENT POSITION: " + currentPosition);
         if (currentPosition < 4) {
-            if (dice >= 4) {
+            if (dice > 0) {
                 target = 4;
             }
         } else {
@@ -118,30 +126,34 @@ public class GameMap {
      * @param dice how many steps the user wants to take from the dice
      */
     public void makeTurn(final int factionId, final int tokenId, final int dice) {
-        //int currentPosition = player[factionId].getTokenPosition(tokenId);
+        System.out.println("tokenId " + tokenId);
         Token currentToken = player[factionId].getToken(tokenId);
-        int currentPosition = player[factionId].getTokenPosition(currentToken.getPosition());
+        int currentMapPosition = player[factionId].getTokenMapPosition(tokenId);
 
-        int target = getTargetTileIndex(factionId, currentPosition, dice);
-        System.out.println("Moving token from " + currentPosition + " -> " + target);
+        int target = getTargetTileIndex(factionId, currentToken.getPosition(), dice);
+        int targetMapPosition = player[factionId].getTileIndex(target);
+        System.out.println("Moving token from " + currentMapPosition + " -> " + targetMapPosition);
 
-        Token move = tile[currentPosition].remove();
+        if (currentToken.getPosition() != target) {
 
-        if (move != currentToken) {
-            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-            System.out.println(move.getFaction() + " v " + currentToken.getFaction());
-            System.out.println(move.getPosition() + " v" + move.getFaction());
+            System.out.println("!!!!Removing from (map) " + currentMapPosition);
+            Token move = tile[currentMapPosition].remove();
+
+            move.setPosition(target);
+            System.out.println("new target for token is " + move.getPosition());
+
+            Token backToBase = tile[targetMapPosition].addToken(move);
+
+            System.out.println("");
+
+            if (backToBase != null) {
+                int home = getBaseTilePosition(factionId);
+                tile[home].addToken(backToBase);
+            }
+
         }
-        move.setPosition(target);
-        System.out.println("new target for token is " + move.getPosition());
-        Token backToBase = tile[target].addToken(move);
-
-        if (backToBase != null) {
-            int home = getBaseTilePosition(factionId);
-            tile[home].addToken(backToBase);
-        }
-
         this.listener.tokenUpdated(factionId, tokenId, target);
+
     }
 
     public int getBaseTilePosition(int factionId) {
