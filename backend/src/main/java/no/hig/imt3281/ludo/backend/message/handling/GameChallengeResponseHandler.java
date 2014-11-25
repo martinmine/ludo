@@ -8,7 +8,7 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 /**
- * Created by Martin on 21.11.2014.
+ * Message handler for the confirmation message when a user accepts/denies a game challenge.
  */
 public class GameChallengeResponseHandler implements MessageHandler {
     public void handle(GameChallengeResponse request, CommunicationContext context) {

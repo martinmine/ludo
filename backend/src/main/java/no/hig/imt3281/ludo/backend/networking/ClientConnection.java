@@ -30,6 +30,10 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
     private ConnectivityNotifier statusListener;
     private int referenceToken;
 
+    /**
+     * Makes a new client connection
+     * @param ch Socket channel where data can be sent
+     */
     public ClientConnection(SocketChannel ch) {
         this.socketChannel = ch;
     }
@@ -54,6 +58,9 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setStatusListener(ConnectivityNotifier listener) {
         this.statusListener = listener;
@@ -81,11 +88,17 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         close(cause);
     }
 
+    /**
+     * Closes the connection if it is not already closed.
+     */
     public void close() {
         LOGGER.info("Connection closing");
         this.socketChannel.close();
@@ -94,17 +107,26 @@ public class ClientConnection extends ChannelHandlerAdapter implements Communica
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close(Throwable cause) {
         LOGGER.log(Level.SEVERE, cause.getMessage(), cause);
         close();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getReferenceToken() {
         return referenceToken;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setReferenceToken(int token) {
         this.referenceToken = token;

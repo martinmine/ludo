@@ -10,7 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 14.11.2014.
+ * Handles requests related to when users throws the dice.
  */
 public class TriggerDiceRequestMessageHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(TriggerDiceRequestMessageHandler.class.getSimpleName());

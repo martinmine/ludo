@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 11.11.2014.
+ * Takes care of registration requests from clients.
  */
 public class RegistrationRequestHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(MessageHandler.class.getSimpleName());
