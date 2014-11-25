@@ -60,12 +60,19 @@ public class GuiManager {
 
     }
 
+    /**
+     * Closes the main window and the application.
+     */
     public static void exit() {
         if (client != null) {
             client.dispose();
         }
     }
 
+    /**
+     * Sets the client reference
+     * @param clientReference Reference to the client object.
+     */
     public static void setClientRef(Client clientReference) {
         client = clientReference;
     }
