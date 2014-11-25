@@ -119,12 +119,19 @@ public class GameMap {
      */
     public void makeTurn(final int factionId, final int tokenId, final int dice) {
         //int currentPosition = player[factionId].getTokenPosition(tokenId);
-        int currentPosition = player[factionId].getToken(tokenId).getPosition();
+        Token currentToken = player[factionId].getToken(tokenId);
+        int currentPosition = player[factionId].getTokenPosition(currentToken.getPosition());
 
         int target = getTargetTileIndex(factionId, currentPosition, dice);
-        System.out.println("TARGET: " + target);
+        System.out.println("Moving token from " + currentPosition + " -> " + target);
 
         Token move = tile[currentPosition].remove();
+
+        if (move != currentToken) {
+            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            System.out.println(move.getFaction() + " v " + currentToken.getFaction());
+            System.out.println(move.getPosition() + " v" + move.getFaction());
+        }
         move.setPosition(target);
         System.out.println("new target for token is " + move.getPosition());
         Token backToBase = tile[target].addToken(move);
