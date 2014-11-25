@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.AudioManager;
 import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.GameStartedMessage;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
@@ -15,5 +16,6 @@ public class GameStartedMessageHandler implements MessageHandler {
         GuiManager.getSideTopPanel().getFeedbackPanel().setFontColorByFaction(message.getFaction());
         GuiManager.getGamePanel().setCurrentPlayerFaction(message.getFaction());
         System.out.println("Your color is: " + message.getFaction());
+        AudioManager.playSound("start_game.wav");
     }
 }
