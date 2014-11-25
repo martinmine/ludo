@@ -13,7 +13,6 @@ public class FeedbackPanel extends JPanel {
 
         textPane = new FeedbackTextPane();
         add(textPane);
-        textPane.setFeedbackString("Intitial string");
         setPreferredSize(new Dimension(240,160));
         setVisible(true);
     }

@@ -14,12 +14,16 @@ import java.util.logging.Logger;
  */
 public class FeedbackTextPane extends JTextPane {
     private static final Logger LOGGER = Logger.getLogger(FeedbackTextPane.class.getSimpleName());
+    private static final Object SYNC_ROOT = new Object();
     private Border border;
     private StyleContext styleContext;
     private DefaultStyledDocument document;
+    private Style style;
     String feedbackString;
 
+
     public FeedbackTextPane() {
+        feedbackString = "yo";
         styleContext = new StyleContext();
         document = new DefaultStyledDocument(styleContext);
         setDocument(document);
@@ -29,49 +33,49 @@ public class FeedbackTextPane extends JTextPane {
         setOpaque(false);
         setBackground(Color.cyan);
         setPreferredSize(new Dimension(240, 160));
-        feedbackString = String.valueOf(Faction.BLUE);
-        System.out.println(Faction.BLUE);
+        setText("hey");
+
+        style = styleContext.addStyle("text", null);
+        style.addAttribute(StyleConstants.FontSize, new Integer(32));
+        style.addAttribute(StyleConstants.FontFamily, "arial");
+        style.addAttribute(StyleConstants.Bold, new Boolean(true));
+        setFeedbackString("oh no");
     }
 
     public void styleByFaction(int faction) {
-        final Style style = styleContext.addStyle("Heading2", null);
 
         switch(Faction.getFaction(faction)) {
             case GREEN:
                 style.addAttribute(StyleConstants.Foreground, Color.green);
-            break;
+                break;
             case RED:
                 style.addAttribute(StyleConstants.Foreground, Color.red);
-            break;
+                break;
             case BLUE:
                 style.addAttribute(StyleConstants.Foreground, Color.blue);
-            break;
+                break;
             case YELLOW:
                 style.addAttribute(StyleConstants.Foreground, Color.yellow);
-            break;
+                break;
             default:
                 break;
         }
-
-        style.addAttribute(StyleConstants.FontSize, new Integer(42));
-        style.addAttribute(StyleConstants.FontFamily, "arial");
-        style.addAttribute(StyleConstants.Bold, new Boolean(true));
-        try {
-            document.insertString(0, feedbackString, null);
-            document.setParagraphAttributes(0, 1, style, false);
-        } catch(Exception e) {
-
-        }
+        setFeedbackString(feedbackString);
     }
 
+    // Fix from http://www.jguru.com/forums/view.jsp?EID=445667
     public void setFeedbackString(String text) {
-        feedbackString = text;
-        try {
-            document.remove(0,document.getLength());
-            document.insertString(0,text, null);
-        } catch (BadLocationException e) {
-            LOGGER.log(Level.INFO, e.getMessage());
-        }
+        SwingUtilities.invokeLater(() -> {
+            synchronized(SYNC_ROOT) {
+                this.feedbackString = text;
+                try {
+                    document.remove(0, document.getLength());
+                    document.insertString(0,text, style);
+                } catch (BadLocationException e) {
+                    LOGGER.log(Level.INFO, e.getMessage(), e);
+                }
+            }
+        });
     }
 }
 

@@ -16,7 +16,7 @@ public class Game implements GameMapUpdateListener {
     private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
     private static final Random RANDOM = new Random();
     private static final int DICE_MAX = 6;
-    private static final int TURN_TIMEOUT = 30;
+    private static final int TURN_TIMEOUT = 120;
 
     private int gameId;
     private User[] users;
@@ -160,7 +160,7 @@ public class Game implements GameMapUpdateListener {
             }
         } else {
             LOGGER.warning("COULD NOT SEND STUFF TO USER");
-            //leave(user);
+            leave(user);
         }
     }
 

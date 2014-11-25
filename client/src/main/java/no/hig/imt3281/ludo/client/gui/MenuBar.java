@@ -33,7 +33,7 @@ public class MenuBar extends JMenuBar {
 
         JMenuItem quitGame = new JMenuItem(Main.resourceBundle.getString("MENUBAR_QUIT_GAME"));
         fileMenu.add(quitGame);
-        quitGame.addActionListener(e -> System.exit(0));
+        quitGame.addActionListener(e -> GuiManager.exit());
 
         JMenuItem newChatroom = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_CHATROOM"));
         chatMenu.add(newChatroom);

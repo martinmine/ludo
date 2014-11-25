@@ -1,6 +1,8 @@
 package no.hig.imt3281.ludo.client.networking;
 
+import no.hig.imt3281.ludo.client.AudioManager;
 import no.hig.imt3281.ludo.client.Main;
+import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.client.messaging.MessageHandlingService;
 import no.hig.imt3281.ludo.messaging.Message;
 import no.hig.imt3281.ludo.messaging.MessageFactory;
@@ -81,8 +83,9 @@ public class ServerConnection implements Runnable, CommunicationContext {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
 
+        AudioManager.playSound("disconnected.wav");
         JOptionPane.showMessageDialog(null, Main.resourceBundle.getString("DISCONNECTED"));
-        System.exit(0);
+        GuiManager.exit();
     }
 
     /**
