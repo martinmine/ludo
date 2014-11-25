@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 04.11.2014.
+ * Message handler for taking care of login requests.
  */
 public class LoginRequestHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(LoginRequestHandler.class.getSimpleName());

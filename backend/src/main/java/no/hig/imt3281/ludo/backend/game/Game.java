@@ -38,6 +38,10 @@ public class Game implements GameMapUpdateListener {
     private int lastGameActionTimestamp;
     private GameMap gameMap;
 
+    /**
+     * Makes a new game
+     * @param gameId id of the game
+     */
     public Game(final int gameId) {
         this.gameId = gameId;
         this.users = new User[PLAYERS_MAX];
@@ -55,17 +59,25 @@ public class Game implements GameMapUpdateListener {
         return currentMovingUserId;
     }
 
+    /**
+     * Gets the game id
+     * @return The game id
+     */
     public int getGameId() {
         return gameId;
     }
 
+    /**
+     * Adds a user to the game
+     * @param user User being added to the game
+     */
     public void enter(User user) {
         final int factionId = userCount++;
         user.setCurrentGameId(this.gameId);
         user.setGamePlayerId(factionId);
 
         try {
-            user.setTokensOnBoard();
+            user.getClientConnection().sendMessage(new InitializePlayerTokenMessage());
         } catch (IOException e) {
             LOGGER.severe("Joining game failed");
         }
@@ -73,6 +85,10 @@ public class Game implements GameMapUpdateListener {
         users[factionId] = user;
     }
 
+    /**
+     * Removes a user from the game
+     * @param user User leaving the game
+     */
     public synchronized void leave(User user) {
         if (user.getCurrentGameId() != this.gameId)
             return;
@@ -119,6 +135,9 @@ public class Game implements GameMapUpdateListener {
         return playerCount;
     }
 
+    /**
+     * Checks if there are any idle players
+     */
     public void cycle() {
         if (ServerEnvironment.getCurrentTimeStamp() > lastGameActionTimestamp + TURN_TIMEOUT) {
             User kickingUser = users[currentMovingFaction];
@@ -130,6 +149,9 @@ public class Game implements GameMapUpdateListener {
         }
     }
 
+    /**
+     * Starts the game.
+     */
     public void start() {
         UserEnteredGameMessage message = new UserEnteredGameMessage();
 
@@ -165,6 +187,10 @@ public class Game implements GameMapUpdateListener {
         }
     }
 
+    /**
+     * Sends a message to all the active players in the game.
+     * @param message Message to send.
+     */
     public void broadcastMessage(Message message) {
         for (int i = 0; i < userCount; i++) {
             if (users[i] != null && users[i].getClientConnection() != null) {

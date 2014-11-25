@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Martin on 21.11.2014.
+ * Message handler for game challenge requests.
  */
 public class ChallengeUserRequestHandler implements MessageHandler {
     public void handle(ChallengeUserRequest request, CommunicationContext context) {

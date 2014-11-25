@@ -161,6 +161,11 @@ public class UserManager {
         return this.activeUsers.containsKey(user.getId());
     }
 
+    /**
+     * Registers a user in the database.
+     * @param user The user to register.
+     * @throws HibernateException Database error.
+     */
     public void registerUser(User user) throws HibernateException {
         Session session = ServerEnvironment.getSessionFactory().openSession();
         Transaction tx = null;
@@ -196,10 +201,20 @@ public class UserManager {
         });
     }
 
+    /**
+     * Cycles the user manager and its internal resources.
+     */
     public void onCycle() {
         this.activeUsers.onCycle();
     }
 
+    /**
+     * Hashes a password according with a salt and SHA-256 algorithm.
+     * @param password Password to hash.
+     * @return Hashed password.
+     * @throws NoSuchAlgorithmException SHA-256 algorithm not available.
+     * @throws UnsupportedEncodingException UTF-8 is not available.
+     */
     public String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         String text = password + ServerEnvironment.getPasswordSalt();
@@ -219,6 +234,10 @@ public class UserManager {
         return new String(hexChars);
     }
 
+    /**
+     * Requests that a user should be sent a list of all the signed on users.
+     * @param requestingUser User that should receive the list.
+     */
     public void requestUserList(final User requestingUser) {
         final ChallengeableUser response = new ChallengeableUser();
         this.activeUsers.requestForeach((userId, user) -> {

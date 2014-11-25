@@ -7,7 +7,7 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 /**
- * Created by Martin on 17.11.2014.
+ * Message handler for requesting a list of online users.
  */
 public class ListChallengeableUserRequestHandler implements MessageHandler {
     public void handle(ListChallengeableUsersRequest request, CommunicationContext context) {

@@ -10,8 +10,7 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 22.11.2014.
- *
+ * Handles requests related to moving tokens on the game map inside a game.
  */
 public class MoveTokenRequestHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(MoveTokenRequestHandler.class.getSimpleName());

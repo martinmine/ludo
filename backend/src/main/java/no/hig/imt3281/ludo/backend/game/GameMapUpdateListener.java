@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.backend.game;
 
 /**
- * Created by marti_000 on 22.11.2014.
+ * Listener for receiving events that happens with the game map.
  */
 public interface GameMapUpdateListener {
     /**

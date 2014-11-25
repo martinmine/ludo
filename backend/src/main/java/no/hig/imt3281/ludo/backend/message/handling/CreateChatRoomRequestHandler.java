@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Martin on 11.11.2014.
+ * Message handler for requests when users wants to make their own chat room.
  */
 public class CreateChatRoomRequestHandler implements MessageHandler {
     private static final Logger LOGGER = Logger.getLogger(CreateChatRoomRequestHandler.class.getSimpleName());
