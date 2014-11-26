@@ -23,7 +23,7 @@ public class Tile {
                 token[numToken++] = t;
             } else {
                 Token temp = token[0];
-                token[numToken-1] = t;
+                token[0] = t;
                 return temp;
             }
         }
@@ -35,9 +35,7 @@ public class Tile {
     }
 
     public Token remove() {
-        System.out.println("Number tokens: " + numToken);
         numToken--;
-        System.out.println("Number tokens after remove " + numToken);
         return token[numToken];
     }
 

@@ -220,6 +220,8 @@ public class GamePanel extends JComponent implements MouseListener {
             // Clicked a tile AND it is token(s) on it:
             if (tt != null  &&  !tt.isEmpty()) {
 
+                System.out.println("clicked " + tt.getPosition());
+                System.out.println("tokenId " + tt.getTokenID());
                 if (tt.getFaction().getIndex() == currentPlayer) {
 
                     MoveTokenRequest request = new MoveTokenRequest();
@@ -303,11 +305,12 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     public void moveToken(int playerId, int tokenId, int target) {
-
+        System.out.println("Target (player) " + target);
         Token token = players[playerId].getToken(tokenId);
         int currentTileIndex = players[playerId].getTokenPosition(tokenId);
         int targetTileIndex = players[playerId].getTileIndex(target);
 
+        System.out.println("Target (map) " + targetTileIndex);
         tiles.get(currentTileIndex).remove();
         token.setPosition(target);
 
@@ -317,12 +320,13 @@ public class GamePanel extends JComponent implements MouseListener {
 
         // Kicking an enemy Token back to base:
         if (backToBase != null) {
+            System.out.println("*** ON CAPTURE ***");
             // Finding the next free home Tile
             int home = getBaseTilePosition(backToBase);
+            System.out.println("enemy home position " + home);
             tiles.get(home).addToken(backToBase);
         }
         repaint();
-
     }
 
     /**
