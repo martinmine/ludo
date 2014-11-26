@@ -16,7 +16,7 @@ public class StartDialog extends JDialog {
     private JLabel feedback;
 
     public StartDialog(JFrame parent) {
-        super(parent, Main.resourceBundle.getString("START_DIALOG_TITLE"), true);
+        super(parent, Main.getResourceBundle().getString("START_DIALOG_TITLE"), true);
 
         ImageIcon logo = new ImageIcon(getClass().getResource("/img/ludo_logo.jpg"));
         JLabel label = new JLabel("", logo, JLabel.CENTER);
@@ -27,8 +27,8 @@ public class StartDialog extends JDialog {
         LoginTab loginTab = new LoginTab();
         RegisterTab registerTab = new RegisterTab();
 
-        tabbedPane.addTab(Main.resourceBundle.getString("LOGIN_TAB"), null, loginTab);
-        tabbedPane.addTab(Main.resourceBundle.getString("REGISTRATION_TAB"), null, registerTab);
+        tabbedPane.addTab(Main.getResourceBundle().getString("LOGIN_TAB"), null, loginTab);
+        tabbedPane.addTab(Main.getResourceBundle().getString("REGISTRATION_TAB"), null, registerTab);
 
         JPanel side = new JPanel();
         feedback = new JLabel();

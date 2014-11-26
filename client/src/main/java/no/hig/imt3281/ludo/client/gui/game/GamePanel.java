@@ -161,7 +161,7 @@ public class GamePanel extends JComponent implements MouseListener {
         tiles.add(new Tile(151, 113, TILE_SIZE));
         tiles.add(new Tile(113, 151, TILE_SIZE));
 
-        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.jpg"));
+        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.png"));
         boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
 

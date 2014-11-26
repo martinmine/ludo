@@ -20,11 +20,11 @@ public class GameStartedMessageHandler implements MessageHandler {
         if (message.getFaction() == Faction.RED.getIndex()) {
             GuiManager.getSideTopPanel()
                       .getFeedbackPanel()
-                      .setText(Main.resourceBundle.getString("PLAYER_TURN"));
+                      .setText(Main.getResourceBundle().getString("PLAYER_TURN"));
         } else {
             GuiManager.getSideTopPanel()
                       .getFeedbackPanel()
-                      .setText(Main.resourceBundle.getString("GAME_WAITING"));
+                      .setText(Main.getResourceBundle().getString("GAME_WAITING"));
         }
 
         GuiManager.getGamePanel().setCurrentPlayerFaction(message.getFaction());

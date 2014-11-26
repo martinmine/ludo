@@ -34,7 +34,7 @@ public class ChallengeUserFrame extends JFrame {
     private Map<Integer, String> usersAdded;
 
     private ChallengeUserFrame() {
-        super(Main.resourceBundle.getString("CHALLENGE_PLAYERS_TITLE"));
+        super(Main.getResourceBundle().getString("CHALLENGE_PLAYERS_TITLE"));
         LOGGER.info("Creating a new challenge user frame");
         this.usersAdded = new HashMap<>();
         setPreferredSize(new Dimension(300, 500));

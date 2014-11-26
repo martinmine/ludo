@@ -4,7 +4,6 @@ import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.ConnectivityNotifier;
 
 import javax.persistence.*;
-import java.io.IOException;
 
 /**
  * User entity manages all user-related data.

@@ -38,7 +38,7 @@ public class FeedbackTextPane extends JTextPane {
         style.addAttribute(StyleConstants.FontSize, new Integer(32));
         style.addAttribute(StyleConstants.FontFamily, "arial");
         style.addAttribute(StyleConstants.Bold, new Boolean(true));
-        setFeedbackString(Main.resourceBundle.getString("FEEDBACK_WELCOME"));
+        setFeedbackString(Main.getResourceBundle().getString("FEEDBACK_WELCOME"));
     }
 
     public void styleByFaction(int faction) {
