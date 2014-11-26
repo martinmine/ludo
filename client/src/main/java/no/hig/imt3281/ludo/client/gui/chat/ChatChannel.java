@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * Abstract class containing general data for a chatchannel
  */
-public abstract class ChatChannel extends JPanel{
+public abstract class ChatChannel extends JPanel {
     private int id;
     private String channelName;
     private int type;

@@ -19,7 +19,7 @@ public class LoginResultHandler implements MessageHandler {
         switch (message.getResultCode()) {
             case LoginResult.OK:
                 GuiManager.getStartDialog().dispose();
-                AudioManager.playSound("airhorn.wav", false);
+                AudioManager.playSound("login.wav", false);
                 GuiManager.setClientRef(new Client());
                 break;
 
