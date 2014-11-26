@@ -12,7 +12,6 @@ public class ChatPanel extends JPanel {
     public ChatPanel() {
         BorderLayout layout = new BorderLayout();
         setMinimumSize(new Dimension(384,440));
-        setBackground(Color.RED);
         setLayout(layout);
 
         tabbedChatContainer = new TabbedChatContainer();
