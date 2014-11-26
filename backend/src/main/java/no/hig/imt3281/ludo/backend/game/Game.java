@@ -305,4 +305,14 @@ public class Game implements GameMapUpdateListener {
 
         destroy();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void playerKickedBackToBase(int factionId, int tokenId) {
+        PlayerKickedBackToBaseMessage message = new PlayerKickedBackToBaseMessage();
+        message.setFaction(factionId);
+        message.setTokenId(tokenId);
+        broadcastMessage(message);
+    }
 }

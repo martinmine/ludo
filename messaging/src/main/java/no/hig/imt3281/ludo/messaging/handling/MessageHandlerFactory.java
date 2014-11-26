@@ -25,7 +25,6 @@ public class MessageHandlerFactory {
         return handlerMap.get(concreteType);
     }
 
-
     public void invokeMessage(Message message, CommunicationContext context)
             throws MissingMessageHandlerException, InvalidMessageHandlerException, InvocationTargetException {
         try {
@@ -47,10 +46,8 @@ public class MessageHandlerFactory {
             }
         } catch (ClassNotFoundException ex) {
             throw new MissingMessageHandlerException("Missing handler for message " + message.getClass().getTypeName(), ex);
-
         } catch (NoSuchMethodException | IllegalAccessException ex) {
             throw new InvalidMessageHandlerException("Invalid signature for handler for " + message.getClass().getTypeName(), ex);
         }
-
     }
 }

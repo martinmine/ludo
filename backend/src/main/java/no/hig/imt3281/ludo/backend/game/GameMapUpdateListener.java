@@ -18,4 +18,11 @@ public interface GameMapUpdateListener {
      * @param triggeringFaction The id of the faction that wins. Can be -1 if no faction wins.
      */
     public void gameOver(final int triggeringFaction);
+
+    /**
+     * Callback once a player is kicked back to the home base.
+     * @param factionId Id of the faction being kicked.
+     * @param tokenId Id of the player's token being kicked.
+     */
+    public void playerKickedBackToBase(int factionId, int tokenId);
 }
