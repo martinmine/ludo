@@ -28,7 +28,7 @@ public class ChallengeUserPanel extends JPanel {
         this.challengeableUsersList = new ChallengeList();
         this.challengeableUsersList.getSelectedIndices();
         this.scrollPane = new JScrollPane(challengeableUsersList);
-        this.challengeButton = new JButton(Main.resourceBundle.getString("GAME_CHALLENGE_SELECTED_PLAYERS_BUTTON"));
+        this.challengeButton = new JButton(Main.getResourceBundle().getString("GAME_CHALLENGE_SELECTED_PLAYERS_BUTTON"));
 
 
         challengeButton.addActionListener( e -> {

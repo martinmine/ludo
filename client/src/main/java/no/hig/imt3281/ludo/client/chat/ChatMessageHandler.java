@@ -29,6 +29,8 @@ public class ChatMessageHandler {
      * Nested class singetonholder
      */
     private static class SingletonHolder {
+        private SingletonHolder() {
+        }
         private static final ChatMessageHandler INSTANCE = new ChatMessageHandler();
     }
 

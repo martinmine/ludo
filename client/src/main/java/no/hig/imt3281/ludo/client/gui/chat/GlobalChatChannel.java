@@ -15,8 +15,8 @@ public class GlobalChatChannel extends ChatChannel {
      * Creates a GlobalChatChennel
      */
     public GlobalChatChannel() {
-        super(GlobalChatChannelId, Main.resourceBundle.getString("GLOBAL_CHAT_CHANNEL"),
-                Main.resourceBundle.getString("GLOBAL_CHAT_CHANNEL_WELCOME_MSG"),
+        super(GlobalChatChannelId, Main.getResourceBundle().getString("GLOBAL_CHAT_CHANNEL"),
+                Main.getResourceBundle().getString("GLOBAL_CHAT_CHANNEL_WELCOME_MSG"),
                 "/img/world20.gif", ChatMessageHandler.GLOBAL_CHAT);
         GuiManager.getChatPanel().joinNewChatroom(this);
     }

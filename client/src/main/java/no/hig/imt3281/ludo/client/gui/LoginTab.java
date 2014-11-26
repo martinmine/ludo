@@ -25,7 +25,7 @@ public class LoginTab extends JPanel {
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
 
-        usernameLabel = new JLabel(Main.resourceBundle.getString("LOGIN_USERNAME_LABEL"));
+        usernameLabel = new JLabel(Main.getResourceBundle().getString("LOGIN_USERNAME_LABEL"));
         cs.gridx = 0;
         cs.gridy = 0;
         cs.gridwidth = 1;
@@ -37,7 +37,7 @@ public class LoginTab extends JPanel {
         cs.gridwidth = 2;
         add(usernameField, cs);
 
-        passwordLabel = new JLabel(Main.resourceBundle.getString("LOGIN_PASSWORD_LABEL"));
+        passwordLabel = new JLabel(Main.getResourceBundle().getString("LOGIN_PASSWORD_LABEL"));
         cs.gridx = 0;
         cs.gridy = 2;
         cs.gridwidth = 1;
@@ -49,7 +49,7 @@ public class LoginTab extends JPanel {
         cs.gridwidth = 2;
         add(passwordField, cs);
 
-        loginBtn = new JButton(Main.resourceBundle.getString("LOGIN_BUTTON_LOGIN"));
+        loginBtn = new JButton(Main.getResourceBundle().getString("LOGIN_BUTTON_LOGIN"));
         loginBtn.addActionListener(e -> {
             LoginRequest request = new LoginRequest();
             request.setUsername(getUsername());
@@ -60,7 +60,7 @@ public class LoginTab extends JPanel {
             } catch (IOException readException) {
                 Main.getServerConnection().close(readException);
                 JOptionPane.showMessageDialog(
-                        GuiManager.getStartDialog(), Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER")
+                        GuiManager.getStartDialog(), Main.getResourceBundle().getString("COULD_NOT_CONNECT_TO_SERVER")
                 );
             }
         });

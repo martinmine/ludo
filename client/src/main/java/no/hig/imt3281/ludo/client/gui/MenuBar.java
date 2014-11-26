@@ -22,28 +22,28 @@ public class MenuBar extends JMenuBar {
      * Create a new instance of the menu bar
      */
     public MenuBar() {
-        JMenu fileMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_FILE"));
+        JMenu fileMenu = new JMenu(Main.getResourceBundle().getString("MENUBAR_TITLE_NAME_FILE"));
         fileMenu.setMnemonic("F".charAt(0));
 
-        JMenu chatMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_CHAT"));
+        JMenu chatMenu = new JMenu(Main.getResourceBundle().getString("MENUBAR_TITLE_NAME_CHAT"));
         chatMenu.setMnemonic("C".charAt(0));
 
-        JMenu gameMenu = new JMenu(Main.resourceBundle.getString("MENUBAR_TITLE_NAME_GAME"));
+        JMenu gameMenu = new JMenu(Main.getResourceBundle().getString("MENUBAR_TITLE_NAME_GAME"));
         gameMenu.setMnemonic("G".charAt(0));
 
-        JMenuItem quitGame = new JMenuItem(Main.resourceBundle.getString("MENUBAR_QUIT_GAME"));
+        JMenuItem quitGame = new JMenuItem(Main.getResourceBundle().getString("MENUBAR_QUIT_GAME"));
         fileMenu.add(quitGame);
         quitGame.addActionListener(e -> GuiManager.exit());
 
-        JMenuItem newChatroom = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_CHATROOM"));
+        JMenuItem newChatroom = new JMenuItem(Main.getResourceBundle().getString("MENUBAR_JOIN_CHATROOM"));
         chatMenu.add(newChatroom);
         newChatroom.addActionListener(e -> {
             String dialogResult = JOptionPane.showInputDialog
-                    (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_INPUT_MSG"));
+                    (Main.getResourceBundle().getString("MENUBAR_CHATROOM_TITLE_INPUT_MSG"));
 
             while (dialogResult.isEmpty()) {
                 dialogResult = JOptionPane.showInputDialog
-                        (Main.resourceBundle.getString("MENUBAR_CHATROOM_TITLE_NEW_INPUT_MSG"));
+                        (Main.getResourceBundle().getString("MENUBAR_CHATROOM_TITLE_NEW_INPUT_MSG"));
             }
 
             CreateChatRoomRequest request = new CreateChatRoomRequest();
@@ -56,7 +56,7 @@ public class MenuBar extends JMenuBar {
             }
         });
 
-        JMenuItem challengePlayers = new JMenuItem(Main.resourceBundle.getString("MENUBAR_CHALLENGE_USERS"));
+        JMenuItem challengePlayers = new JMenuItem(Main.getResourceBundle().getString("MENUBAR_CHALLENGE_USERS"));
         gameMenu.add(challengePlayers);
         challengePlayers.addActionListener(e -> {
             ChallengeUserFrame listFrame = ChallengeUserFrame.getInstance();
@@ -65,12 +65,12 @@ public class MenuBar extends JMenuBar {
             try {
                 Main.getServerConnection().sendMessage(new ListChallengeableUsersRequest());
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null,Main.resourceBundle.getString("COULD_NOT_CONNECT_TO_SERVER"));
+                JOptionPane.showMessageDialog(null,Main.getResourceBundle().getString("COULD_NOT_CONNECT_TO_SERVER"));
                 Main.getServerConnection().close(ex);
             }
         });
 
-        JMenuItem joinRandomGame = new JMenuItem(Main.resourceBundle.getString("MENUBAR_JOIN_RANDOM_GAME"));
+        JMenuItem joinRandomGame = new JMenuItem(Main.getResourceBundle().getString("MENUBAR_JOIN_RANDOM_GAME"));
         gameMenu.add(joinRandomGame);
         joinRandomGame.addActionListener(e -> {
             GuiManager.getGamePanel().setLoading(true);

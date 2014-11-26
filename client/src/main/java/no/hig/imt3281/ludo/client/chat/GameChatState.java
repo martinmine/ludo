@@ -14,9 +14,6 @@ import java.util.logging.Logger;
  * Handles outgoing GameChatMessages
  */
 public class GameChatState implements ChatState {
-
-    private static final Logger LOGGER = Logger.getLogger(GameChatState.class.getSimpleName());
-
     /**
      * Generates a GameChatMessage and sends it to server
      *

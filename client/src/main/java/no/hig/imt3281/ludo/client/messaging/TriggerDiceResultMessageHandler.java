@@ -17,7 +17,7 @@ public class TriggerDiceResultMessageHandler implements MessageHandler {
         GuiManager.getSideTopPanel().getDicePanel().setValue(value);
 
         if (result.getCurrentMovingFaction() == GuiManager.getGamePanel().getCurrentPlayer()) {
-            GuiManager.getSideTopPanel().getFeedbackPanel().setText(Main.resourceBundle.getString("PLAYER_CLICK_TOKEN"));
+            GuiManager.getSideTopPanel().getFeedbackPanel().setText(Main.getResourceBundle().getString("PLAYER_CLICK_TOKEN"));
         }
     }
 }

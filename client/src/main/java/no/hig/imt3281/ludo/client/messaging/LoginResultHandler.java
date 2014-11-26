@@ -24,17 +24,17 @@ public class LoginResultHandler implements MessageHandler {
                 break;
 
             case LoginResult.INVALID_CREDENTIALS:
-                GuiManager.getStartDialog().setFeedback(Main.resourceBundle.getString("LOGIN_FEEDBACK_INVALID"));
+                GuiManager.getStartDialog().setFeedback(Main.getResourceBundle().getString("LOGIN_FEEDBACK_INVALID"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
-                        Main.resourceBundle.getString("LOGIN_FAILED_TO_AUTHENTICATE"));
+                        Main.getResourceBundle().getString("LOGIN_FAILED_TO_AUTHENTICATE"));
                 break;
 
             case LoginResult.SERVER_ERROR:
-                GuiManager.getStartDialog().setFeedback(Main.resourceBundle.getString("LOGIN_FEEDBACK_ERROR"));
+                GuiManager.getStartDialog().setFeedback(Main.getResourceBundle().getString("LOGIN_FEEDBACK_ERROR"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
-                        Main.resourceBundle.getString("LOGIN_SERVER_FAILURE"));
+                        Main.getResourceBundle().getString("LOGIN_SERVER_FAILURE"));
                 break;
         }
     }
