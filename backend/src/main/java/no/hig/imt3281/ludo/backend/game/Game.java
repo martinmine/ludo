@@ -90,8 +90,9 @@ public class Game implements GameMapUpdateListener {
      * @param user User leaving the game
      */
     public synchronized void leave(User user) {
-        if (user.getCurrentGameId() != this.gameId)
+        if (user.getCurrentGameId() != this.gameId) {
             return;
+        }
 
         int faction = user.getGameFactionId();
 

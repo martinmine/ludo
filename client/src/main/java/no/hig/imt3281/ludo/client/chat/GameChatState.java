@@ -31,8 +31,7 @@ public class GameChatState implements ChatState {
             gameChatMessage.setGameId(channelId);
             Main.getServerConnection().sendMessage(gameChatMessage);
         } catch (IOException e) {
-            LOGGER.severe("Failed to broadcast game chat message");
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            Main.getServerConnection().close(e);
         }
     }
 }

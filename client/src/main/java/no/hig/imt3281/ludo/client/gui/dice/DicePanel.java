@@ -57,9 +57,7 @@ public class DicePanel extends JComponent implements MouseListener {
         try {
             Main.getServerConnection().sendMessage(request);
         } catch (IOException ex) {
-            LOGGER.severe("Trigger Dice Request failed");
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            // TODO: make gui close and notify the user the the connection was closed
+            Main.getServerConnection().close(ex);
         }
     }
 

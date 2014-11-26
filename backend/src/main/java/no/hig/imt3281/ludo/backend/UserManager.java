@@ -150,7 +150,6 @@ public class UserManager {
                 currentUserGame.leave(user);
             }
         }
-        // TODO: Notify active games, chats, etc.
     }
 
     /**

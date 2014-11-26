@@ -25,7 +25,7 @@ public class AudioManager {
                 clip.start();
 
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, e.getMessage());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
 
     }
@@ -33,7 +33,7 @@ public class AudioManager {
         try {
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 }

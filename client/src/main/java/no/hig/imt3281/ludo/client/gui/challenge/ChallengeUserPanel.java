@@ -41,8 +41,8 @@ public class ChallengeUserPanel extends JPanel {
                Main.getServerConnection().sendMessage(request);
                JFrame mainFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
                mainFrame.dispose();
-           } catch (IOException e1) {
-               LOGGER.log(Level.SEVERE, e1.getMessage(), e1);
+           } catch (IOException ex) {
+               Main.getServerConnection().close(ex);
            }
         });
 
