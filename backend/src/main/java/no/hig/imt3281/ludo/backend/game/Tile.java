@@ -31,7 +31,7 @@ public class Tile {
     }
 
     public boolean isBlocked(int faction) {
-        return (numToken != 0  && token[0].getFaction() != faction  &&  numToken > 1);
+        return (numToken > 1  && token[0].getFaction() != faction);
     }
 
     public Token remove() {

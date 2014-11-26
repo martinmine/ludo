@@ -21,7 +21,7 @@ public class Player {
         token = new Token[MAX_TOKENS];
 
         for (int i=0; i<MAX_TOKENS; i++) {
-            token[i] = new Token(faction, i);
+            token[i] = new Token(faction, i, i);
         }
     }
 

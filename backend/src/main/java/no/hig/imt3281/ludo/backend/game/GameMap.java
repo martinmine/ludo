@@ -56,47 +56,31 @@ public class GameMap {
      * @return int the position of the block.
      */
     public int isBlocked(int factionId, int currentPosition, int target) {
+
         int firstFinishTileIndex = player[factionId].getStartOfFinishTileIndex();
-        int lastTileIndex = target + 1;
-        System.out.println("loop condition " + lastTileIndex);
-
-        // No point looking for blockades on finish tiles:
-        if (currentPosition >= firstFinishTileIndex) {
-            return 0;
-        }
-
-        int blocked = 0;
-        for (int i=(currentPosition+1); i<(target+1); i++) {
-            System.out.println("block check index: " + i);
-            if (tile[i].isBlocked(factionId)) {
-                System.out.println("blocked!");
-                blocked = i;
-                break;
-            }
-        }
-
-        System.out.println("block " + blocked);
-        return blocked;
-        /*
+        int numberOfTilesToCheck = target - currentPosition;
         boolean blocked = false;
-        int i = 0;
+        int index = 0;
 
-        System.out.println("from " + currentPosition + " -> " + target);
-        while (!blocked  &&  ++i < lastTileIndex) {
-            System.out.println("index (map): " + (currentPosition + i));
+        System.out.println("Tiles between #" + numberOfTilesToCheck);
 
-            blocked = tile[currentPosition + i].isBlocked(factionId);
-        }
-        */
-
-        /*
-        System.out.println("blockade on " + i + " from " + currentPosition);
-        if (i == lastTileIndex) {
+        // No point looking for blockades on finish tiles OR when getting them out of the base:
+        if ((currentPosition + 1) > firstFinishTileIndex  ||  currentPosition < 4) {
             return 0;
         }
 
-        return currentPosition + i;
-        */
+        // Get first Blockade:
+        while (!blocked  &&  ++index < numberOfTilesToCheck) {
+            int mapPosition = currentPosition + index;
+            blocked = tile[mapPosition].isBlocked(factionId);
+            System.out.println("Block " + blocked + " " + (currentPosition + index));
+        }
+
+        if (index == numberOfTilesToCheck) {
+            return 0;
+        }
+
+        return currentPosition + index;
     }
 
     /**
@@ -109,7 +93,7 @@ public class GameMap {
      */
     public int getTargetTileIndex(final int factionId, int currentPosition, final int dice) {
         int target = currentPosition;
-        System.out.println("Current position (player): " + currentPosition);
+
         if (currentPosition < 4) {
             if (dice > 0) {
                 target = 4;
@@ -118,9 +102,9 @@ public class GameMap {
             target += dice;
         }
 
-        System.out.println("Target (player) " + target);
-
+        System.out.println("Moving token from (player) " + currentPosition + " -> " + target);
         // Moves the token right behind the blockade.
+
         /*
         int blockade = isBlocked(factionId, currentPosition, target);
         System.out.println("blockade on " + blockade);
@@ -156,35 +140,34 @@ public class GameMap {
 
         if (currentToken.getPosition() != target) {
 
-            System.out.println("Removing from (map) " + currentMapPosition);
-            System.out.println("Tile size before remove " + tile[currentMapPosition].getBlockSize());
             Token move = tile[currentMapPosition].remove();
-
             move.setPosition(target);
-            System.out.println("New mapPosition for token is " + move.getPosition());
 
             Token backToBase = tile[targetMapPosition].addToken(move);
 
             if (backToBase != null) {
-                System.out.println("**ON CAPTURE**");
+                System.out.println("*** ON CAPTURE ***");
+
                 int enemyFactionId = backToBase.getFaction();
-                System.out.println("I'm the enemy " + enemyFactionId);
-                int enemyHomePosition = getBaseTilePosition(enemyFactionId);
-                System.out.println("Enemy's homePosition: " + enemyHomePosition);
+                int enemyHomePosition = getEmptyBasePosition(enemyFactionId);
 
                 int homeMapPosition = player[enemyFactionId].getTileIndex(enemyHomePosition);
                 backToBase.setPosition(enemyHomePosition);
-                System.out.println("New mapPosition for token: " + homeMapPosition);
+
                 tile[homeMapPosition].addToken(backToBase);
+                System.out.println("Adding token to " + homeMapPosition + " (" + enemyHomePosition + ")");
+
+                System.out.println("Captured tokenId " + backToBase.getTokenId());
+                this.listener.playerKickedBackToBase(enemyFactionId, backToBase.getTokenId());
             }
         }
         this.listener.tokenUpdated(factionId, tokenId, target);
     }
 
-    public int getBaseTilePosition(int factionId) {
+
+    public int getEmptyBasePosition(int factionId) {
         for (int i=0; i<MAX_TOKENS; i++) {
             int basePosition = player[factionId].getTileIndex(i);
-            System.out.println("check tileIndex: " + basePosition);
             if (tile[basePosition].isEmpty()) {
                 return i;
             }
