@@ -24,7 +24,6 @@ public class Main {
     public static void main(String[] args) {
         LOGGER.info("Connecting");
 
-
         try {
             serverConnection = new ServerConnection("localhost", 9494); // "localhost", 9494
         } catch (IOException e) {

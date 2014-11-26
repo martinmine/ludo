@@ -17,28 +17,25 @@ import java.awt.*;
 public class LoginResultHandler implements MessageHandler {
     public void handle(LoginResult message, CommunicationContext context) {
         switch (message.getResultCode()) {
-            case LoginResult.OK: {
+            case LoginResult.OK:
                 GuiManager.getStartDialog().dispose();
-                AudioManager.playSound("airhorn.wav", false);
+                AudioManager.playSound("login.wav", false);
                 GuiManager.setClientRef(new Client());
                 break;
-            }
-            case LoginResult.INVALID_CREDENTIALS: {
+
+            case LoginResult.INVALID_CREDENTIALS:
                 GuiManager.getStartDialog().setFeedback(Main.resourceBundle.getString("LOGIN_FEEDBACK_INVALID"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
-                        Main.resourceBundle.getString("LOGIN_FAILED_TO_AUTHENTICATE")
-                );
+                        Main.resourceBundle.getString("LOGIN_FAILED_TO_AUTHENTICATE"));
                 break;
-            }
-            case LoginResult.SERVER_ERROR: {
+
+            case LoginResult.SERVER_ERROR:
                 GuiManager.getStartDialog().setFeedback(Main.resourceBundle.getString("LOGIN_FEEDBACK_ERROR"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
-                        Main.resourceBundle.getString("LOGIN_SERVER_FAILURE"
-                ));
+                        Main.resourceBundle.getString("LOGIN_SERVER_FAILURE"));
                 break;
-            }
         }
     }
 }

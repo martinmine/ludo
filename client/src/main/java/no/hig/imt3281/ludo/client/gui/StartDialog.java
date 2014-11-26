@@ -3,7 +3,6 @@ package no.hig.imt3281.ludo.client.gui;
 import no.hig.imt3281.ludo.client.Main;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -25,8 +24,8 @@ public class StartDialog extends JDialog {
         panel.add(label);
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        LoginTab loginTab = new LoginTab(parent, this);
-        RegisterTab registerTab = new RegisterTab(parent, this);
+        LoginTab loginTab = new LoginTab();
+        RegisterTab registerTab = new RegisterTab();
 
         tabbedPane.addTab(Main.resourceBundle.getString("LOGIN_TAB"), null, loginTab);
         tabbedPane.addTab(Main.resourceBundle.getString("REGISTRATION_TAB"), null, registerTab);

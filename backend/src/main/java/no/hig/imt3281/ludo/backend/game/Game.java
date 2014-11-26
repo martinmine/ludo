@@ -90,8 +90,9 @@ public class Game implements GameMapUpdateListener {
      * @param user User leaving the game
      */
     public synchronized void leave(User user) {
-        if (user.getCurrentGameId() != this.gameId)
+        if (user.getCurrentGameId() != this.gameId) {
             return;
+        }
 
         int faction = user.getGameFactionId();
 
@@ -303,5 +304,15 @@ public class Game implements GameMapUpdateListener {
         }
 
         destroy();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void playerKickedBackToBase(int factionId, int tokenId) {
+        PlayerKickedBackToBaseMessage message = new PlayerKickedBackToBaseMessage();
+        message.setFaction(factionId);
+        message.setTokenId(tokenId);
+        broadcastMessage(message);
     }
 }

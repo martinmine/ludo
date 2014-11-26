@@ -229,8 +229,8 @@ public class GamePanel extends JComponent implements MouseListener {
 
                     try {
                         Main.getServerConnection().sendMessage(request);
-                    } catch (IOException e1) {
-                        LOGGER.severe("Error " + e1.getMessage());
+                    } catch (IOException ex) {
+                        Main.getServerConnection().close(ex);
                     }
                 }
             }

@@ -29,8 +29,7 @@ public class GroupChatState implements ChatState {
             groupChatMessage.setChannelId(channelId);
             Main.getServerConnection().sendMessage(groupChatMessage);
         } catch (IOException e) {
-            LOGGER.severe("Failed to broadcast message");
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            Main.getServerConnection().close(e);
         }
     }
 }

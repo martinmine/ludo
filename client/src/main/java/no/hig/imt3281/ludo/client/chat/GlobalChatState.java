@@ -28,8 +28,7 @@ public class GlobalChatState implements ChatState {
             globalChatMessage.setMessage(message);
             Main.getServerConnection().sendMessage(globalChatMessage);
         } catch (IOException e) {
-            LOGGER.severe("Failed to broadcast message");
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            Main.getServerConnection().close(e);
         }
     }
 }

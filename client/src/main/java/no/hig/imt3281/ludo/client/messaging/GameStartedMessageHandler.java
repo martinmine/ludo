@@ -27,7 +27,6 @@ public class GameStartedMessageHandler implements MessageHandler {
                       .setText(Main.resourceBundle.getString("GAME_WAITING"));
         }
 
-        GuiManager.getSideTopPanel().getFeedbackPanel().setText("");
         GuiManager.getGamePanel().setCurrentPlayerFaction(message.getFaction());
         System.out.println("Your color is: " + message.getFaction());
         AudioManager.playSound("start_game.wav", true);

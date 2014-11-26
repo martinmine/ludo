@@ -38,7 +38,7 @@ public class GameChallengeMessageHandler implements MessageHandler {
         try {
             Main.getServerConnection().sendMessage(response);
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            Main.getServerConnection().close(e);
         }
     }
 }

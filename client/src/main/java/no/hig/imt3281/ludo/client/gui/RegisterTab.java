@@ -1,14 +1,12 @@
 package no.hig.imt3281.ludo.client.gui;
 
 import no.hig.imt3281.ludo.client.Main;
-import no.hig.imt3281.ludo.client.networking.ServerConnection;
 import no.hig.imt3281.ludo.messaging.RegistrationRequest;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -27,7 +25,7 @@ public class RegisterTab extends JPanel {
     private JLabel passwordLabel2;
     private JButton registerBtn;
 
-    public RegisterTab(Frame parent, StartDialog dialog) {
+    public RegisterTab() {
         setLayout(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
@@ -90,8 +88,7 @@ public class RegisterTab extends JPanel {
             try {
                 Main.getServerConnection().sendMessage(request);
             } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-                //TODO: Show error message
+                Main.getServerConnection().close(ex);
             }
         });
 
