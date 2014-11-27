@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class Player {
 
-    public final static int MAX_TOKENS = 4;
+    public static final int MAX_TOKENS = 4;
 
     private int faction;
     private List<Integer> tiles;
-    private Token token[];
+    private Token[] token;
 
     /**
      * Setting up the player.
@@ -148,7 +148,7 @@ public class Player {
     /**
      * Removing all tokens when leaving the game.
      */
-    public void leave(Tile map[]) {
+    public void leave(Tile[] map) {
         Arrays.stream(token).forEach(t -> map[t.getPosition()].clear());
     }
 

@@ -94,7 +94,7 @@ public class Tile {
      */
     public void clear() {
         Arrays.stream(token).map(tt -> null);
-        
+
         numToken = 0;
     }
 
