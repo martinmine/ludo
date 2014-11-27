@@ -2,14 +2,10 @@ package no.hig.imt3281.ludo.client.chat;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.GlobalChatMessage;
-
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * State for ChatMessageHandler
- *
  * Handles outgoing GlobalChatMessages
  */
 public class GlobalChatState implements ChatState {
