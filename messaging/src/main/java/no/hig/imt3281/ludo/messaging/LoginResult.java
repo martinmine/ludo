@@ -9,6 +9,7 @@ public class LoginResult extends Message {
     public static final int OK = 1;
 
     private int resultCode;
+    private int userId;
 
     public int getResultCode() {
         return resultCode;
@@ -16,5 +17,13 @@ public class LoginResult extends Message {
 
     public void setResultCode(int resultCode) {
         this.resultCode = resultCode;
+    }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int id) {
+        this.userId = id;
     }
 }

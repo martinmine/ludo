@@ -10,7 +10,7 @@ public class ChallengeList extends JList<ChallengeableUserComponent> {
     public DefaultListModel<ChallengeableUserComponent> model;
 
     /**
-     * Creates new ChallegeList
+     * Creates new ChallengeList
      */
     public ChallengeList() {
         this.model = new DefaultListModel();
