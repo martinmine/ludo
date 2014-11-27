@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 
 public class PlayerTest {
 
-    public static final int FIRST_BASE_TILE = 0;
-    public static final int SECOND_BASE_TILE = 1;
-    public static final int GOAL_TILE = 62;
-    public static final int FIRST_TOKEN = 0;
-    public static final int SECOND_TOKEN = 1;
+    private static final int FIRST_BASE_TILE = 0;
+    private static final int SECOND_BASE_TILE = 1;
+    private static final int GOAL_TILE = 62;
+    private static final int FIRST_TOKEN = 0;
+    private static final int SECOND_TOKEN = 1;
     private Player redPlayer;
     private Player bluePlayer;
 

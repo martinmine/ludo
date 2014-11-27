@@ -3,7 +3,7 @@ package no.hig.imt3281.ludo.backend.test;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.backend.UserManager;
-import org.junit.Before;
+import org.hibernate.HibernateException;
 import org.junit.Test;
 
 import java.util.Random;
@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests core functionality in the user manager
+ */
 public class UserManagerTest {
     private static final Logger LOGGER = Logger.getLogger(UserManagerTest.class.getSimpleName());
     private static UserManager userManager;
@@ -37,7 +40,12 @@ public class UserManagerTest {
     @Test
     public void testGetUserByUsername() {
         User user = new User("test", "test@example.com");
-        getUserManager().registerUser(user);
+        try {
+            getUserManager().registerUser(user);
+        } catch (HibernateException ex) {
+            LOGGER.info("User test already exists:");
+            LOGGER.log(Level.INFO, ex.getMessage(), ex);
+        }
 
         user = getUserManager().getUser("test");
         assertNotNull(user);
