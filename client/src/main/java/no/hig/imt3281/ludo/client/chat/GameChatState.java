@@ -10,6 +10,8 @@ import java.io.IOException;
  * Handles outgoing GameChatMessages
  */
 public class GameChatState implements ChatState {
+    private int type = ChatMessageHandler.GAME_CHAT;
+
     /**
      * Generates a GameChatMessage and sends it to server
      *
@@ -27,4 +29,11 @@ public class GameChatState implements ChatState {
             Main.getServerConnection().close(e);
         }
     }
+
+    @Override
+    public int getStateType() {
+        return type;
+    }
+
+
 }

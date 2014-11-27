@@ -6,4 +6,5 @@ package no.hig.imt3281.ludo.client.chat;
  */
 public interface ChatState {
     void broadcastMessage(int channelId, String message);
+    int getStateType();
 }

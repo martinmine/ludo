@@ -9,6 +9,8 @@ import java.io.IOException;
  * Handles outgoing GlobalChatMessages
  */
 public class GlobalChatState implements ChatState {
+    private int type = ChatMessageHandler.GLOBAL_CHAT;
+
     /**
      * Creates and sends a global chat message to the server
      * @param channelId will be a const value for globalchat
@@ -23,5 +25,10 @@ public class GlobalChatState implements ChatState {
         } catch (IOException e) {
             Main.getServerConnection().close(e);
         }
+    }
+
+    @Override
+    public int getStateType() {
+        return type;
     }
 }
