@@ -13,9 +13,6 @@ import java.util.logging.Logger;
  * Handles outgoing GlobalChatMessages
  */
 public class GlobalChatState implements ChatState {
-
-    private static final Logger LOGGER = Logger.getLogger(GlobalChatState.class.getName());
-
     /**
      * Creates and sends a global chat message to the server
      * @param channelId will be a const value for globalchat

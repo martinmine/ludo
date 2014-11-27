@@ -10,12 +10,12 @@ public class TileTest {
     public static final int BLUE = 1;
     private Tile tester = new Tile();
 
-    Token red0 = new Token(RED, 0);
-    Token red1 = new Token(RED, 1);
-    Token red2 = new Token(RED, 2);
-    Token red3 = new Token(RED, 3);
+    Token red0 = new Token(RED, 0, 0);
+    Token red1 = new Token(RED, 1, 1);
+    Token red2 = new Token(RED, 2, 2);
+    Token red3 = new Token(RED, 3, 3);
 
-    Token blue0 = new Token(BLUE, 0);
+    Token blue0 = new Token(BLUE, 0, 0);
 
     @Test
     public void testAddToken() throws Exception {

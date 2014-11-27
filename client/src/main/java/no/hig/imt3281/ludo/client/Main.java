@@ -11,26 +11,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Joakim on 27.10.2014.
- *
+ * Main entry for the client, also works as a singleton-holder for vital parts of the application.
  */
 public class Main {
     public static final String LANG_PATH = "i18n.strings";
-    public static ResourceBundle resourceBundle;
+    private static ResourceBundle resourceBundle;
     private static ServerConnection serverConnection;
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
+    private Main() {
+    }
 
     public static void main(String[] args) {
         LOGGER.info("Connecting");
 
         try {
-            serverConnection = new ServerConnection("localhost", 9494); // "localhost", 9494
+            serverConnection = new ServerConnection("localhost", 9494);
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             GuiManager.exit();
         }
+
         LOGGER.info("Connected");
         setUserPreferences();
         GuiManager.initializeLogin(null);
@@ -38,6 +41,10 @@ public class Main {
 
     public static ServerConnection getServerConnection() {
         return serverConnection;
+    }
+
+    public static ResourceBundle getResourceBundle() {
+        return resourceBundle;
     }
 
     public static void setUserPreferences() {
@@ -58,7 +65,6 @@ public class Main {
             try {
                 currentLocale = new Locale(languageCode);
                 resourceBundle = ResourceBundle.getBundle(LANG_PATH, currentLocale);
-                System.out.println(currentLocale.toString());
             } catch(Exception e) {
                 LOGGER.log(Level.FINE, e.getMessage(), e);
                 resourceBundle = ResourceBundle.getBundle(LANG_PATH);

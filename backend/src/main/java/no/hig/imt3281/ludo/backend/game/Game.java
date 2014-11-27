@@ -6,6 +6,7 @@ import no.hig.imt3281.ludo.messaging.*;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -72,16 +73,15 @@ public class Game implements GameMapUpdateListener {
      * @param user User being added to the game
      */
     public void enter(User user) {
-        final int factionId = userCount++;
-        user.setCurrentGameId(this.gameId);
-        user.setGamePlayerId(factionId);
-
         try {
             user.getClientConnection().sendMessage(new InitializePlayerTokenMessage());
         } catch (IOException e) {
-            LOGGER.severe("Joining game failed");
+            user.getClientConnection().close(e);
         }
 
+        final int factionId = userCount++;
+        user.setCurrentGameId(this.gameId);
+        user.setGamePlayerId(factionId);
         users[factionId] = user;
     }
 

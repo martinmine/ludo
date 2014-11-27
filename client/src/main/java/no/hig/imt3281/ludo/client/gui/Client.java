@@ -17,7 +17,7 @@ public class Client extends JFrame {
      * Creates a new instance of Client
      */
     public Client() {
-        super(Main.resourceBundle.getString("NAME_OF_THE_GAME"));
+        super(Main.getResourceBundle().getString("NAME_OF_THE_GAME"));
 
         GuiManager.initializeClient();
         ChatRooms.getInstance();

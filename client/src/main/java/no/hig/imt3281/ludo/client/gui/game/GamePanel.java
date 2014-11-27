@@ -2,7 +2,6 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -158,7 +157,7 @@ public class GamePanel extends JComponent implements MouseListener {
         tiles.add(new Tile(151, 113, TILE_SIZE));
         tiles.add(new Tile(113, 151, TILE_SIZE));
 
-        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.jpg"));
+        ImageIcon tempBoard = new ImageIcon(getClass().getResource("/img/board.png"));
         boardSize = new Dimension(600, 590);
         board = tempBoard.getImage();
 
@@ -234,18 +233,6 @@ public class GamePanel extends JComponent implements MouseListener {
         }
     }
 
-    private int getBaseTilePosition(Token token) {
-        for (int i=0; i<4; i++) {
-
-            int basePosition = players[token.getFaction().getIndex()].getTileIndex(i);
-
-            if (tiles.get(basePosition).isEmpty()) {
-                return basePosition;
-            }
-        }
-        return -1;
-    }
-
     public int getCurrentPlayer() {
         return this.currentPlayer;
     }
@@ -274,6 +261,10 @@ public class GamePanel extends JComponent implements MouseListener {
         isLoading = load;
     }
 
+    /**
+     * Setting up board when players enter the game
+     * @param faction int The color of the player joined.
+     */
     public void joinTable(int faction) {
         LOGGER.info("User with faction " + faction + " entered the game");
 
@@ -301,27 +292,27 @@ public class GamePanel extends JComponent implements MouseListener {
         }
     }
 
+    /**
+     * Moving a token from tile to tile.
+     * @param playerId int To get tokens current position.
+     * @param tokenId int To get correct Token from player.
+     * @param target int Destination for where to move the Token.
+     */
     public void moveToken(int playerId, int tokenId, int target) {
+        System.out.println("------ START MAKE TURN ------ ");
+        Token currentToken = players[playerId].getToken(tokenId);
+        int currentPosition = players[playerId].getTokenPosition(tokenId);
+        int targetPosition = players[playerId].getTileIndex(target);
+        System.out.println("Moving token from " + currentPosition + " -> " + targetPosition);
 
-        Token token = players[playerId].getToken(tokenId);
-        int currentTileIndex = players[playerId].getTokenPosition(tokenId);
-        int targetTileIndex = players[playerId].getTileIndex(target);
+        if (currentToken.getPosition() != target) {
 
-        tiles.get(currentTileIndex).remove();
-        token.setPosition(target);
+            Token move = tiles.get(currentPosition).remove();
+            move.setPosition(target);
 
-        // If target Tile is occupied by an enemy Token (no blockade)
-        // enemy token gets kicked back to base, else returns null.
-        Token backToBase = tiles.get(targetTileIndex).addToken(token);
-
-        // Kicking an enemy Token back to base:
-        if (backToBase != null) {
-            // Finding the next free home Tile
-            int home = getBaseTilePosition(backToBase);
-            tiles.get(home).addToken(backToBase);
+            tiles.get(targetPosition).addToken(move);
+            repaint();
         }
-        repaint();
-
     }
 
     /**
@@ -344,5 +335,44 @@ public class GamePanel extends JComponent implements MouseListener {
 
     public void setCurrentPlayerFaction(int faction) {
         currentPlayer = faction;
+    }
+
+    /**
+     * Kicking a player token back to base. Triggered on capture.
+     * @param enemyFactionId int Player id, the owner of the token.
+     * @param tokenId int the token to be throwen.
+     */
+    public void kickPlayerToken(int enemyFactionId, int tokenId) {
+        System.out.println("*** ON CAPTURE ***");
+
+
+        int enemyHomePosition = getEmptyBasePosition(enemyFactionId);
+        System.out.println("Enemy's homePosition: " + enemyHomePosition);
+
+        int homeMapPosition = players[enemyFactionId].getTileIndex(enemyHomePosition);
+        int currentMapPosition = players[enemyFactionId].getTokenPosition(tokenId);
+
+        System.out.println("Moving token from " + currentMapPosition + " -> " + homeMapPosition);
+
+        Token backToBase = tiles.get(currentMapPosition).remove();
+        backToBase.setPosition(enemyHomePosition);
+
+        tiles.get(homeMapPosition).addToken(backToBase);
+    }
+
+    /**
+     * Get the first empty tile in a players base
+     * A empty tile will always exists on kicking one back to base.
+     * @param factionId int player faction id.
+     * @return int The map position of the tile.
+     */
+    private int getEmptyBasePosition(int factionId) {
+        for (int i=0; i<4; i++) {
+            int basePosition = players[factionId].getTileIndex(i);
+            if (tiles.get(basePosition).isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

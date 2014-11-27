@@ -1,5 +1,6 @@
 package no.hig.imt3281.ludo.client.messaging;
 
+import no.hig.imt3281.ludo.client.gui.GuiManager;
 import no.hig.imt3281.ludo.messaging.PlayerKickedBackToBaseMessage;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
@@ -9,6 +10,6 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
  */
 public class PlayerKickedBackToBaseMessageHandler implements MessageHandler {
     public void handle(PlayerKickedBackToBaseMessage message, CommunicationContext context) {
-
+        GuiManager.getGamePanel().kickPlayerToken(message.getFaction(), message.getTokenId());
     }
 }

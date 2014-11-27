@@ -16,18 +16,22 @@ import java.util.Map;
  * Singleton
  */
 public class ChatRooms {
-    public static int GLOBAL_CHAT_KEY = -1;
-    public static int GAME_CHAT_KEY = -2;
-    private Map<Integer, ChatChannel> chatRooms;
+    public static final int GLOBAL_CHAT_KEY = -1;
+    public static final int GAME_CHAT_KEY = -2;
+
+    private Map<Integer, ChatChannel> rooms;
     private ChatRooms() {
-        this.chatRooms = new HashMap<>();
-        this.chatRooms.put(GLOBAL_CHAT_KEY, new GlobalChatChannel());
+        this.rooms = new HashMap<>();
+        this.rooms.put(GLOBAL_CHAT_KEY, new GlobalChatChannel());
     }
 
     /**
      * Nested singletonHolder class
      */
     private static class SingletonHolder {
+        private SingletonHolder() {
+        }
+
         private static final ChatRooms INSTANCE = new ChatRooms();
     }
 
@@ -45,7 +49,7 @@ public class ChatRooms {
      * @return returns a ChatChannel with given id
      */
     public ChatChannel getChannel(int id) {
-        return chatRooms.get(id);
+        return rooms.get(id);
     }
 
     /**
@@ -54,7 +58,7 @@ public class ChatRooms {
      * @param name name is usergenerated but approved by server
      */
     public void joinGroupChannel(int id, String name) {
-        chatRooms.put(id, new GroupChatChannel(id,name));
+        rooms.put(id, new GroupChatChannel(id, name));
     }
 
     /**
@@ -64,7 +68,7 @@ public class ChatRooms {
      * to a specific ongoing game
      */
     public void joinGameChannel(int gameId) {
-        chatRooms.put(GAME_CHAT_KEY, new GameChatChannel(gameId));
+        rooms.put(GAME_CHAT_KEY, new GameChatChannel(gameId));
     }
 }
 

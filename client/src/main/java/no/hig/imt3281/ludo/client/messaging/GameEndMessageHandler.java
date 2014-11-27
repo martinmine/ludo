@@ -32,10 +32,10 @@ public class GameEndMessageHandler implements MessageHandler {
         }
 
 
-        JOptionPane.showMessageDialog(null, Main.resourceBundle.getString(outputMessage));
+        JOptionPane.showMessageDialog(null, Main.getResourceBundle().getString(outputMessage));
         GuiManager.getGamePanel().clearTable();
         GuiManager.getSideTopPanel()
                   .getFeedbackPanel()
-                  .setText(Main.resourceBundle.getString("FEEDBACK_GAME_ENDED"));
+                  .setText(Main.getResourceBundle().getString("FEEDBACK_GAME_ENDED"));
     }
 }

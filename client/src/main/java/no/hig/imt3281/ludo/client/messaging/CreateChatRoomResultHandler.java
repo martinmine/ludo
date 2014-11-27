@@ -20,7 +20,7 @@ public class CreateChatRoomResultHandler implements MessageHandler {
         if (result.getStatus() == CreateChatRoomResult.OK) {
             ChatRooms.getInstance().joinGroupChannel(result.getChannelId(), result.getChannelName());
         } else {
-            JOptionPane.showMessageDialog(null, Main.resourceBundle.getString("MENUBAR_CHATROOM_FAILED_TO_JOIN_CHATROOM") + result.getChannelName());
+            JOptionPane.showMessageDialog(null, Main.getResourceBundle().getString("MENUBAR_CHATROOM_FAILED_TO_JOIN_CHATROOM") + result.getChannelName());
         }
 
     }

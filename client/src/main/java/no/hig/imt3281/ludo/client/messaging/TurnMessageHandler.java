@@ -12,6 +12,6 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 public class TurnMessageHandler implements MessageHandler {
     public void handle(TurnMessage message, CommunicationContext context) {
         GuiManager.getSideTopPanel().getDicePanel().setValue(message.RESET_DICE_VALUE);
-        GuiManager.getSideTopPanel().getFeedbackPanel().setText(Main.resourceBundle.getString("PLAYER_TURN"));
+        GuiManager.getSideTopPanel().getFeedbackPanel().setText(Main.getResourceBundle().getString("PLAYER_TURN"));
     }
 }

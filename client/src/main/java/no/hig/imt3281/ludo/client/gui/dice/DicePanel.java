@@ -5,27 +5,33 @@ import no.hig.imt3281.ludo.messaging.TriggerDiceRequest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Joakim on 05.11.2014.
  *
  */
-public class DicePanel extends JComponent implements MouseListener {
-
-    private static final Logger LOGGER = Logger.getLogger(DicePanel.class.getName());
+public class DicePanel extends JComponent {
     private static final int MAX = 7;
 
     private Image[] dice;
     private int face;
 
     public DicePanel() {
-        addMouseListener(this);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                TriggerDiceRequest request = new TriggerDiceRequest();
+                try {
+                    Main.getServerConnection().sendMessage(request);
+                } catch (IOException ex) {
+                    Main.getServerConnection().close(ex);
+                }
+            }
+        });
+
         dice = new Image[MAX];
 
         for (int i = 0; i < MAX; i++) {
@@ -47,38 +53,7 @@ public class DicePanel extends JComponent implements MouseListener {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(160,160);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-        TriggerDiceRequest request = new TriggerDiceRequest();
-        try {
-            Main.getServerConnection().sendMessage(request);
-        } catch (IOException ex) {
-            Main.getServerConnection().close(ex);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+        return new Dimension(160, 160);
     }
 
     public void setValue(final int value) {

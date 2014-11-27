@@ -22,8 +22,8 @@ public class GameChallengeMessageHandler implements MessageHandler {
     public void handle(GameChallengeMessage message, CommunicationContext context) {
         AudioManager.playSound("challenge.wav", false);
         int result = new JOptionPane().showConfirmDialog(null,
-                            message.getChallengerUsername() + " " + Main.resourceBundle.getString("CHALLENGE_INVITATION_MESSAGE"),
-                            Main.resourceBundle.getString("CHALLENGE_INVITATION_TITLE"),
+                            message.getChallengerUsername() + " " + Main.getResourceBundle().getString("CHALLENGE_INVITATION_MESSAGE"),
+                            Main.getResourceBundle().getString("CHALLENGE_INVITATION_TITLE"),
                             JOptionPane.YES_NO_OPTION);
 
         GameChallengeResponse response = new GameChallengeResponse();

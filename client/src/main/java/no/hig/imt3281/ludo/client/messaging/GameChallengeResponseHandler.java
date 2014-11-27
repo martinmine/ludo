@@ -12,8 +12,8 @@ import javax.swing.*;
  */
 public class GameChallengeResponseHandler implements MessageHandler {
     public void handle(GameChallengeResponse request, CommunicationContext context) {
-        JOptionPane.showConfirmDialog(null, Main.resourceBundle.getString("CHALLENGE_REJECTED"),
-                Main.resourceBundle.getString("CHALLENGE_REJECTED_TITLE"),
+        JOptionPane.showConfirmDialog(null, Main.getResourceBundle().getString("CHALLENGE_REJECTED"),
+                Main.getResourceBundle().getString("CHALLENGE_REJECTED_TITLE"),
                 JOptionPane.DEFAULT_OPTION);
     }
 }
