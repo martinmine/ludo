@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Martin on 21.11.2014.
+ * Message sent when a user has entered or joined a game.
  */
 public class UserEnteredGameMessage extends Message {
     private int gameId;

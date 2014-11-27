@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 03.11.2014.
+ * Result of a login request.
  */
 public class RegistrationResult extends Message {
     public static final int OK = -1;

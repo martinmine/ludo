@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Thomas on 21.11.2014.
+ * Messages sent when a user joins the game.
  */
 public class InitializePlayerTokenMessage extends Message {
 

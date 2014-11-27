@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging.handling;
 
 /**
- * Created by Martin on 14.11.2014.
+ * Exception thrown when there are no message handler for an incoming message.
  */
 public class MissingMessageHandlerException extends Exception {
     public MissingMessageHandlerException(String message, Exception cause) {

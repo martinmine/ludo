@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 03.11.2014.
+ * Message for the global chat.
  */
 public class GlobalChatMessage extends ChatMessage {
 }

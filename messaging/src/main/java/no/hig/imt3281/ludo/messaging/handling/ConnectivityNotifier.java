@@ -1,8 +1,11 @@
 package no.hig.imt3281.ludo.messaging.handling;
 
 /**
- * Created by marti_000 on 09.11.2014.
+ * Notifier listener which is listening for events when the connection is closed.
  */
 public interface ConnectivityNotifier {
+    /**
+     * The connection is closed, cleanup resources.
+     */
     public void connectionClosed();
 }
