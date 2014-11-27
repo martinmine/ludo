@@ -16,26 +16,35 @@ public class GuiManager {
     private static SideTopPanel sideTopPanel;
     private static Client client;
 
-    private GuiManager() {
-    }
+    private GuiManager() {}
 
-    /** @return reference to the login activity */
+    /**
+     * @return reference to the login activity
+     */
     public static StartDialog getStartDialog() {
         return startDialog;
     }
-    /** @return reference to chatpanel */
+    /**
+     * @return reference to chatpanel
+     */
     public static ChatPanel getChatPanel() {
         return chatPanel;
     }
-    /** @return reference to gamepanel */
+    /**
+     * @return reference to gamepanel
+     */
     public static GamePanel getGamePanel() {
         return gamePanel;
     }
-    /** @return reference to the sidepanel(right) */
+    /**
+     * @return reference to the sidepanel(right)
+     */
     public static SidePanel getSidePanel() {
         return sidePanel;
     }
-    /** @return reference to the side-top-panel(top right) */
+    /**
+     * @return reference to the side-top-panel(top right)
+     */
     public static SideTopPanel getSideTopPanel() {
         return sideTopPanel;
     }
@@ -57,7 +66,6 @@ public class GuiManager {
         gamePanel = new GamePanel();
         sideTopPanel = new SideTopPanel();
         sidePanel = new SidePanel();
-
     }
 
     /**

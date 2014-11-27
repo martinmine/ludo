@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Class containing the root element of the client GUI
+ * Class containing the root/frame element of the client GUI
  */
 public class Client extends JFrame {
     private MenuBar menuBar;
