@@ -27,7 +27,7 @@ public class GamePanel extends JComponent {
     private Image board;
     private Image loading;
     private List<Tile> tiles;
-    private Player players[];
+    private Player[] players;
     private int numPlayer;
     private int currentPlayer;
     private boolean isLoading;

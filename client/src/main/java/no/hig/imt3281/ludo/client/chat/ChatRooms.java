@@ -9,17 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * ChatRooms keeps a hashtable representation of all the chatrooms.
  * Used for keeping track of all the chatrooms.
- *
- * Singleton
  */
 public class ChatRooms {
     public static final int GLOBAL_CHAT_KEY = -1;
     public static final int GAME_CHAT_KEY = -2;
-
     private Map<Integer, ChatChannel> rooms;
+
     private ChatRooms() {
         this.rooms = new HashMap<>();
         this.rooms.put(GLOBAL_CHAT_KEY, new GlobalChatChannel());
@@ -36,7 +33,6 @@ public class ChatRooms {
     }
 
     /**
-     *
      * @return returns the instance of ChatRooms
      */
     public static ChatRooms getInstance() {
@@ -44,7 +40,6 @@ public class ChatRooms {
     }
 
     /**
-     *
      * @param id is the key in the chatroom hashmap
      * @return returns a ChatChannel with given id
      */
@@ -62,8 +57,7 @@ public class ChatRooms {
     }
 
     /**
-     *Join a game chat when a new game is started
-     *
+     * Join a game chat when a new game is started
      * @param gameId id of a specific gameChatroom related
      * to a specific ongoing game
      */

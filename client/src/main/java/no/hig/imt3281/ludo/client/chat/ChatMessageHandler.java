@@ -18,9 +18,12 @@ public class ChatMessageHandler {
     public static final int GAME_CHAT = -2;
     public static final int GLOBAL_CHAT = -1;
     public static final int GROUP_CHAT = 0;
-
     private ChatState currentState;
 
+    /**
+     * Creates a new instance of ChatMessageHandler
+     * Initiates current state to global chat state
+     */
     private ChatMessageHandler() {
         currentState = new GlobalChatState();
     }
@@ -29,9 +32,8 @@ public class ChatMessageHandler {
      * Nested class singetonholder
      */
     private static class SingletonHolder {
-        private SingletonHolder() {
-        }
         private static final ChatMessageHandler INSTANCE = new ChatMessageHandler();
+        private SingletonHolder() {}
     }
 
     /**

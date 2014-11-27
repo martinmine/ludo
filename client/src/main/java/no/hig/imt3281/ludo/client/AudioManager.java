@@ -12,6 +12,14 @@ import java.util.logging.Logger;
 public class AudioManager {
     private final static Logger LOGGER = Logger.getLogger(AudioManager.class.getSimpleName());
 
+    private AudioManager() {
+    }
+
+    /**
+     * Plays sound from resource
+     * @param url name of the song in the resource folder
+     * @param looping is true if you want the sound to be on repeat
+     */
     public static synchronized void playSound(final String url, boolean looping) {
         URL path = AudioManager.class.getResource("/sound/" + url);
         try {
@@ -19,16 +27,13 @@ public class AudioManager {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(path);
             clip.open(inputStream);
             if (looping) {
-                clip.loop(20);
+                clip.loop(10);
             } else {
                 clip.start();
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
-    }
-
-    private AudioManager() {
     }
 }
 
