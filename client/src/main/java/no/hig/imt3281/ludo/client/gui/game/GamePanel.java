@@ -272,7 +272,7 @@ public class GamePanel extends JComponent {
 
         if (numPlayer < MAX_PLAYERS) {
 
-            Faction color = Faction.RED;
+            Faction color;
             switch (faction) {
                 case 0:
                     color = Faction.RED;
