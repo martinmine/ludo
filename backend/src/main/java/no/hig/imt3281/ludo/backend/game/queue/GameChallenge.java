@@ -100,11 +100,8 @@ public class GameChallenge {
                 LOGGER.info("Challenge starting game");
                 Game game = ServerEnvironment.getGameManager().createGame();
 
-                for (User user : this.challengedUsers) {
-                    if (this.userStates[this.challengedUsers.indexOf(user)] == GameChallengeState.ACCEPTED) {
-                        game.enter(user);
-                    }
-                }
+                this.challengedUsers.stream().filter(user ->
+                        this.userStates[this.challengedUsers.indexOf(user)] == GameChallengeState.ACCEPTED).forEach(game::enter);
 
                 game.enter(owner);
                 game.start();

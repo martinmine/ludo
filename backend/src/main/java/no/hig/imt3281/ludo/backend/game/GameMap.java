@@ -146,7 +146,7 @@ public class GameMap {
      * The first player reaching the finish with all the tokens wins.
      */
     public void checkForWinner() {
-        int finishPosition[] = {57, 63, 69, 75};
+        int[] finishPosition = {57, 63, 69, 75};
 
         int winner =
             Arrays.stream(finishPosition)
