@@ -2,9 +2,7 @@ package no.hig.imt3281.ludo.client.gui.feedback;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.client.gui.game.Faction;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
 import java.util.logging.Level;
@@ -16,7 +14,6 @@ import java.util.logging.Logger;
 public class FeedbackTextPane extends JTextPane {
     private static final Logger LOGGER = Logger.getLogger(FeedbackTextPane.class.getSimpleName());
     private static final Object SYNC_ROOT = new Object();
-    private Border border;
     private StyleContext styleContext;
     private DefaultStyledDocument document;
     private Style style;
@@ -27,8 +24,6 @@ public class FeedbackTextPane extends JTextPane {
         styleContext = new StyleContext();
         document = new DefaultStyledDocument(styleContext);
         setDocument(document);
-        border = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"Feedback panel");
-        setBorder(border);
         setEditable(false);
         setOpaque(false);
         setBackground(Color.cyan);

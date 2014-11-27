@@ -7,10 +7,12 @@ public class Token {
 
     private int position;
     private int faction;
+    private int tokenId;
 
-    public Token(int faction, int position) {
+    public Token(int faction, int position, int tokenId) {
         this.faction = faction;
         this.position = position;
+        this.tokenId = tokenId;
     }
 
     public int getPosition() {
@@ -23,5 +25,9 @@ public class Token {
 
     public int getFaction() {
         return faction;
+    }
+
+    public int getTokenId() {
+        return tokenId;
     }
 }

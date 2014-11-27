@@ -7,7 +7,6 @@ import java.awt.*;
  * ListItem for the challengeable users list
  */
 public class ChallengeableUserComponent extends JLabel{
-
     private int id;
     private String username;
 
