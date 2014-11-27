@@ -5,16 +5,16 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class UserTest {
-    int testnumber = 5;
+    private static final int TEST_NUMBER = 5;
 
     @Test
-    public void testGetInstance() throws Exception {
+    public void testGetInstance() {
         assertNotEquals(null, User.getInstance());
     }
 
     @Test
-    public void testInitialize() throws Exception {
-        User.getInstance().initialize(testnumber);
-        assertEquals(testnumber, User.getInstance().getUserId());
+    public void testInitialize() {
+        User.getInstance().initialize(TEST_NUMBER);
+        assertEquals(TEST_NUMBER, User.getInstance().getUserId());
     }
 }

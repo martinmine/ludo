@@ -8,13 +8,13 @@ public class ChatMessageHandlerTest {
     private ChatMessageHandler cmh;
 
     @Test
-    public void testGetInstance() throws Exception {
+    public void testGetInstance() {
         cmh = ChatMessageHandler.getInstance();
         assertNotEquals(null, cmh);
     }
 
     @Test
-    public void testSetCurrentState() throws Exception {
+    public void testSetCurrentState() {
         cmh = ChatMessageHandler.getInstance();
         assertEquals(cmh.getCurrentState(), ChatMessageHandler.GLOBAL_CHAT);
         cmh.setCurrentState(ChatMessageHandler.GAME_CHAT);
