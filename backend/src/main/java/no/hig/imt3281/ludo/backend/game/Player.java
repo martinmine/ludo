@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.backend.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Thomas on 24.11.2014.
@@ -11,7 +12,7 @@ public class Player {
     public final static int MAX_TOKENS = 4;
 
     private int faction;
-    private ArrayList<Integer> tiles;
+    private List<Integer> tiles;
     private Token token[];
 
     public Player(int faction) {
@@ -84,7 +85,10 @@ public class Player {
                 for (int l = 70; l < 76; l++) {
                     tiles.add(l);
                 }
+            break;
 
+            default:
+                break;
         }
     }
 

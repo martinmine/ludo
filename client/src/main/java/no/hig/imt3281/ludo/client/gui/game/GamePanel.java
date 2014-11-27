@@ -2,7 +2,6 @@ package no.hig.imt3281.ludo.client.gui.game;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.swing.*;
 import java.awt.*;
