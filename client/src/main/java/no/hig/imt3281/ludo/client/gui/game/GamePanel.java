@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.List;
 
 /**
  * Created by Joakim on 27.10.2014.
@@ -25,7 +26,7 @@ public class GamePanel extends JComponent {
     private final static int TILE_SIZE = 35;
     private Image board;
     private Image loading;
-    private ArrayList<Tile> tiles;
+    private List<Tile> tiles;
     private Player players[];
     private int numPlayer;
     private int currentPlayer;
@@ -187,18 +188,14 @@ public class GamePanel extends JComponent {
                     .orElse(null);
 
             // Clicked a tile AND it is token(s) on it:
-            if (tt != null  &&  !tt.isEmpty()) {
+            if (tt != null && !tt.isEmpty() && tt.getFaction().getIndex() == currentPlayer) {
+                MoveTokenRequest request = new MoveTokenRequest();
+                request.setTokenId(tt.getTokenID());
 
-                if (tt.getFaction().getIndex() == currentPlayer) {
-
-                    MoveTokenRequest request = new MoveTokenRequest();
-                    request.setTokenId(tt.getTokenID());
-
-                    try {
-                        Main.getServerConnection().sendMessage(request);
-                    } catch (IOException ex) {
-                        Main.getServerConnection().close(ex);
-                    }
+                try {
+                    Main.getServerConnection().sendMessage(request);
+                } catch (IOException ex) {
+                    Main.getServerConnection().close(ex);
                 }
             }
         }

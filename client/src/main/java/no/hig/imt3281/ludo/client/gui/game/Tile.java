@@ -1,7 +1,8 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * Controlling all access to a slots.
@@ -9,8 +10,7 @@ import java.util.ArrayList;
  * drawing and listening to mouse events.
  */
 public class Tile {
-
-    private ArrayList<Token> slots;
+    private List<Token> slots;
     private int x;
     private int y;
     private int d;
