@@ -9,8 +9,7 @@ import no.hig.imt3281.ludo.messaging.LoginResult;
 import no.hig.imt3281.ludo.messaging.handling.CommunicationContext;
 import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
 
 /**
  * Handles incoming messages of the type LoginResult
