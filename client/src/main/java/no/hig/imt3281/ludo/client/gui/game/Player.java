@@ -37,8 +37,7 @@ public class Player {
     private void initPlayerTiles() {
 
         switch(faction) {
-            case RED: {
-
+            case RED:
                 for (int i=76; i<80; i++) {
                     tiles.add(i);
                 }
@@ -52,10 +51,8 @@ public class Player {
                 for (int k=52; k<58; k++) {
                     tiles.add(k);
                 }
-
-            } break;
-            case BLUE: {
-
+                break;
+            case BLUE:
                 for (int i=80; i<84; i++) {
                     tiles.add(i);
                 }
@@ -73,10 +70,8 @@ public class Player {
                 for (int l=58; l<64; l++) {
                     tiles.add(l);
                 }
-
-            } break;
-            case YELLOW: {
-
+                break;
+            case YELLOW:
                 for (int i=84; i<88; i++) {
                     tiles.add(i);
                 }
@@ -95,9 +90,9 @@ public class Player {
                     tiles.add(l);
                 }
 
-            } break;
-            case GREEN: {
-
+                break;
+            default:
+            case GREEN:
                 for (int i=88; i<92; i++) {
                     tiles.add(i);
                 }
@@ -115,10 +110,8 @@ public class Player {
                 for (int l=70; l<76; l++) {
                     tiles.add(l);
                 }
-
-            }
+                break;
         }
-
     }
 
     /**

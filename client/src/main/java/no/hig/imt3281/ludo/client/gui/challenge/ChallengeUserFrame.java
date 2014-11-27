@@ -1,7 +1,5 @@
 package no.hig.imt3281.ludo.client.gui.challenge;
 
-
-
 import no.hig.imt3281.ludo.client.Main;
 
 import javax.swing.*;
@@ -29,7 +27,6 @@ public class ChallengeUserFrame extends JFrame {
         return instance;
     }
 
-    private ChallengeList challengeableUsersList;
     private ChallengeUserPanel listPanel;
     private Map<Integer, String> usersAdded;
 

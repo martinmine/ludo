@@ -5,8 +5,6 @@ import no.hig.imt3281.ludo.messaging.ChallengeUserRequest;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Panel containing the list of challengeable users
@@ -16,7 +14,6 @@ public class ChallengeUserPanel extends JPanel {
     private JScrollPane scrollPane;
     private ChallengeList challengeableUsersList;
     private JButton challengeButton;
-    private static final Logger LOGGER = Logger.getLogger(ChallengeUserPanel.class.getSimpleName());
 
     /**
      * Creates an instance of challengeUserPanel

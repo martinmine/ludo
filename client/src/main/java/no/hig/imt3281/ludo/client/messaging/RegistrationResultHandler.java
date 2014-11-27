@@ -25,12 +25,13 @@ public class RegistrationResultHandler implements MessageHandler {
             case RegistrationResult.INVALID_USERNAME:
                 GuiManager.getStartDialog().setFeedback("INVALID_USERNAME");
                 break;
-            case RegistrationResult.SERVER_ERROR:
-                GuiManager.getStartDialog().setFeedback("SERVER_ERROR");
-                break;
             case RegistrationResult.OK:
                 GuiManager.getStartDialog().dispose();
                 new Client();
+                break;
+            default:
+            case RegistrationResult.SERVER_ERROR:
+                GuiManager.getStartDialog().setFeedback("SERVER_ERROR");
                 break;
         }
     }

@@ -9,15 +9,12 @@ import no.hig.imt3281.ludo.messaging.handling.MessageHandler;
 
 import javax.swing.JOptionPane;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Handles incoming messages of the type GameChallengeMessage
  */
 public class GameChallengeMessageHandler implements MessageHandler {
     public static final int CHALLENGE_ACCEPTED = 0;
-    private static final Logger LOGGER = Logger.getLogger(GameChallengeMessageHandler.class.getSimpleName());
 
     public void handle(GameChallengeMessage message, CommunicationContext context) {
         AudioManager.playSound("challenge.wav", false);

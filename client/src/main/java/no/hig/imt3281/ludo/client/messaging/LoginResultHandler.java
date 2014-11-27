@@ -30,6 +30,7 @@ public class LoginResultHandler implements MessageHandler {
                         Main.getResourceBundle().getString("LOGIN_FAILED_TO_AUTHENTICATE"));
                 break;
 
+            default:
             case LoginResult.SERVER_ERROR:
                 GuiManager.getStartDialog().setFeedback(Main.getResourceBundle().getString("LOGIN_FEEDBACK_ERROR"));
                 JOptionPane.showMessageDialog(
