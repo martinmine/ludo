@@ -1,11 +1,20 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 03.11.2014.
+ * Contains information about the result of a LoginRequest.
  */
 public class LoginResult extends Message {
+    /**
+     * Invalid username or password.
+     */
     public static final int INVALID_CREDENTIALS = -2;
+    /**
+     * There was a server error while signing in.
+     */
     public static final int SERVER_ERROR = 0;
+    /**
+     * The login was successful.
+     */
     public static final int OK = 1;
 
     private int resultCode;

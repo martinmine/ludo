@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 17.11.2014.
+ * Message sent when the user wants a list of all the online users.
  */
 public class ListChallengeableUsersRequest extends Message {
 

@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 03.11.2014.
+ * Messages sent to the server when the user wants to sign in.
  */
 public class RegistrationRequest extends Message {
     private String username;

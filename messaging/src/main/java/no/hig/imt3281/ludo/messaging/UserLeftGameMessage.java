@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 24.11.2014.
+ * Message sent when a user has left the game for whatever reason.
  */
 public class UserLeftGameMessage extends Message {
     private int faction;

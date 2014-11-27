@@ -5,12 +5,14 @@ package no.hig.imt3281.ludo.messaging;
  */
 
 public abstract class ChatMessage extends Message {
+    public static final String USER_JOIN = "USER_JOIN";
+    public static final String USER_LEAVE = "USER_LEAVE";
+
     private int userId;
     private String username;
     private String message;
     private int timestamp;
-    public static final String USER_JOIN = "USER_JOIN";
-    public static final String USER_LEAVE = "USER_LEAVE";
+
     /** @return userId  */
     public int getUserId() {
         return userId;

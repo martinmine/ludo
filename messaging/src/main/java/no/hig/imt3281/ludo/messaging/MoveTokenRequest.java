@@ -1,8 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Thomas on 21.11.2014.
- * unhandled...
+ * Message sent when the user wants to move their token.
  */
 public class MoveTokenRequest extends Message {
     private int tokenId;

@@ -1,10 +1,16 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Joakim on 11.11.2014.
+ * Result for creating the chat room
  */
 public class CreateChatRoomResult extends Message {
+    /**
+     * The creation of the chat room was successful.
+     */
     public static final int OK = 0;
+    /**
+     * There was an error during the creation of the chat room.
+     */
     public static final int ERROR = 1;
 
     private int channelId;

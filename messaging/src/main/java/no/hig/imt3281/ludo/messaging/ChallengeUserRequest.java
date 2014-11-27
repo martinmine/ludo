@@ -9,7 +9,6 @@ import java.util.List;
 public class ChallengeUserRequest extends Message {
     private List<Integer> userIds;
 
-
     /** Creates a new instance of ChallengeUserRequest */
     public ChallengeUserRequest() {
         this.userIds = new LinkedList<>();
