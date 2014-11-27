@@ -1,18 +1,19 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controlling all player logic on the client.
  */
 public class Player {
 
-    public final static int MAX_PLAYERS = 4;
-    public final static int MAX_TOKENS = 4;
+    public static final int MAX_PLAYERS = 4;
+    public static final int MAX_TOKENS = 4;
 
     private Faction faction;
     private Token[] token;
-    private ArrayList<Integer> tiles;
+    private List<Integer> tiles;
 
     public Player(Faction faction) {
         this.faction = faction;
