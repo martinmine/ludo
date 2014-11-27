@@ -12,6 +12,7 @@ public class Main {
      */
     public static void main(String[] args) {
         ServerEnvironment.initialize();
+        ServerEnvironment.startHeartBeat();
         ServerEnvironment.getNetworkManager().startListening();
     }
 }

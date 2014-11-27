@@ -81,20 +81,25 @@ public class ServerEnvironment {
         chatManager = new ChatManager();
         gameManager = new GameManager();
         gameQueueManager = new GameQueueManager();
+    }
 
+    /**
+     * Starts the thread doing cycle work in the server.
+     */
+    public static void startHeartBeat() {
         cycleThread = new Thread(() -> {
-           while (isAlive) {
-               userManager.onCycle();
-               chatManager.onCycle();
-               gameQueueManager.onCycle();
-               gameManager.onCycle();
+            while (isAlive) {
+                userManager.onCycle();
+                chatManager.onCycle();
+                gameQueueManager.onCycle();
+                gameManager.onCycle();
 
-               try {
-                   Thread.sleep(SERVER_PULSE);
-               } catch (InterruptedException e) {
-                   LOGGER.log(Level.SEVERE, e.getMessage(), e);
-               }
-           }
+                try {
+                    Thread.sleep(SERVER_PULSE);
+                } catch (InterruptedException e) {
+                    LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                }
+            }
         });
 
         cycleThread.start();
