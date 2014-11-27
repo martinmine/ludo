@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 import java.util.List;
 
 /**
- * Created by Joakim on 27.10.2014.
- *
  * GamePanel is the Board which maps all tiles.
  * Controlling drawing the map as well as mouseClick event
  * and handling game logic received from a backend as a message.
@@ -274,7 +272,7 @@ public class GamePanel extends JComponent {
 
         if (numPlayer < MAX_PLAYERS) {
 
-            Faction color = Faction.RED;
+            Faction color;
             switch (faction) {
                 case 0:
                     color = Faction.RED;
