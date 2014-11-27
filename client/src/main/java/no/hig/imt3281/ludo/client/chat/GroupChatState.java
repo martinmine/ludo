@@ -8,6 +8,7 @@ import java.io.IOException;
  * Creates and sends GroupChatMessages to the server
  */
 public class GroupChatState implements ChatState {
+    private int type = ChatMessageHandler.GROUP_CHAT;
     /**
      * Creates and sends a groupChatMessage to the server
      * @param channelId is the channel of the specific group channel
@@ -23,5 +24,10 @@ public class GroupChatState implements ChatState {
         } catch (IOException e) {
             Main.getServerConnection().close(e);
         }
+    }
+
+    @Override
+    public int getStateType() {
+        return type;
     }
 }
