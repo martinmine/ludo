@@ -4,6 +4,7 @@ import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  * Controlling drawing the map as well as mouseClick event
  * and handling game logic received from a backend as a message.
  */
-public class GamePanel extends JComponent implements MouseListener {
+public class GamePanel extends JComponent {
     private static final int MAX_PLAYERS = 4;
     private static final Logger LOGGER = Logger.getLogger(GamePanel.class.getSimpleName());
 
@@ -37,7 +38,12 @@ public class GamePanel extends JComponent implements MouseListener {
      * SonarQube complained about Magic numbers, which there is alot of here.
      */
     public GamePanel() {
-        addMouseListener(this);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                tileClicked(e);
+            }
+        });
         players = new Player[MAX_PLAYERS];
         currentPlayer = 0;
         tiles = new ArrayList<>();
@@ -173,6 +179,32 @@ public class GamePanel extends JComponent implements MouseListener {
 
     }
 
+    private void tileClicked(MouseEvent e) {
+        if (!isLoading) {
+            // Get correct legal tile. (correct player and token on tile):
+            Tile tt = tiles.stream()
+                    .filter(tile -> tile.clicked(e.getX(), e.getY()))
+                    .findFirst()
+                    .orElse(null);
+
+            // Clicked a tile AND it is token(s) on it:
+            if (tt != null  &&  !tt.isEmpty()) {
+
+                if (tt.getFaction().getIndex() == currentPlayer) {
+
+                    MoveTokenRequest request = new MoveTokenRequest();
+                    request.setTokenId(tt.getTokenID());
+
+                    try {
+                        Main.getServerConnection().sendMessage(request);
+                    } catch (IOException ex) {
+                        Main.getServerConnection().close(ex);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * The start for drawing the entire board with players token.
      * each tile has their own draw method to illustrate blockades
@@ -222,64 +254,11 @@ public class GamePanel extends JComponent implements MouseListener {
     }
 
     /**
-     * Register mouse click events on the board.
-     * @param e mouse event object.
-     */
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-        if (!isLoading) {
-
-            // Get correct legal tile. (correct player and token on tile):
-            Tile tt = tiles.stream()
-                    .filter(tile -> tile.clicked(e.getX(), e.getY()))
-                    .findFirst()
-                    .orElse(null);
-
-            // Clicked a tile AND it is token(s) on it:
-            if (tt != null  &&  !tt.isEmpty()) {
-
-                if (tt.getFaction().getIndex() == currentPlayer) {
-
-                    MoveTokenRequest request = new MoveTokenRequest();
-                    request.setTokenId(tt.getTokenID());
-
-                    try {
-                        Main.getServerConnection().sendMessage(request);
-                    } catch (IOException ex) {
-                        Main.getServerConnection().close(ex);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Getting the current player. For feedback panel.
      * @return Int the current players id.
      */
     public int getCurrentPlayer() {
         return this.currentPlayer;
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 
     /**
@@ -311,6 +290,7 @@ public class GamePanel extends JComponent implements MouseListener {
                     color = Faction.YELLOW;
                     break;
                 case 3:
+                default:
                     color = Faction.GREEN;
             }
 
@@ -328,11 +308,9 @@ public class GamePanel extends JComponent implements MouseListener {
      * @param target int Destination for where to move the Token.
      */
     public void moveToken(int playerId, int tokenId, int target) {
-        System.out.println("------ START MAKE TURN ------ ");
         Token currentToken = players[playerId].getToken(tokenId);
         int currentPosition = players[playerId].getTokenPosition(tokenId);
         int targetPosition = players[playerId].getTileIndex(target);
-        System.out.println("Moving token from " + currentPosition + " -> " + targetPosition);
 
         if (currentToken.getPosition() != target) {
 
@@ -376,16 +354,9 @@ public class GamePanel extends JComponent implements MouseListener {
      * @param tokenId int the token to be throwen.
      */
     public void kickPlayerToken(int enemyFactionId, int tokenId) {
-        System.out.println("*** ON CAPTURE ***");
-
-
         int enemyHomePosition = getEmptyBasePosition(enemyFactionId);
-        System.out.println("Enemy's homePosition: " + enemyHomePosition);
-
         int homeMapPosition = players[enemyFactionId].getTileIndex(enemyHomePosition);
         int currentMapPosition = players[enemyFactionId].getTokenPosition(tokenId);
-
-        System.out.println("Moving token from " + currentMapPosition + " -> " + homeMapPosition);
 
         Token backToBase = tiles.get(currentMapPosition).remove();
         backToBase.setPosition(enemyHomePosition);

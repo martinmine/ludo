@@ -8,14 +8,11 @@ import no.hig.imt3281.ludo.messaging.ListChallengeableUsersRequest;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * Class containing the menubar and its sub items
  */
 public class MenuBar extends JMenuBar {
-    private static final Logger LOGGER = Logger.getLogger(MenuBar.class.getName());
-
     /**
      * Create a new instance of the menu bar
      */

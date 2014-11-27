@@ -4,19 +4,19 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Controlling all access to a tile.
+ * Controlling all access to a slots.
  * adding and knowing its position on the board, both for
  * drawing and listening to mouse events.
  */
 public class Tile {
 
-    private ArrayList<Token> tile;
+    private ArrayList<Token> slots;
     private int x;
     private int y;
     private int d;
 
     Tile(int x, int y, int d) {
-        this.tile = new ArrayList<>();
+        this.slots = new ArrayList<>();
         this.x = x;
         this.y = y;
         this.d = d;
@@ -32,17 +32,17 @@ public class Tile {
     public Token addToken(Token t) {
 
         // Empty Tile:
-        if (tile.isEmpty()) {
-            tile.add(t);
+        if (slots.isEmpty()) {
+            slots.add(t);
         } else {
 
             // Already same Token - build blockade:
             // else kick opponents token.
-            if (tile.get(0).isEqual(t)) {
-                tile.add(t);
+            if (slots.get(0).isEqual(t)) {
+                slots.add(t);
             } else {
-                Token temp = tile.remove(0);
-                tile.add(t);
+                Token temp = slots.remove(0);
+                slots.add(t);
                 return temp;
             }
         }
@@ -54,7 +54,7 @@ public class Tile {
      * @return the last token added.
      */
     public Token remove() {
-        return tile.remove(tile.size()-1);
+        return slots.remove(slots.size()-1);
     }
 
     /**
@@ -63,11 +63,11 @@ public class Tile {
      */
     public void draw(Graphics2D g2d) {
 
-        if (!tile.isEmpty()) {
-            tile.get(0).draw(g2d, this.x, this.y);
-            if (tile.size() > 1) {
+        if (!slots.isEmpty()) {
+            slots.get(0).draw(g2d, this.x, this.y);
+            if (slots.size() > 1) {
                 g2d.setColor(Color.WHITE);
-                g2d.drawString(String.valueOf(tile.size()), this.x + 20, this.y + 20);
+                g2d.drawString(String.valueOf(slots.size()), this.x + 20, this.y + 20);
             }
         }
     }
@@ -81,7 +81,7 @@ public class Tile {
     public boolean clicked(int x, int y) {
         int xx = this.x + d;
         int yy = this.y + d;
-        return (x >= this.x  &&  y >= this.y  &&  x <= xx  &&  y <= yy);
+        return x >= this.x  &&  y >= this.y  &&  x <= xx  &&  y <= yy;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Tile {
      * @return boolean isEmpty.
      */
     public boolean isEmpty() {
-        return tile.isEmpty();
+        return slots.isEmpty();
     }
 
     /**
@@ -98,7 +98,7 @@ public class Tile {
      * @return Faction owner of the Tile.
      */
     public Faction getFaction() {
-        return (tile.isEmpty())? null: tile.get(0).getFaction();
+        return (slots.isEmpty())? null: slots.get(0).getFaction();
     }
 
     /**
@@ -106,16 +106,16 @@ public class Tile {
      * @return int uniq tokenId
      */
     public int getTokenID() {
-        if (tile.isEmpty()) {
+        if (slots.isEmpty()) {
             return -1;
         }
-        return tile.get(tile.size() -1 ).getTokenId();
+        return slots.get(slots.size() -1 ).getTokenId();
     }
 
     /**
      * Removes all the tokens from the tile
      */
     public void clear() {
-        this.tile.clear();
+        this.slots.clear();
     }
 }

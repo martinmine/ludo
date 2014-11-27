@@ -7,14 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 /**
  * Created by Thomas on 11.11.2014.
  *
  */
 public class RegisterTab extends JPanel {
-    private static final Logger LOGGER = Logger.getLogger(RegisterTab.class.getSimpleName());
     private JTextField usernameField;
     private JTextField emailField;
     private JPasswordField passwordField;

@@ -28,7 +28,6 @@ public class GameStartedMessageHandler implements MessageHandler {
         }
 
         GuiManager.getGamePanel().setCurrentPlayerFaction(message.getFaction());
-        System.out.println("Your color is: " + message.getFaction());
         AudioManager.playSound("start_game.wav", true);
     }
 }

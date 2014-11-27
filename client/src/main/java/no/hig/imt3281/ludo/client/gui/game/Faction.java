@@ -27,12 +27,16 @@ public enum Faction {
      */
     public Color getColor() {
         switch(index) {
-            case 0: return new Color(100,   0,   0);
-            case 1: return new Color(  0,   0, 100);
-            case 2: return new Color(100, 100,   0);
-            case 3: return new Color(  0, 100,   0);
+            case 0:
+                return new Color(100,   0,   0);
+            case 1:
+                return new Color(  0,   0, 100);
+            case 2:
+                return new Color(100, 100,   0);
+            case 3:
+            default:
+                return new Color(  0, 100,   0);
         }
-        return null;
     }
 
     /**

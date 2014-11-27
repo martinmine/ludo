@@ -31,6 +31,7 @@ public class LoginResultHandler implements MessageHandler {
                 break;
 
             case LoginResult.SERVER_ERROR:
+            default:
                 GuiManager.getStartDialog().setFeedback(Main.getResourceBundle().getString("LOGIN_FEEDBACK_ERROR"));
                 JOptionPane.showMessageDialog(
                         GuiManager.getStartDialog(),
