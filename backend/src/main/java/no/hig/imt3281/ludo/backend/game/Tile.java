@@ -55,7 +55,7 @@ public class Tile {
      * @return Boolean True of there is an blockade.
      */
     public boolean isBlocked(int faction) {
-        return (numToken > 1  && token[0].getFaction() != faction);
+        return numToken > 1  && token[0].getFaction() != faction;
     }
 
     /**
@@ -75,7 +75,7 @@ public class Tile {
      * @return Boolean True if the tile has no tokens.
      */
     public boolean isEmpty() {
-        return (numToken == 0);
+        return numToken == 0;
     }
 
     /**
