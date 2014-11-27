@@ -7,7 +7,7 @@ import java.awt.*;
  *  List of challengeable users
  */
 public class ChallengeList extends JList<ChallengeableUserComponent> {
-    public DefaultListModel<ChallengeableUserComponent> model;
+    private DefaultListModel<ChallengeableUserComponent> model;
 
     /**
      * Creates new ChallengeList
