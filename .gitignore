@@ -11,4 +11,4 @@
 /client/build
 /backend/build
 /messaging/build
-/backend/src/main/res/config.properties
+*/config.properties
