@@ -22,14 +22,14 @@ public class ChatManagerTest {
     }
 
     @Test
-    public void testChatRoomExists() throws Exception {
+    public void testChatRoomExists() {
         GroupChat room = chatManager.createGroupChat(SAMPLE_TEXT);
         chatManager.onCycle();
         assertTrue(chatManager.chatRoomExists(room.getCaption()));
     }
 
     @Test
-    public void testCreateGroupChat() throws Exception {
+    public void testCreateGroupChat() {
         GroupChat firstRoom = chatManager.createGroupChat(SAMPLE_TEXT);
         GroupChat secondRoom = chatManager.createGroupChat("bar");
 
@@ -40,7 +40,7 @@ public class ChatManagerTest {
     }
 
     @Test
-    public void testCreateGameChat() throws Exception {
+    public void testCreateGameChat() {
         Game game = ServerEnvironment.getGameManager().createGame();
         GameChat chat = chatManager.createGameChat(game);
         assertNotNull(chat);
@@ -50,7 +50,7 @@ public class ChatManagerTest {
     }
 
     @Test
-    public void testStoreChatLogEntry() throws Exception {
+    public void testStoreChatLogEntry() {
         ChatLogEntry entry = new ChatLogEntry(ChatLogEntry.PUBLIC_MESSAGE);
         entry.setMessage(SAMPLE_TEXT);
         chatManager.storeChatLogEntry(entry);

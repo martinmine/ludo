@@ -125,16 +125,20 @@ public class GameChallenge {
         response.setState(GameChallengeResponse.REJECTED);
 
         for (User user : this.challengedUsers) {
-            int state = this.userStates[this.challengedUsers.indexOf(user)];
-            if (state == GameChallengeState.ACCEPTED || state == GameChallengeState.WAITING || user.getId() == owner.getId()) {
-                try {
-                    user.getClientConnection().sendMessage(response);
-                } catch (IOException e) {
-                    user.getClientConnection().close(e);
-                }
-            }
+            leaveChallenge(response, user);
         }
 
         ServerEnvironment.getGameQueueManager().disposeChallenge(this.id);
+    }
+
+    private void leaveChallenge(GameChallengeResponse response, User user) {
+        int state = this.userStates[this.challengedUsers.indexOf(user)];
+        if (state == GameChallengeState.ACCEPTED || state == GameChallengeState.WAITING || user.getId() == owner.getId()) {
+            try {
+                user.getClientConnection().sendMessage(response);
+            } catch (IOException e) {
+                user.getClientConnection().close(e);
+            }
+        }
     }
 }

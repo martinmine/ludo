@@ -11,8 +11,8 @@ public class GameMap {
     private static final int MAX_TOKENS = 4;
     private static final int MAX_TILES = 92;
     private GameMapUpdateListener listener;
-    private Tile tile[];
-    private Player player[];
+    private Tile[] tile;
+    private Player[] player;
 
     /**
      * Prepares a new game map for use

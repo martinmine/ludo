@@ -36,7 +36,7 @@ public class QueuedMapTest {
     }
 
     @Test
-    public void testRemoveItem() throws Exception {
+    public void testRemoveItem() {
         map.addItem(KEY, VALUE);
         map.onCycle();
         assertTrue(map.containsKey(KEY));
@@ -46,7 +46,7 @@ public class QueuedMapTest {
     }
 
     @Test
-    public void testGet() throws Exception {
+    public void testGet() {
         map.addItem(KEY, VALUE);
         map.onCycle();
         int val = map.get(KEY);

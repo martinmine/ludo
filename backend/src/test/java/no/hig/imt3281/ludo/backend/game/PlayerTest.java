@@ -16,7 +16,7 @@ public class PlayerTest {
     private Player bluePlayer;
 
     @Test
-    public void testGetStartOfFinishTileIndex() throws Exception {
+    public void testGetStartOfFinishTileIndex() {
         redPlayer = new Player(RED);
         bluePlayer = new Player(BLUE);
         assertEquals(52, redPlayer.getStartOfFinishTileIndex());
@@ -24,7 +24,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testGetTokenMapPosition() throws Exception {
+    public void testGetTokenMapPosition() {
         redPlayer = new Player(RED);
         bluePlayer = new Player(BLUE);
         assertEquals(76, redPlayer.getTokenMapPosition(FIRST_TOKEN));
@@ -32,7 +32,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testGetTileIndex() throws Exception {
+    public void testGetTileIndex() {
         redPlayer = new Player(RED);
         bluePlayer = new Player(BLUE);
         assertEquals(0, redPlayer.getTileIndex(FIRST_SHARED_TILE));

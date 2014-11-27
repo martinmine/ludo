@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Tile {
 
     public static final int MAX_TOKENS = 4;
-    private Token token[];
+    private Token[] token;
     private int numToken;
 
     /**
