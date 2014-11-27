@@ -18,18 +18,8 @@ public class ChallengeUserFrame extends JFrame {
     private static final Logger LOGGER = Logger.getLogger(ChallengeUserFrame.class.getSimpleName());
 
     /**
-     * @return the single instance of this or create this upon function call
+     * Creates a new instance of the ChallengeUserFrame
      */
-    public static ChallengeUserFrame getInstance() {
-        if (instance == null) {
-            instance = new ChallengeUserFrame();
-        }
-        return instance;
-    }
-
-    private ChallengeUserPanel listPanel;
-    private Map<Integer, String> usersAdded;
-
     private ChallengeUserFrame() {
         super(Main.getResourceBundle().getString("CHALLENGE_PLAYERS_TITLE"));
         LOGGER.info("Creating a new challenge user frame");
@@ -48,6 +38,19 @@ public class ChallengeUserFrame extends JFrame {
             }
         });
     }
+
+    /**
+     * @return the single instance of this or create this upon function call
+     */
+    public static ChallengeUserFrame getInstance() {
+        if (instance == null) {
+            instance = new ChallengeUserFrame();
+        }
+        return instance;
+    }
+
+    private ChallengeUserPanel listPanel;
+    private Map<Integer, String> usersAdded;
 
     /**
      * Adds a new challengeable user to the list residing in
