@@ -18,7 +18,7 @@ public class TileTest {
     Token blue0 = new Token(BLUE, 0, 0);
 
     @Test
-    public void testAddToken() throws Exception {
+    public void testAddToken() {
         assertTrue(tester.isEmpty());
         tester.addToken(red0);
         assertFalse(tester.isEmpty());
@@ -31,20 +31,20 @@ public class TileTest {
     }
 
     @Test
-    public void testRemove() throws Exception {
+    public void testRemove() {
         testAddToken();
         assertFalse(tester.isEmpty());
 
-        Token red3 = tester.remove();
+        red3 = tester.remove();
         assertEquals(red3, this.red3);
         tester.remove();
-        Token red1 = tester.remove();
+        red1 = tester.remove();
         assertEquals(red1, this.red1);
         assertTrue(tester.getBlockSize() == 1);
-        Token red0 = tester.addToken(blue0);
+        red0 = tester.addToken(blue0);
         assertEquals(red0, this.red0);
         assertTrue(tester.getBlockSize() == 1);
-        Token blue0 = tester.remove();
+        blue0 = tester.remove();
         assertEquals(blue0, this.blue0);
         assertTrue(tester.isEmpty());
     }

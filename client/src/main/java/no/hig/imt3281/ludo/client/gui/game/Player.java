@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class Player {
 
-    public final static int MAX_PLAYERS = 4;
-    public final static int MAX_TOKENS = 4;
+    public static final int MAX_PLAYERS = 4;
+    public static final int MAX_TOKENS = 4;
 
     private Faction faction;
     private Token[] token;
