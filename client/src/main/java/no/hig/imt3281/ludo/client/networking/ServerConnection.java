@@ -106,13 +106,22 @@ public class ServerConnection implements Runnable, CommunicationContext {
         LOGGER.log(Level.SEVERE, cause.getMessage(), cause);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getReferenceToken() {
         return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setReferenceToken(int object) {
-
+        /**
+         * Not supported in the client as this is not needed
+         */
+        throw new UnsupportedOperationException();
     }
 }
