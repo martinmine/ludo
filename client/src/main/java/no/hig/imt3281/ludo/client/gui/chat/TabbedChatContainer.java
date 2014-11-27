@@ -23,11 +23,6 @@ public class TabbedChatContainer extends JTabbedPane {
         addChangeListener(changeListener);
     }
 
-    @Override
-    public Component getTabComponentAt(int index) {
-        return super.getTabComponentAt(index);
-    }
-
     /**
      * Adds a new user generated chatroom
      * @param channel is the channel to be added

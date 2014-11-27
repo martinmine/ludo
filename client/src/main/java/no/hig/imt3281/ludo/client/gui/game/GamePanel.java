@@ -20,8 +20,9 @@ public class GamePanel extends JComponent {
     private static final int MAX_PLAYERS = 4;
     private static final Logger LOGGER = Logger.getLogger(GamePanel.class.getSimpleName());
 
-    private Dimension boardSize;
     private final static int TILE_SIZE = 35;
+
+    private Dimension boardSize;
     private Image board;
     private Image loading;
     private List<Tile> tiles;

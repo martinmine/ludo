@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * Manages sounds being played in the application.
  */
 public class AudioManager {
-    private final static Logger LOGGER = Logger.getLogger(AudioManager.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(AudioManager.class.getSimpleName());
 
     private AudioManager() {
     }
