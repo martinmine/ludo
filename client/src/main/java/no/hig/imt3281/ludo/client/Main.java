@@ -28,7 +28,7 @@ public class Main {
         LOGGER.info("Connecting");
 
         try {
-            serverConnection = new ServerConnection("localhost", 9494);
+            serverConnection = new ServerConnection("higify.obbahhost.com", 1337);
         } catch (IOException e) {
             LOGGER.severe("Unable to connect to server");
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
