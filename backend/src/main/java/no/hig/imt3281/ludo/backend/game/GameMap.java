@@ -90,16 +90,11 @@ public class GameMap {
             target += dice;
         }
 
-        System.out.println("Moving token from (player) " + currentPosition + " -> " + target);
-
         // Moves the token right behind the blockade.
         int blockade = isBlocked(factionId, currentPosition, target);
-        System.out.println("blockade on " + blockade);
         if (blockade > 0) {
             target = blockade -1;
         }
-
-        System.out.println("NEW TARGET " + target);
 
         int last = player[factionId].getEndTileIndex();
         if (target > last) {
@@ -118,13 +113,11 @@ public class GameMap {
      * @param dice how many steps the user wants to take from the dice
      */
     public void makeTurn(final int factionId, final int tokenId, final int dice) {
-        System.out.println("------ START MAKE TURN ------ ");
         Token currentToken = player[factionId].getToken(tokenId);
         int currentMapPosition = player[factionId].getTokenMapPosition(tokenId);
 
         int target = getTargetTileIndex(factionId, currentToken.getPosition(), dice);
         int targetMapPosition = player[factionId].getTileIndex(target);
-        System.out.println("Moving token from " + currentMapPosition + " -> " + targetMapPosition);
 
         if (currentToken.getPosition() != target) {
 
@@ -134,8 +127,6 @@ public class GameMap {
             Token backToBase = tile[targetMapPosition].addToken(move);
 
             if (backToBase != null) {
-                System.out.println("*** ON CAPTURE ***");
-
                 int enemyFactionId = backToBase.getFaction();
                 int enemyHomePosition = getEmptyBasePosition(enemyFactionId);
 
@@ -143,9 +134,6 @@ public class GameMap {
                 backToBase.setPosition(enemyHomePosition);
 
                 tile[homeMapPosition].addToken(backToBase);
-                System.out.println("Adding token to " + homeMapPosition + " (" + enemyHomePosition + ")");
-
-                System.out.println("Captured tokenId " + backToBase.getTokenId());
                 this.listener.playerKickedBackToBase(enemyFactionId, backToBase.getTokenId());
             }
         }
@@ -166,7 +154,6 @@ public class GameMap {
                     .findFirst()
             .orElse(-1);
 
-        System.out.println("Winner " + winner);
         if (winner != -1) {
             this.listener.gameOver(0);
         }

@@ -11,7 +11,7 @@ public class Player {
     public final static int MAX_TOKENS = 4;
 
     private Faction faction;
-    private Token token[];
+    private Token[] token;
     private ArrayList<Integer> tiles;
 
     public Player(Faction faction) {
