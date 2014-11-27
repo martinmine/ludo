@@ -33,7 +33,8 @@ public class ChatMessageHandler {
      */
     private static class SingletonHolder {
         private static final ChatMessageHandler INSTANCE = new ChatMessageHandler();
-        private SingletonHolder() {}
+        private SingletonHolder() {
+        }
     }
 
     /**

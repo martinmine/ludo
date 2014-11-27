@@ -17,6 +17,9 @@ public class ChallengeUserFrame extends JFrame {
     private static ChallengeUserFrame instance;
     private static final Logger LOGGER = Logger.getLogger(ChallengeUserFrame.class.getSimpleName());
 
+    private ChallengeUserPanel listPanel;
+    private Map<Integer, String> usersAdded;
+
     /**
      * Creates a new instance of the ChallengeUserFrame
      */
@@ -48,9 +51,6 @@ public class ChallengeUserFrame extends JFrame {
         }
         return instance;
     }
-
-    private ChallengeUserPanel listPanel;
-    private Map<Integer, String> usersAdded;
 
     /**
      * Adds a new challengeable user to the list residing in

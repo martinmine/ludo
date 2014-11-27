@@ -26,10 +26,10 @@ public class ChatRooms {
      * Nested singletonHolder class
      */
     private static class SingletonHolder {
+        private static final ChatRooms INSTANCE = new ChatRooms();
+
         private SingletonHolder() {
         }
-
-        private static final ChatRooms INSTANCE = new ChatRooms();
     }
 
     /**
