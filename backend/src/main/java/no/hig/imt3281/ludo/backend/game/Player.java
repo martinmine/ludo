@@ -2,6 +2,7 @@ package no.hig.imt3281.ludo.backend.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Controls players on the board witch their tokens, and
@@ -12,7 +13,7 @@ public class Player {
     public final static int MAX_TOKENS = 4;
 
     private int faction;
-    private ArrayList<Integer> tiles;
+    private List<Integer> tiles;
     private Token token[];
 
     /**
@@ -93,7 +94,10 @@ public class Player {
                 for (int l = 70; l < 76; l++) {
                     tiles.add(l);
                 }
+            break;
 
+            default:
+                break;
         }
     }
 

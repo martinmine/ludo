@@ -21,7 +21,6 @@ public class LoginRequestHandler implements MessageHandler {
 
     public void handle(LoginRequest request, CommunicationContext context) {
         LOGGER.info("User with username " + request.getUsername() + " requesting login");
-
         LoginResult response = new LoginResult();
 
         try {
@@ -30,7 +29,7 @@ public class LoginRequestHandler implements MessageHandler {
                 response.setResultCode(LoginResult.INVALID_CREDENTIALS);
             } else {
                 ServerEnvironment.getUserManager().setLoggedIn(user, context);
-
+                response.setUserId(user.getId());
                 response.setResultCode(LoginResult.OK);
             }
         } catch (Exception e) {

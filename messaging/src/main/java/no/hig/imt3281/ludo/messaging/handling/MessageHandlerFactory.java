@@ -8,15 +8,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-
+/**
+ * Factory for message handlers, receives messages and invokes the appropriate message handler.
+ * Does also contain a registry of the message handlers.
+ */
 public class MessageHandlerFactory {
     private static final Logger LOGGER = Logger.getLogger(MessageHandlerFactory.class.getSimpleName());
     private Map<Class<?>, MessageHandler> handlerMap;
 
+    /**
+     * Prepares a new message handler factory.
+     */
     public MessageHandlerFactory() {
         this.handlerMap = new HashMap<>();
     }
 
+    /**
+     * Register a message handler.
+     * @param request Type of the incoming message.
+     * @param response The message handler to invoke for the incoming message.
+     */
     protected void registerResponse(Class<?> request, MessageHandler response) {
         handlerMap.put(request, response);
     }
@@ -25,6 +36,14 @@ public class MessageHandlerFactory {
         return handlerMap.get(concreteType);
     }
 
+    /**
+     * Attempts to invoke a message handler for an incoming message.
+     * @param message The incoming message.
+     * @param context Reference to the connection that received the message.
+     * @throws MissingMessageHandlerException No handler exist for this type.
+     * @throws InvalidMessageHandlerException Invalid or missing handle method signature.
+     * @throws InvocationTargetException Exception was thrown while handling the message.
+     */
     public void invokeMessage(Message message, CommunicationContext context)
             throws MissingMessageHandlerException, InvalidMessageHandlerException, InvocationTargetException {
         try {

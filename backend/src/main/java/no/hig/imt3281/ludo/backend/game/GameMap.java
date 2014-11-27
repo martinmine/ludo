@@ -63,7 +63,7 @@ public class GameMap {
         int numberOfTilesToCheck = target - currentPosition;
         boolean blocked = false;
         int index = 0;
-        int mapPosition = 0;
+        int mapPosition;
 
         // No point looking for blockades on finish tiles OR when getting them out of the base:
         if ((currentPosition + 1) > firstFinishTileIndex  ||  currentPosition < 4) {

@@ -3,10 +3,8 @@ package no.hig.imt3281.ludo.backend.game;
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.User;
 import no.hig.imt3281.ludo.messaging.*;
-
 import java.io.IOException;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -23,7 +21,7 @@ public class Game implements GameMapUpdateListener {
     private int gameId;
     private User[] users;
     private int userCount;
-    private boolean gameActive;
+
     /**
      * Index of the current turn player
      */
@@ -49,7 +47,6 @@ public class Game implements GameMapUpdateListener {
         this.currentMovingFaction = -1;
         this.lastGameActionTimestamp = Integer.MAX_VALUE - TURN_TIMEOUT;
         this.gameMap = new GameMap(this);
-        this.gameActive = true;
     }
 
     /**
@@ -121,7 +118,6 @@ public class Game implements GameMapUpdateListener {
     }
 
     private void destroy() {
-        this.gameActive = false;
         ServerEnvironment.getGameManager().reportGameDestroyed(this.gameId);
     }
 

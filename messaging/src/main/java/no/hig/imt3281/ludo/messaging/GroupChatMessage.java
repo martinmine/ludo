@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Joakim on 11.11.2014.
+ * Message for group chat messages.
  */
 public class GroupChatMessage extends ChatMessage {
     private int channelId;

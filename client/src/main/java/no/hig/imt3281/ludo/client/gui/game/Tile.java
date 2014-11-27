@@ -1,7 +1,6 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**

@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 03.11.2014.
+ * Message sent when the user sends a chat message in-game.
  */
 public class GameChatMessage extends ChatMessage {
     private int gameId;

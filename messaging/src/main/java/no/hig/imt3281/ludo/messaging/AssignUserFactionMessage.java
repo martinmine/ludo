@@ -1,7 +1,7 @@
 package no.hig.imt3281.ludo.messaging;
 
 /**
- * Created by Martin on 24.11.2014.
+ * Message for assigning a user a faction.
  */
 public class AssignUserFactionMessage extends Message {
     private int faction;

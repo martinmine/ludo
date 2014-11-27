@@ -1,11 +1,7 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
-import com.sun.org.apache.bcel.internal.generic.LOOKUPSWITCH;
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.MoveTokenRequest;
-import no.hig.imt3281.ludo.messaging.PlayerKickedBackToBaseMessage;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;

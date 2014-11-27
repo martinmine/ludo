@@ -2,17 +2,14 @@ package no.hig.imt3281.ludo.backend.game;
 
 import no.hig.imt3281.ludo.backend.ServerEnvironment;
 import no.hig.imt3281.ludo.backend.collections.QueuedMap;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 /**
  * Game manager keeps track of all the active games and is responsible
  * for destroying and creating games.
  */
 public class GameManager {
-    private static final Logger LOGGER = Logger.getLogger(GameManager.class.getSimpleName());
     private QueuedMap<Integer, Game> games;
     private AtomicInteger gameCounter;
 
