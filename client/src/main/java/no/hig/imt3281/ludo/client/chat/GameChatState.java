@@ -2,11 +2,7 @@ package no.hig.imt3281.ludo.client.chat;
 
 import no.hig.imt3281.ludo.client.Main;
 import no.hig.imt3281.ludo.messaging.GameChatMessage;
-import no.hig.imt3281.ludo.messaging.Message;
-
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * State for the ChatMessageHandler

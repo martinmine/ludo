@@ -105,7 +105,7 @@ public class ServerConnection implements Runnable, CommunicationContext {
         close();
         LOGGER.log(Level.SEVERE, cause.getMessage(), cause);
     }
-
+    
     @Override
     public int getReferenceToken() {
         return 0;
