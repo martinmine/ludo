@@ -20,7 +20,9 @@ public class FeedbackTextPane extends JTextPane {
     private Style style;
     String feedbackString;
 
-
+    /**
+     * Creating a new instance of the FeedbackTextPane
+     */
     public FeedbackTextPane() {
         styleContext = new StyleContext();
         document = new DefaultStyledDocument(styleContext);
@@ -37,8 +39,12 @@ public class FeedbackTextPane extends JTextPane {
         setFeedbackString(Main.getResourceBundle().getString("FEEDBACK_WELCOME"));
     }
 
+    /**
+     * Sets the style color of text to the color that
+     * represents a specific faction.
+     * @param faction is the faction int representation
+     */
     public void styleByFaction(int faction) {
-
         switch(Faction.getFaction(faction)) {
             case GREEN:
                 style.addAttribute(StyleConstants.Foreground, Color.green);
@@ -58,8 +64,12 @@ public class FeedbackTextPane extends JTextPane {
         setFeedbackString(feedbackString);
     }
 
-    // Fix from http://www.jguru.com/forums/view.jsp?EID=445667
+    /**
+     * Changes the textual content
+     * @param text is the new textual content of the panel
+     */
     public void setFeedbackString(String text) {
+        // Fix from http://www.jguru.com/forums/view.jsp?EID=445667
         SwingUtilities.invokeLater(() -> {
             synchronized(SYNC_ROOT) {
                 this.feedbackString = text;

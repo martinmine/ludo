@@ -11,7 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Main entry for the client, also works as a singleton-holder for vital parts of the application.
+ * Main entry for the client, also works as a
+ * singleton-holder for vital parts of the application.
  */
 public class Main {
     public static final String LANG_PATH = "i18n.strings";

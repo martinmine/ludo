@@ -98,7 +98,6 @@ public class Game implements GameMapUpdateListener {
         }
 
         this.users[faction] = null;
-        this.gameMap.clearMapForPlayer(faction);
 
         UserLeftGameMessage leaveMessage = new UserLeftGameMessage();
         leaveMessage.setFaction(faction);
@@ -164,7 +163,6 @@ public class Game implements GameMapUpdateListener {
         GameStartedMessage startMessage = new GameStartedMessage();
         for (int i = 0; i < userCount; i++) {
             startMessage.setFaction(i);
-            gameMap.addTokens(i);
             sendMessage(users[i], startMessage);
         }
 
@@ -220,18 +218,13 @@ public class Game implements GameMapUpdateListener {
     public void triggerDice() {
         this.diceValue = RANDOM.nextInt(DICE_MAX) + 1;
         this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
-        boolean movesAvailable = gameMap.playerCanMoveAnyTokens(currentMovingFaction, diceValue);
 
         TriggerDiceResult message = new TriggerDiceResult();
         message.setDiceValue(diceValue);
-        message.setAnyTokensValid(movesAvailable);
+        message.setAnyTokensValid(true);
         message.setCurrentMovingFaction(currentMovingFaction);
 
         broadcastMessage(message);
-
-        if (!movesAvailable) {
-            nextPlayerTurn();
-        }
     }
 
     /**
@@ -246,19 +239,12 @@ public class Game implements GameMapUpdateListener {
 
         this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
 
-        boolean canMoveToken = gameMap.playerCanMove(currentMovingFaction, tokenId, diceValue);
-
         MoveTokenResult message = new MoveTokenResult();
-        message.setValidMove(canMoveToken);
+        message.setValidMove(true);
         sendMessage(users[currentMovingFaction], message);
 
-        if (canMoveToken) {
-            gameMap.makeTurn(currentMovingFaction, tokenId, diceValue);
-            nextPlayerTurn();
-        } else {
-            // User has done something, reset the timer so he doesn't get kicked
-            this.lastGameActionTimestamp = ServerEnvironment.getCurrentTimeStamp();
-        }
+        gameMap.makeTurn(currentMovingFaction, tokenId, diceValue);
+        nextPlayerTurn();
     }
 
     /**
