@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -42,10 +43,7 @@ public class ServerEnvironment {
      * Initializes the server environment
      */
     public static void initialize() {
-
-        InputStream inputStream = ServerEnvironment.class.getClassLoader().getResourceAsStream("config.properties");
-
-        try {
+        try (FileInputStream inputStream = new FileInputStream("config.properties")) {
             properties.load(inputStream);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
