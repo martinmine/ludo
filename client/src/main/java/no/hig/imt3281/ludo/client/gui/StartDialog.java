@@ -18,7 +18,7 @@ public class StartDialog extends JDialog {
     public StartDialog(JFrame parent) {
         super(parent, Main.getResourceBundle().getString("START_DIALOG_TITLE"), true);
 
-        ImageIcon logo = new ImageIcon(getClass().getResource("/img/ludo_logo.jpg"));
+        ImageIcon logo = new ImageIcon(getClass().getResource("/img/ludo_logo.png"));
         JLabel label = new JLabel("", logo, JLabel.CENTER);
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(label);
