@@ -93,7 +93,8 @@ public class Tile {
      * For cleaning up after player leave.
      */
     public void clear() {
-        Arrays.stream(token).map(tt -> tt = null);
+        Arrays.stream(token).map(tt -> null);
+        
         numToken = 0;
     }
 
