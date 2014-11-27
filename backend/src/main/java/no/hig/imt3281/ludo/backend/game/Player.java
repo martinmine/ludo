@@ -1,10 +1,11 @@
 package no.hig.imt3281.ludo.backend.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * Created by Thomas on 24.11.2014.
- *
+ * Controls players on the board witch their tokens, and
+ * their tokens
  */
 public class Player {
 
@@ -14,6 +15,10 @@ public class Player {
     private ArrayList<Integer> tiles;
     private Token token[];
 
+    /**
+     * Setting up the player.
+     * @param faction which color of the player (playerId)
+     */
     public Player(int faction) {
         this.faction = faction;
         tiles = new ArrayList<>();
@@ -25,6 +30,10 @@ public class Player {
         }
     }
 
+    /**
+     * Setting up player tiles.
+     * Referencing to the real mapping of the board.
+     */
     private void initPlayerTiles() {
 
         switch(faction) {
@@ -88,25 +97,55 @@ public class Player {
         }
     }
 
+    /**
+     * For preventing checking on blockades while on the finish tiles.
+     * @return int The index of the first free tile. The maps index.
+     */
     public int getStartOfFinishTileIndex() {
         int firstFinishTileIndex = tiles.size() - 6;
         return tiles.get(firstFinishTileIndex);
     }
 
+    /**
+     * Retrieves the maps position of a given token.
+     * @param tokenId int id of the token.
+     * @return int The index to the map where the token is located.
+     */
     public int getTokenMapPosition(int tokenId) {
         return tiles.get(token[tokenId].getPosition());
     }
 
+    /**
+     * Getting a token.
+     * @param index tokenId.
+     * @return Obj Token.
+     */
     public Token getToken(int index) {
         return token[index];
     }
 
+    /**
+     * Get a players Map index of a tile.
+     * @param index int number of which tile.
+     * @return int the map index to the players 'param' tile.
+     */
     public int getTileIndex(int index) {
         return tiles.get(index);
     }
 
+    /**
+     * Getting the players end map index.
+     * @return int The finish map index.
+     */
     public int getEndTileIndex() {
         return tiles.size() - 1;
+    }
+
+    /**
+     * Removing all tokens when leaving the game.
+     */
+    public void leave(Tile map[]) {
+        Arrays.stream(token).forEach(t -> map[t.getPosition()].clear());
     }
 
 }

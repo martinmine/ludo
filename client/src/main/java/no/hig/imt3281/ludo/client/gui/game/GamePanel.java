@@ -18,6 +18,8 @@ import java.util.logging.Logger;
  * Created by Joakim on 27.10.2014.
  *
  * GamePanel is the Board which maps all tiles.
+ * Controlling drawing the map as well as mouseClick event
+ * and handling game logic received from a backend as a message.
  */
 public class GamePanel extends JComponent implements MouseListener {
     private static final int MAX_PLAYERS = 4;
@@ -33,6 +35,11 @@ public class GamePanel extends JComponent implements MouseListener {
     private int currentPlayer;
     private boolean isLoading;
 
+    /**
+     * Mapping the entire board, setting up all tiles
+     * with their unique coordinates and size.
+     * SonarQube complained about Magic numbers, which there is alot of here.
+     */
     public GamePanel() {
         addMouseListener(this);
         players = new Player[MAX_PLAYERS];
@@ -170,6 +177,12 @@ public class GamePanel extends JComponent implements MouseListener {
 
     }
 
+    /**
+     * The start for drawing the entire board with players token.
+     * each tile has their own draw method to illustrate blockades
+     * as numbers.
+     * @param g The graphics object.
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -178,11 +191,7 @@ public class GamePanel extends JComponent implements MouseListener {
         // image is 600, 600.
         g2d.drawImage(board, 0, 0, null, this);
 
-        tiles.forEach(t -> {
-            t.draw(g2d);
-            g2d.setColor(Color.WHITE);
-            g2d.drawString(String.valueOf(tiles.indexOf(t)),t.getX() + 12, t.getY() + 22);
-        });
+        tiles.forEach(t -> t.draw(g2d));
 
         if (isLoading) {
             Rectangle outOfFocus = new Rectangle(0,0,600,600);
@@ -198,16 +207,28 @@ public class GamePanel extends JComponent implements MouseListener {
 
     }
 
+    /**
+     * Setting the preferred size.
+     * @return Dimension obj.
+     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(boardSize);
     }
 
+    /**
+     * Setting the MinimumSize.
+     * @return Dimension obj.
+     */
     @Override
     public Dimension getMinimumSize() {
         return new Dimension(boardSize);
     }
 
+    /**
+     * Register mouse click events on the board.
+     * @param e mouse event object.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -237,6 +258,10 @@ public class GamePanel extends JComponent implements MouseListener {
         }
     }
 
+    /**
+     * Getting the current player. For feedback panel.
+     * @return Int the current players id.
+     */
     public int getCurrentPlayer() {
         return this.currentPlayer;
     }
@@ -261,6 +286,10 @@ public class GamePanel extends JComponent implements MouseListener {
 
     }
 
+    /**
+     * Handling waiting for other players, giving feedback to the user.
+     * @param load Boolean for locking mouse click events and displaying feedback.
+     */
     public void setLoading(boolean load) {
         isLoading = load;
     }
@@ -337,6 +366,10 @@ public class GamePanel extends JComponent implements MouseListener {
         repaint();
     }
 
+    /**
+     * Retrieve the current players from backend.
+     * @param faction int player id / color.
+     */
     public void setCurrentPlayerFaction(int faction) {
         currentPlayer = faction;
     }

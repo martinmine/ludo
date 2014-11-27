@@ -3,7 +3,6 @@ package no.hig.imt3281.ludo.client.gui.game;
 import java.awt.*;
 
 /**
- * Created by Thomas on 05.11.2014.
  * Enum to distinguish between players by color.
  */
 public enum Faction {
@@ -22,6 +21,10 @@ public enum Faction {
         return index;
     }
 
+    /**
+     * Getting an Color object for drawing tokens.
+     * @return Color object. drawing token.
+     */
     public Color getColor() {
         switch(index) {
             case 0: return new Color(100,   0,   0);
@@ -32,6 +35,13 @@ public enum Faction {
         return null;
     }
 
+    /**
+     * Getting enum of a number. Necessary since
+     * backend does not know about this enum, and needs to be
+     * "converted"
+     * @param index int playerId.
+     * @return The Enum value.
+     */
     public static Faction getFaction(int index) {
         switch(index) {
             case 0: return RED; 

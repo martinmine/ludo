@@ -1,5 +1,7 @@
 package no.hig.imt3281.ludo.backend.game;
 
+import java.util.Arrays;
+
 /**
  * The game map contains the core game logic and manages player movement and the state of the game map.
  */
@@ -61,8 +63,7 @@ public class GameMap {
         int numberOfTilesToCheck = target - currentPosition;
         boolean blocked = false;
         int index = 0;
-
-        System.out.println("Tiles between #" + numberOfTilesToCheck);
+        int mapPosition = 0;
 
         // No point looking for blockades on finish tiles OR when getting them out of the base:
         if ((currentPosition + 1) > firstFinishTileIndex  ||  currentPosition < 4) {
@@ -70,13 +71,12 @@ public class GameMap {
         }
 
         // Get first Blockade:
-        while (!blocked  &&  ++index < numberOfTilesToCheck) {
-            int mapPosition = currentPosition + index;
+        while (!blocked  &&  ++index <= numberOfTilesToCheck) {
+            mapPosition = player[factionId].getTileIndex(currentPosition + index);
             blocked = tile[mapPosition].isBlocked(factionId);
-            System.out.println("Block " + blocked + " " + (currentPosition + index));
         }
 
-        if (index == numberOfTilesToCheck) {
+        if (index == (numberOfTilesToCheck+1)) {
             return 0;
         }
 
@@ -86,16 +86,16 @@ public class GameMap {
     /**
      * Calculate target position with current position (from players point of view) and dice value.
      * simply current position + dice.
-     * @param factionId
+     * @param factionId int players id.
      * @param currentPosition int current position from players point of view.
      * @param dice int the value on the dice.
-     * @return int target for which position the token should move.
+     * @return int target for which position the token should move. (map)
      */
     public int getTargetTileIndex(final int factionId, int currentPosition, final int dice) {
         int target = currentPosition;
 
         if (currentPosition < 4) {
-            if (dice > 0) {
+            if (dice >= 5) {
                 target = 4;
             }
         } else {
@@ -103,15 +103,15 @@ public class GameMap {
         }
 
         System.out.println("Moving token from (player) " + currentPosition + " -> " + target);
-        // Moves the token right behind the blockade.
 
-        /*
+        // Moves the token right behind the blockade.
         int blockade = isBlocked(factionId, currentPosition, target);
         System.out.println("blockade on " + blockade);
         if (blockade > 0) {
             target = blockade -1;
         }
-        */
+
+        System.out.println("NEW TARGET " + target);
 
         int last = player[factionId].getEndTileIndex();
         if (target > last) {
@@ -162,9 +162,33 @@ public class GameMap {
             }
         }
         this.listener.tokenUpdated(factionId, tokenId, target);
+        checkForWinner();
     }
 
+    /**
+     * Checking if a player has all their tokens at their finish position.
+     * The first player reaching the finish with all the tokens wins.
+     */
+    public void checkForWinner() {
+        int finishPosition[] = {57, 63, 69, 75};
 
+        int winner =
+            Arrays.stream(finishPosition)
+            .filter(position -> tile[position].getBlockSize() == MAX_TOKENS)
+                    .findFirst()
+            .orElse(-1);
+
+        System.out.println("Winner " + winner);
+        if (winner != -1) {
+            this.listener.gameOver(0);
+        }
+    }
+
+    /**
+     * When a token is thrown back to base, one need to find a empty base tile.
+     * @param factionId int player id.
+     * @return int The players empty base tile index. (from player perspective: 0-3)
+     */
     public int getEmptyBasePosition(int factionId) {
         for (int i=0; i<MAX_TOKENS; i++) {
             int basePosition = player[factionId].getTileIndex(i);
@@ -199,7 +223,7 @@ public class GameMap {
      * @param factionId id of the faction which shall be removed from the game map
      */
     public void clearMapForPlayer(final int factionId) {
-        // TODO: Not yet implemented, note: no need to notify listener, as this is notified to the client through an UserLeaveMessage
+        player[factionId].leave(tile);
     }
 
     /**

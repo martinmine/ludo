@@ -5,8 +5,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * Created by Thomas on 05.11.2014.
- *
+ * Controlling all access to a tile.
+ * adding and knowing its position on the board, both for
+ * drawing and listening to mouse events.
  */
 public class Tile {
 
@@ -50,14 +51,6 @@ public class Tile {
     }
 
     /**
-     * For passing a tile checking for blockades.
-     * @return boolean if there is a blockade or not.
-     */
-    public boolean isBlocked(Faction faction) {
-        return (!tile.isEmpty()  &&  tile.get(0).getFaction() != faction  &&  tile.size() > 1);
-    }
-
-    /**
      * When removing blockades, the top token is removed first.
      * @return the last token added.
      */
@@ -66,35 +59,10 @@ public class Tile {
     }
 
     /**
-     * Get position of top Token on block if any.
-     * @return int top Token position
-     */
-    public int getPosition() {
-        if (tile.isEmpty()) {
-            return -1;
-        }
-        return tile.get(tile.size()-1).getPosition();
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    /**
      * All tiles checks for token and draw if any.
      * @param g2d Graphics2D from painting the board.
      */
     public void draw(Graphics2D g2d) {
-
-        /*
-        Rectangle2D.Double r = new Rectangle2D.Double(x, y, d, d);
-        g2d.setColor(Color.DARK_GRAY);
-        g2d.fill(r);
-        */
 
         if (!tile.isEmpty()) {
             tile.get(0).draw(g2d, this.x, this.y);

@@ -3,8 +3,7 @@ package no.hig.imt3281.ludo.client.gui.game;
 import java.util.ArrayList;
 
 /**
- * Created by Thomas on 21.11.2014.
- *
+ * Controlling all player logic on the client.
  */
 public class Player {
 
@@ -23,16 +22,18 @@ public class Player {
         initPlayerTiles();
     }
 
-    public Faction getFaction() {
-        return faction;
-    }
-
+    /**
+     * Initializing tokens.
+     */
     private void initTokens() {
         for (int i=0; i<MAX_PLAYERS; i++) {
             token[i] = new Token(faction, i, i);
         }
     }
 
+    /**
+     * Initializing player tiles.
+     */
     private void initPlayerTiles() {
 
         switch(faction) {
@@ -120,28 +121,40 @@ public class Player {
 
     }
 
+    /**
+     * Get a plyer token from an Token id.
+     * @param tokenId int The id for which token to get.
+     * @return Token obj.
+     */
     public Token getToken(int tokenId) {
         return token[tokenId];
     }
 
+    /**
+     * Setting player tokens from tokens onn board.
+     * @param tile List of actual mapping of the board.
+     */
     public void setTokens(ArrayList<Tile> tile) {
         for (int i=0; i<MAX_TOKENS; i++) {
             tile.get(tiles.get(i)).addToken(token[i]);
         }
     }
 
-    public int getEndTileIndex() {
-        return tiles.size() - 1;
-    }
-
-    public int getStartOfFinishTileIndex() {
-        return tiles.size() - 6;
-    }
-
+    /**
+     * Getting players actual tile index (map) by the players
+     * own mapping of the board.
+     * @param index Int the number of the tile.
+     * @return int map index.
+     */
     public int getTileIndex(int index) {
         return tiles.get(index);
     }
 
+    /**
+     * getting a tokens map position from a tokenId.
+     * @param tokenId int tokenId.
+     * @return int map index.
+     */
     public int getTokenPosition(int tokenId) {
         return tiles.get(token[tokenId].getPosition());
     }
