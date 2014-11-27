@@ -39,18 +39,6 @@ public class GameMap {
     }
 
     /**
-     * Checks if a user can make a move
-     * @param factionId id of the faction/color of the player [0-3]
-     * @param tokenId id of the token [0-3]
-     * @param steps how many steps the user wants to take from the dice
-     * @return True if the player can make the turn, otherwise false
-     */
-    public boolean playerCanMove(final int factionId, final int tokenId, final int steps) {
-        // TODO: not yet implemented
-        return true;
-    }
-
-    /**
      * Check for blockades between two tiles.
      * @param factionId int users id
      * @param currentPosition int tokens current position
@@ -200,22 +188,6 @@ public class GameMap {
     }
 
     /**
-     * Checks if the user has any tokens which the user can move with this dice value (or amount of steps)
-     * @param factionId id of the faction/color of the player [0-3]
-     * @param steps how many steps the user wants to take from the dice
-     * @return True if the player can move tokens, otherwise false
-     */
-    public boolean playerCanMoveAnyTokens(final int factionId, final int steps) {
-        for (int i = 0; i < 3; i++) {
-            if (playerCanMove(factionId, i, steps)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Removes all the tokens for a player from the map.
      * Example usage is when a scrublord loses towards a Ludo MLG
      * quickscoper and ragequits. The scrublord's tokens are
@@ -224,13 +196,5 @@ public class GameMap {
      */
     public void clearMapForPlayer(final int factionId) {
         player[factionId].leave(tile);
-    }
-
-    /**
-     * Adds a faction (or a player) to the game map)
-     * @param factionId Id of the faction that was added
-     */
-    public void addTokens(final int factionId) {
-
     }
 }
