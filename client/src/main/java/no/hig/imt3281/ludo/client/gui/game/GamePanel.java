@@ -41,29 +41,7 @@ public class GamePanel extends JComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!isLoading) {
-                    // Get correct legal tile. (correct player and token on tile):
-                    Tile tt = tiles.stream()
-                            .filter(tile -> tile.clicked(e.getX(), e.getY()))
-                            .findFirst()
-                            .orElse(null);
-
-                    // Clicked a tile AND it is token(s) on it:
-                    if (tt != null  &&  !tt.isEmpty()) {
-
-                        if (tt.getFaction().getIndex() == currentPlayer) {
-
-                            MoveTokenRequest request = new MoveTokenRequest();
-                            request.setTokenId(tt.getTokenID());
-
-                            try {
-                                Main.getServerConnection().sendMessage(request);
-                            } catch (IOException ex) {
-                                Main.getServerConnection().close(ex);
-                            }
-                        }
-                    }
-                }
+                tileClicked(e);
             }
         });
         players = new Player[MAX_PLAYERS];
@@ -201,6 +179,32 @@ public class GamePanel extends JComponent {
 
     }
 
+    private void tileClicked(MouseEvent e) {
+        if (!isLoading) {
+            // Get correct legal tile. (correct player and token on tile):
+            Tile tt = tiles.stream()
+                    .filter(tile -> tile.clicked(e.getX(), e.getY()))
+                    .findFirst()
+                    .orElse(null);
+
+            // Clicked a tile AND it is token(s) on it:
+            if (tt != null  &&  !tt.isEmpty()) {
+
+                if (tt.getFaction().getIndex() == currentPlayer) {
+
+                    MoveTokenRequest request = new MoveTokenRequest();
+                    request.setTokenId(tt.getTokenID());
+
+                    try {
+                        Main.getServerConnection().sendMessage(request);
+                    } catch (IOException ex) {
+                        Main.getServerConnection().close(ex);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * The start for drawing the entire board with players token.
      * each tile has their own draw method to illustrate blockades
@@ -286,6 +290,7 @@ public class GamePanel extends JComponent {
                     color = Faction.YELLOW;
                     break;
                 case 3:
+                default:
                     color = Faction.GREEN;
             }
 

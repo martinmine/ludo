@@ -33,8 +33,8 @@ public enum Faction {
                 return new Color(  0,   0, 100);
             case 2:
                 return new Color(100, 100,   0);
-            default:
             case 3:
+            default:
                 return new Color(  0, 100,   0);
         }
     }

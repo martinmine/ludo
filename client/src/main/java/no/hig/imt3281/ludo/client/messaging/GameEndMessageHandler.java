@@ -24,8 +24,8 @@ public class GameEndMessageHandler implements MessageHandler {
                 outputMessage = "GAME_WON";
                 AudioManager.playSound("playerwins.wav", false);
                 break;
-            default:
             case GameEndMessage.LOST:
+            default:
                 outputMessage = "GAME_LOST";
                 AudioManager.playSound("gameover.wav", false);
                 break;

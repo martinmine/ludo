@@ -43,22 +43,25 @@ public class ServerConnection implements Runnable, CommunicationContext {
                 LOGGER.info("Waiting for new message");
                 final Message message = MessageFactory.deserialize(connection.getInputStream());
                 LOGGER.info("Got message: " + message.getClass().getTypeName());
-                SwingUtilities.invokeLater(() -> {
-                    try {
-                        messageHandler.invokeMessage(message, ServerConnection.this);
-                    } catch (MissingMessageHandlerException | InvalidMessageHandlerException e) {
-                        close(e);
-                    } catch (InvocationTargetException e) {
-                        LOGGER.log(Level.WARNING, e.getMessage(), e);
-                        close(e.getCause());
-                    }
-                });
-
+                executeMessage(message);
             } catch (IOException | ArrayIndexOutOfBoundsException e) {
                 close(e);
                 break;
             }
         }
+    }
+
+    private void executeMessage(Message message) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                messageHandler.invokeMessage(message, ServerConnection.this);
+            } catch (MissingMessageHandlerException | InvalidMessageHandlerException e) {
+                close(e);
+            } catch (InvocationTargetException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+                close(e.getCause());
+            }
+        });
     }
 
     /**

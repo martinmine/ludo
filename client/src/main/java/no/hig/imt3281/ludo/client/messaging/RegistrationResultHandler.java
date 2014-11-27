@@ -29,8 +29,8 @@ public class RegistrationResultHandler implements MessageHandler {
                 GuiManager.getStartDialog().dispose();
                 new Client();
                 break;
-            default:
             case RegistrationResult.SERVER_ERROR:
+            default:
                 GuiManager.getStartDialog().setFeedback("SERVER_ERROR");
                 break;
         }

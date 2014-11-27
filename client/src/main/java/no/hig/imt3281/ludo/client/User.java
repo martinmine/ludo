@@ -11,7 +11,10 @@ public class User {
     }
 
     private static class SingletonHolder {
-       private static User INSTANCE = new User();
+        private static User INSTANCE = new User();
+
+        private SingletonHolder() {
+        }
     }
 
     public void initialize(int id) {

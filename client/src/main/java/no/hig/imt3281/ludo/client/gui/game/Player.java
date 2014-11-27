@@ -1,6 +1,7 @@
 package no.hig.imt3281.ludo.client.gui.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controlling all player logic on the client.
@@ -12,7 +13,7 @@ public class Player {
 
     private Faction faction;
     private Token[] token;
-    private ArrayList<Integer> tiles;
+    private List<Integer> tiles;
 
     public Player(Faction faction) {
         this.faction = faction;
@@ -91,8 +92,8 @@ public class Player {
                 }
 
                 break;
-            default:
             case GREEN:
+            default:
                 for (int i=88; i<92; i++) {
                     tiles.add(i);
                 }
@@ -127,7 +128,7 @@ public class Player {
      * Setting player tokens from tokens onn board.
      * @param tile List of actual mapping of the board.
      */
-    public void setTokens(ArrayList<Tile> tile) {
+    public void setTokens(List<Tile> tile) {
         for (int i=0; i<MAX_TOKENS; i++) {
             tile.get(tiles.get(i)).addToken(token[i]);
         }

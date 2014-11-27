@@ -9,7 +9,7 @@ import no.hig.imt3281.ludo.client.gui.GuiManager;
  * users can exchange messages across all games
  */
 public class GlobalChatChannel extends ChatChannel {
-    public static int GlobalChatChannelId = -1;
+    public static final int GlobalChatChannelId = -1;
 
     /**
      * Creates a GlobalChatChennel
