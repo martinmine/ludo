@@ -39,5 +39,8 @@
     <orderEntry type="library" name="Gradle: org.jboss:jandex:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Gradle: xml-apis:xml-apis:2.0.2" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-all:5.0.0.Alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: com.mchange:c3p0:0.9.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.mchange:mchange-commons-java:0.2.3.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.hibernate:hibernate-c3p0:4.3.6.Final" level="project" />
   </component>
 </module>
