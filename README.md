@@ -1,43 +1,17 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## How to host the application yourself ###
 
-## What is this repository for? ###
+* Change the configuration for your desired database settings and network port for the server in config.properties.
+* Start the server by running the following command in a shell:
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+```
+#!bash
 
-### How do I get set up? ###
+java -classpath backend.jar no.hig.imt3281.ludo.backend.Main
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Change the server hostname and port in the Main class under the Client project.
+* Wreck some scrubs in Ludo.
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
-
-
-
-Required environment variables for running the server:
-
-LUDO_DB_HOST=hostname of the database
-
-LUDO_DB_PORT=database port (3306)
-
-LUDO_DB_NAME=Ludo
-
-LUDO_DB_USERNAME=MySQL username
-
-LUDO_DB_PASSWORD=MySQL password
+This application was developed using IntelliJ, Gradle, Sonar and Trello for project management. Full task description can be seen [here](https://bitbucket.org/okolloen/imt3281/wiki/Project%20work).
